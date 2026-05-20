@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISA 계좌로 배당 절세하는 방법 - 배당계산기</title>
+<meta name="description" content="ISA 계좌에서 배당금과 ETF 분배금이 어떻게 과세되는지, 일반 계좌와 비교해서 얼마나 절세되는지 실전 예시로 정리했습니다.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#F7F4EF;--surface:#fff;--ink:#1A1714;--ink-muted:#6B6560;--ink-light:#A09890;--accent:#1A6B3A;--accent-soft:#E8F5EE;--rule:#DDD8D0;--blue-soft:#EEF2FF;--blue-ink:#1E3A8A;--serif:'Noto Serif KR',Georgia,serif;--sans:'Noto Sans KR',sans-serif;--mono:'DM Mono',monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--bg)}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:100vh}
+  .topbar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--rule);padding:0 clamp(16px,5vw,60px);display:flex;align-items:center;justify-content:space-between;height:52px}
+  .topbar-left{display:flex;align-items:center;gap:20px}
+  .site-logo{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.02em}
+  .topbar-divider{width:1px;height:16px;background:var(--rule)}
+  .back-link{font-size:12px;color:var(--ink-muted);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s}
+  .back-link:hover{color:var(--ink)}
+  .back-arrow{display:inline-block;width:14px;height:14px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M10 3L5 8l5 5' stroke='%236B6560' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center}
+  .topbar-cta{font-size:12px;font-weight:700;color:#fff;background:var(--ink);text-decoration:none;padding:7px 16px;border-radius:100px;transition:background .2s}
+  .topbar-cta:hover{background:var(--accent)}
+  .page-wrap{max-width:1200px;margin:0 auto;padding:0 clamp(16px,5vw,60px)}
+  .hero{padding:56px 0 48px;border-bottom:1px solid var(--rule);position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-40px;right:-40px;width:300px;height:300px;background:radial-gradient(circle,rgba(26,107,58,.07) 0%,transparent 70%);pointer-events:none}
+  .hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+  .hero-tag::before{content:'';display:block;width:20px;height:1.5px;background:var(--accent)}
+  .hero-title{font-family:var(--serif);font-size:clamp(28px,5vw,44px);font-weight:700;line-height:1.25;letter-spacing:-.03em;color:var(--ink);max-width:640px;margin-bottom:16px;animation:fadeUp .5s ease both}
+  .hero-subtitle{font-size:16px;color:var(--ink-muted);font-weight:300;max-width:520px;line-height:1.6;animation:fadeUp .5s .1s ease both}
+  .hero-meta{display:flex;align-items:center;gap:16px;margin-top:28px;animation:fadeUp .5s .2s ease both}
+  .hero-meta-item{font-size:11px;color:var(--ink-light);font-family:var(--mono)}
+  .hero-meta-sep{color:var(--rule)}
+  .content-grid{display:grid;grid-template-columns:1fr 300px;gap:64px;padding:56px 0 80px;align-items:start}
+  @media(max-width:900px){.content-grid{grid-template-columns:1fr;gap:40px}.sidebar{order:-1}}
+  .main-content section{margin-bottom:52px}
+  .section-header{display:flex;align-items:baseline;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:1.5px solid var(--ink)}
+  .section-num{font-family:var(--mono);font-size:11px;color:var(--ink-light);flex-shrink:0;padding-top:3px}
+  .section-title{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-.02em}
+  .body-text{font-size:15px;line-height:1.85;color:#333;margin-bottom:16px;font-weight:300}
+  .tax-compare{background:var(--ink);border-radius:14px;padding:24px;margin:20px 0;display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center}
+  @media(max-width:560px){.tax-compare{grid-template-columns:1fr;text-align:center}}
+  .tc-side{padding:16px;border-radius:10px}
+  .tc-side.normal{background:rgba(220,38,38,.15)}
+  .tc-side.isa{background:rgba(34,197,94,.12)}
+  .tc-side .tc-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+  .tc-side.normal .tc-label{color:#FCA5A5}
+  .tc-side.isa .tc-label{color:#86EFAC}
+  .tc-side .tc-rate{font-family:var(--mono);font-size:28px;font-weight:500;line-height:1}
+  .tc-side.normal .tc-rate{color:#FCA5A5}
+  .tc-side.isa .tc-rate{color:#86EFAC}
+  .tc-side .tc-note{font-size:12px;color:rgba(255,255,255,.5);margin-top:6px;line-height:1.4}
+  .tc-arrow{color:rgba(255,255,255,.3);font-size:20px;text-align:center}
+  .calc-card{background:var(--blue-soft);border-radius:14px;overflow:hidden;margin:24px 0;border:1px solid #D6DFFF}
+  .calc-card-header{padding:14px 20px;background:var(--blue-ink);color:#fff;font-size:12px;font-weight:700;letter-spacing:.04em}
+  .calc-card-body{padding:4px 0}
+  .calc-row{display:flex;justify-content:space-between;align-items:center;padding:11px 20px;border-bottom:1px solid #D6DFFF;font-size:14px}
+  .calc-row:last-child{border-bottom:none}
+  .calc-row.total{background:#fff;font-weight:700;color:var(--blue-ink)}
+  .calc-row.section-head{background:rgba(0,0,0,.03);font-size:12px;color:var(--ink-muted);padding:8px 20px}
+  .calc-row .label{color:#444;font-weight:400}
+  .calc-row .value{font-family:var(--mono);font-weight:500}
+  .calc-row .value.pos{color:#16A34A}
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+  @media(max-width:560px){.compare-grid{grid-template-columns:1fr}}
+  .compare-card{border-radius:10px;padding:16px;border:1.5px solid var(--rule);background:var(--surface);font-size:13px;line-height:1.8}
+  .compare-card .cc-label{font-size:12px;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--rule);color:var(--ink-muted)}
+  .subsection-title{font-size:15px;font-weight:700;color:var(--ink);margin:28px 0 10px;display:flex;align-items:center;gap:8px}
+  .subsection-title::before{content:'';display:block;width:4px;height:14px;background:var(--accent);border-radius:2px}
+  .tip-box{background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:16px 20px;margin:20px 0;font-size:13px;line-height:1.75;color:#5C4A00}
+  .tip-box .tip-head{font-weight:700;color:#92400E;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+  .sidebar{position:sticky;top:72px}
+  .sidebar-card{background:var(--surface);border:1px solid var(--rule);border-radius:14px;overflow:hidden;margin-bottom:20px}
+  .sidebar-card-header{padding:14px 18px;border-bottom:1px solid var(--rule);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)}
+  .sidebar-card-body{padding:16px 18px}
+  .toc-list{list-style:none}
+  .toc-item a{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:13px;color:var(--ink-muted);text-decoration:none;border-bottom:1px solid var(--rule);transition:color .15s}
+  .toc-item:last-child a{border-bottom:none}
+  .toc-item a:hover{color:var(--ink)}
+  .toc-num{font-family:var(--mono);font-size:10px;color:var(--ink-light);flex-shrink:0;width:18px}
+  .related-item{display:flex;flex-direction:column;gap:3px;padding:10px 0;border-bottom:1px solid var(--rule);text-decoration:none}
+  .related-item:last-child{border-bottom:none}
+  .related-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+  .related-title{font-size:13px;color:var(--ink);line-height:1.4;font-weight:500;transition:color .15s}
+  .related-item:hover .related-title{color:var(--accent)}
+  .cta-card{background:var(--ink);border-radius:14px;padding:24px 20px;text-align:center}
+  .cta-card-title{font-family:var(--serif);font-size:16px;color:#fff;font-weight:700;margin-bottom:8px;line-height:1.35}
+  .cta-card-desc{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:16px;line-height:1.5}
+  .cta-btn{display:block;background:var(--accent);color:#fff;text-decoration:none;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;transition:opacity .2s}
+  .cta-btn:hover{opacity:.85}
+  .article-footer{border-top:1px solid var(--rule);padding:32px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+  .article-footer-left{font-size:12px;color:var(--ink-light);line-height:1.6}
+  .article-footer-links{display:flex;gap:16px}
+  .article-footer-links a{font-size:12px;color:var(--ink-light);text-decoration:none;transition:color .15s}
+  .article-footer-links a:hover{color:var(--ink)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-left">
+    <a href="../index.html" class="site-logo">배당계산기</a>
+    <div class="topbar-divider"></div>
+    <a href="../about.html" class="back-link"><span class="back-arrow"></span>글 목록</a>
+  </div>
+  <a href="../index.html" class="topbar-cta">계산기 열기 →</a>
+</header>
+<div class="page-wrap">
+  <div class="hero">
+    <div class="hero-tag">절세 가이드</div>
+    <h1 class="hero-title">ISA 계좌로<br>배당 절세하는 방법</h1>
+    <p class="hero-subtitle">일반 계좌 vs ISA 실전 비교 — 5년 운용 시 실제 절세액까지</p>
+    <div class="hero-meta">
+      <span class="hero-meta-item">배당계산기</span>
+      <span class="hero-meta-sep">·</span>
+      <span class="hero-meta-item">읽는 데 약 4분</span>
+    </div>
+  </div>
+  <div class="content-grid">
+    <main class="main-content">
+      <section id="sec-1">
+        <div class="section-header">
+          <span class="section-num">01</span>
+          <h2 class="section-title">ISA의 세금 처리 방식</h2>
+        </div>
+        <p class="body-text">일반 계좌에서는 배당금이 들어올 때마다 15.4%가 원천징수돼요. 하지만 ISA 계좌 안에서 발생한 수익은 계좌를 해지하거나 만기가 될 때까지 세금을 내지 않아요.</p>
+        <div class="tax-compare">
+          <div class="tc-side normal">
+            <div class="tc-label">일반 계좌</div>
+            <div class="tc-rate">15.4%</div>
+            <div class="tc-note">배당금 발생 즉시<br>원천징수</div>
+          </div>
+          <div class="tc-arrow">→</div>
+          <div class="tc-side isa">
+            <div class="tc-label">ISA 계좌</div>
+            <div class="tc-rate">0~9.9%</div>
+            <div class="tc-note">만기·해지 시 과세<br>한도 내 비과세</div>
+          </div>
+        </div>
+        <p class="body-text">일반형 기준 200만 원, 서민형 400만 원까지 비과세. 초과분은 9.9% 분리과세로 끝나요.</p>
+      </section>
+      <section id="sec-2">
+        <div class="section-header">
+          <span class="section-num">02</span>
+          <h2 class="section-title">일반 계좌 vs ISA 비교</h2>
+        </div>
+        <div class="compare-grid">
+          <div class="compare-card">
+            <div class="cc-label">📋 일반 계좌</div>
+            배당금 발생 시마다 15.4% 원천징수<br>
+            금융소득 2,000만 원 초과 시 종합과세<br>
+            절세 방법 없음<br>
+            중도 출금 자유
+          </div>
+          <div class="compare-card">
+            <div class="cc-label">✅ ISA 계좌</div>
+            계좌 내 수익에 과세 이연<br>
+            비과세 한도 200~400만 원<br>
+            초과분 9.9% 분리과세<br>
+            의무 가입 기간 3년
+          </div>
+        </div>
+      </section>
+      <section id="sec-3">
+        <div class="section-header">
+          <span class="section-num">03</span>
+          <h2 class="section-title">실제 절세 효과 계산</h2>
+        </div>
+        <div class="calc-card">
+          <div class="calc-card-header">📊 연간 배당금 300만 원 · 5년 운용 · 일반형 ISA</div>
+          <div class="calc-card-body">
+            <div class="calc-row"><span class="label">5년 누적 배당금</span><span class="value">1,500만 원</span></div>
+            <div class="calc-row section-head"><span>일반 계좌</span></div>
+            <div class="calc-row"><span class="label">납부 세금 (15.4%)</span><span class="value" style="color:#DC2626">−231만 원</span></div>
+            <div class="calc-row section-head"><span>ISA 계좌 (일반형)</span></div>
+            <div class="calc-row"><span class="label">비과세 한도</span><span class="value">200만 원</span></div>
+            <div class="calc-row"><span class="label">납부 세금 (9.9% × 1,300만)</span><span class="value" style="color:#DC2626">−128.7만 원</span></div>
+            <div class="calc-row total"><span class="label">ISA로 절세된 금액</span><span class="value pos">+102.3만 원</span></div>
+          </div>
+        </div>
+        <p class="body-text">5년 동안 약 100만 원을 절세할 수 있어요. 배당금이 클수록, 기간이 길수록 절세 효과도 커집니다.</p>
+      </section>
+      <section id="sec-4">
+        <div class="section-header">
+          <span class="section-num">04</span>
+          <h2 class="section-title">ISA 실전 활용 팁</h2>
+        </div>
+        <div class="subsection-title">납입 한도를 최대한 활용하기</div>
+        <p class="body-text">일반형 기준 연 2,000만 원, 총 1억 원까지예요. 한도를 채우지 않은 연도의 미사용 한도는 다음 해로 이월돼요. 가능하다면 매년 납입해서 한도를 누적하는 게 유리해요.</p>
+        <div class="subsection-title">3년 의무 기간 주의</div>
+        <p class="body-text">ISA 계좌는 가입 후 3년 안에 해지하면 세금 혜택이 취소돼요. 비상금이나 단기 사용 예정 자금은 ISA에 넣으면 안 돼요.</p>
+        <div class="tip-box">
+          <div class="tip-head">💡 서민형이라면 절세 효과 2배</div>
+          총 급여 5,000만 원 이하 또는 종합소득 3,800만 원 이하라면 서민형을 신청할 수 있어요. 비과세 한도가 400만 원으로 2배라서 절세 효과가 훨씬 커요.
+        </div>
+      </section>
+    </main>
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-card-header">목차</div>
+        <div class="sidebar-card-body">
+          <ul class="toc-list">
+            <li class="toc-item"><a href="#sec-1"><span class="toc-num">01</span>ISA 세금 처리 방식</a></li>
+            <li class="toc-item"><a href="#sec-2"><span class="toc-num">02</span>일반 vs ISA 비교</a></li>
+            <li class="toc-item"><a href="#sec-3"><span class="toc-num">03</span>절세 효과 계산</a></li>
+            <li class="toc-item"><a href="#sec-4"><span class="toc-num">04</span>실전 활용 팁</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <div class="sidebar-card-header">관련 글</div>
+        <div class="sidebar-card-body">
+          <a href="financial-income-tax.html" class="related-item">
+            <span class="related-tag">세금</span>
+            <span class="related-title">금융소득 종합과세, 2,000만 원 기준 완벽 정리</span>
+          </a>
+          <a href="dividend-tax.html" class="related-item">
+            <span class="related-tag">세금</span>
+            <span class="related-title">배당소득세 15.4% 완벽 정리</span>
+          </a>
+          <a href="compound-reinvest.html" class="related-item">
+            <span class="related-tag">복리</span>
+            <span class="related-title">배당 복리 재투자, 10년이면 얼마나 달라질까</span>
+          </a>
+        </div>
+      </div>
+      <div class="cta-card">
+        <div class="cta-card-title">세후 수령액<br>확인해보기</div>
+        <div class="cta-card-desc">ISA 절세 효과를 반영한 세후 수령액을 직접 계산해보세요.</div>
+        <a href="../index.html" class="cta-btn">계산기 열기 →</a>
+      </div>
+    </aside>
+  </div>
+  <footer class="article-footer">
+    <div class="article-footer-left">© 2025 배당계산기 · 본 글은 참고용이며 정확한 세액은 세무사에게 문의하세요.</div>
+    <div class="article-footer-links"><a href="../index.html">메인</a><a href="../about.html">글 목록</a></div>
+  </footer>
+</div>
+</body>
+</html>
