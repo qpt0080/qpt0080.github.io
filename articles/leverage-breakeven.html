@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>대출로 배당 ETF 투자, 손익분기점은 몇 %인가 - 배당계산기</title>
+<meta name="description" content="대출금리와 배당수익률을 비교해서 레버리지 투자의 손익분기점을 계산하는 방법, 그리고 실전에서 주의할 점을 정리했습니다.">
+<meta name="robots" content="index, follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;background:#fff;color:#111;padding:16px;max-width:860px;margin:0 auto;line-height:1.7}
+h1{font-size:20px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.meta{font-size:12px;color:#888;margin-bottom:24px}
+h2{font-size:16px;font-weight:700;margin:28px 0 10px;padding-bottom:7px;border-bottom:2px solid #111}
+h3{font-size:14px;font-weight:700;margin:18px 0 7px;color:#222}
+p{margin-bottom:14px;font-size:14px;color:#333}
+.highlight{background:#f4f4f4;border-left:4px solid #111;padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;color:#222}
+.warn{background:#fff5f5;border:1px solid #fecaca;border-radius:8px;padding:12px 15px;margin:16px 0;font-size:13px;color:#7f1d1d}
+.warn strong{color:#991b1b}
+.calc-box{background:#f0f4ff;border:1.5px solid #c7d7fd;border-radius:10px;padding:16px 18px;margin:16px 0}
+.calc-box .title{font-size:13px;font-weight:700;color:#1e3a8a;margin-bottom:10px}
+.calc-box table{width:100%;font-size:13px;border-collapse:collapse}
+.calc-box table td{padding:5px 8px;border-bottom:1px solid #dde5ff}
+.calc-box table td:last-child{text-align:right;font-weight:600}
+.calc-box table tr.total td{border-bottom:none;color:#1e3a8a;font-weight:700}
+.calc-box table tr.neg td{color:#991b1b}
+.tip{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 15px;margin:16px 0;font-size:13px;color:#555}
+.tip strong{color:#333}
+.cta{display:block;margin:28px 0 8px;padding:14px 20px;background:#111;color:#fff;border-radius:10px;text-align:center;text-decoration:none;font-size:14px;font-weight:700}
+nav{margin-bottom:20px}
+nav a{font-size:13px;color:#555;text-decoration:none;padding:5px 12px;border:1.5px solid #ddd;border-radius:8px}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid #eee;font-size:12px;color:#aaa;text-align:center}
+footer a{color:#aaa}
+</style>
+</head>
+<body>
+<nav><a href="../about.html">← 글 목록</a></nav>
+
+<h1>대출로 배당 ETF 투자, 손익분기점은 몇 %인가<br><span style="font-size:15px;font-weight:500;color:#555">레버리지 투자 전 반드시 계산해봐야 할 것들</span></h1>
+<p class="meta">배당계산기 · 투자 가이드</p>
+
+<p>배당수익률이 6~8%인 ETF를 보면서 "금리 4%로 대출 받아서 투자하면 2~4% 남는 거 아닌가"라고 생각하는 분들이 있어요. 단순 계산으로는 맞아 보이지만, 실제로는 고려해야 할 항목이 더 있어요. 레버리지 투자의 손익분기점을 정확하게 계산하는 방법을 정리했습니다.</p>
+
+<h2>단순 손익분기점 공식</h2>
+<div class="highlight">
+  세후 배당수익률 > 대출금리 → 수익<br>
+  세후 배당수익률 = 대출금리 → 본전<br>
+  세후 배당수익률 &lt; 대출금리 → 손실
+</div>
+<p>핵심은 <strong>세후</strong> 배당수익률과 비교해야 한다는 점이에요. 배당수익률 7%처럼 보여도 배당소득세 15.4%를 떼면 실제 수령률은 약 5.9%예요. 대출금리 5.5%면 겨우 0.4% 차이밖에 안 나요.</p>
+
+<h2>실제 계산 예시</h2>
+<div class="calc-box">
+  <div class="title">📊 예시: 대출 2,000만 원, 배당수익률 7%, 대출금리 5%</div>
+  <table>
+    <tr><td>연간 세전 배당금</td><td>1,400,000원</td></tr>
+    <tr><td>배당소득세 (15.4%)</td><td>-215,600원</td></tr>
+    <tr><td>세후 배당금</td><td>1,184,400원</td></tr>
+    <tr><td>연간 대출 이자 (5%)</td><td>-1,000,000원</td></tr>
+    <tr class="total"><td>연간 순이익</td><td>+184,400원</td></tr>
+  </table>
+</div>
+<p>연간 18만 원 순이익이 생겨요. 투자 원금 없이 2,000만 원을 굴려서 18만 원이면 괜찮아 보이기도 하지만, 여기에 빠진 게 있어요.</p>
+
+<h2>계산에서 놓치기 쉬운 항목들</h2>
+<h3>① 주가 하락 위험</h3>
+<p>ETF 가격이 10% 하락하면 2,000만 원이 1,800만 원이 되는데, 대출금 2,000만 원은 그대로예요. 이때는 배당으로 이자를 충당해도 원금 손실이 200만 원 발생한 상태예요. 레버리지는 수익을 키우기도 하지만 손실도 키워요.</p>
+<h3>② 대출금리 변동</h3>
+<p>변동금리 대출이라면 금리가 오를 수 있어요. 지금은 5%지만 1년 후 6%가 되면 손익 구조가 바뀌어요. 고정금리 상품인지 확인해야 해요.</p>
+<h3>③ 배당 삭감 가능성</h3>
+<p>배당수익률은 고정이 아니에요. 특히 커버드콜 ETF는 시장 상황에 따라 분배금이 줄기도 해요. 배당이 줄면 이자를 감당하기 어려워질 수 있어요.</p>
+<h3>④ 금융소득 2,000만 원 초과 시 세금 증가</h3>
+<p>다른 금융소득과 합산해서 2,000만 원을 초과하면 종합과세 대상이 되면서 세율이 올라가요. 그러면 세후 배당수익률이 더 낮아지고 손익분기점 계산이 달라집니다.</p>
+
+<div class="warn">
+  <strong>⚠️ 레버리지 투자 핵심 주의사항</strong><br>
+  대출을 활용한 투자는 손실이 원금을 초과할 수 있습니다. 배당이 줄거나 주가가 하락하면 이자만 남는 구조가 될 수 있어요. 실전 투자 전에 반드시 최악의 시나리오를 함께 계산해보세요.
+</div>
+
+<div class="tip">
+  <strong>💡 레버리지 계산기 활용</strong><br>
+  대출·레버리지 계산기 페이지에서 대출금, 금리, 배당수익률을 입력하면 손익분기점과 누적 배당 vs 이자 비교 시뮬레이션을 확인할 수 있어요. 연도별로 어느 시점부터 이자를 배당으로 충당할 수 있는지도 바로 계산돼요.
+</div>
+
+<a class="cta" href="../loan.html">→ 레버리지 시뮬레이터에서 손익분기점 계산하기</a>
+
+<h2>정리</h2>
+<p>레버리지 배당 투자의 손익분기점은 세후 배당수익률과 대출금리를 비교해야 정확해요. 단순 수익률 비교로는 주가 하락, 금리 변동, 배당 삭감, 세금 증가 등의 리스크가 빠져 있어서 실제 수익과 차이가 날 수 있어요. 투자 전에 다양한 시나리오를 시뮬레이션해보는 것을 권장합니다.</p>
+
+<footer>© 2025 배당계산기 · <a href="../index.html">메인</a> · <a href="../loan.html">대출 계산기</a> · <a href="../about.html">글 목록</a> · 본 글은 참고용이며 실제 투자 결과를 보장하지 않습니다.</footer>
+</body>
+</html>

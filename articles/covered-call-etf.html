@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>커버드콜 ETF 배당금, 과세표준 비율이 뭔가요 - 배당계산기</title>
+<meta name="description" content="커버드콜 ETF의 분배금 구조와 과세표준 비율의 의미, 실제 세금 계산에 어떻게 적용되는지 정리했습니다.">
+<meta name="robots" content="index, follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;background:#fff;color:#111;padding:16px;max-width:860px;margin:0 auto;line-height:1.7}
+h1{font-size:20px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.meta{font-size:12px;color:#888;margin-bottom:24px}
+h2{font-size:16px;font-weight:700;margin:28px 0 10px;padding-bottom:7px;border-bottom:2px solid #111}
+h3{font-size:14px;font-weight:700;margin:18px 0 7px;color:#222}
+p{margin-bottom:14px;font-size:14px;color:#333}
+.highlight{background:#f4f4f4;border-left:4px solid #111;padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;color:#222}
+.calc-box{background:#f0f4ff;border:1.5px solid #c7d7fd;border-radius:10px;padding:16px 18px;margin:16px 0}
+.calc-box .title{font-size:13px;font-weight:700;color:#1e3a8a;margin-bottom:10px}
+.calc-box table{width:100%;font-size:13px;border-collapse:collapse}
+.calc-box table td{padding:5px 8px;border-bottom:1px solid #dde5ff}
+.calc-box table td:last-child{text-align:right;font-weight:600}
+.calc-box table tr.total td{border-bottom:none;color:#1e3a8a;font-weight:700}
+.tip{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 15px;margin:16px 0;font-size:13px;color:#555}
+.tip strong{color:#333}
+.cta{display:block;margin:28px 0 8px;padding:14px 20px;background:#111;color:#fff;border-radius:10px;text-align:center;text-decoration:none;font-size:14px;font-weight:700}
+nav{margin-bottom:20px}
+nav a{font-size:13px;color:#555;text-decoration:none;padding:5px 12px;border:1.5px solid #ddd;border-radius:8px}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid #eee;font-size:12px;color:#aaa;text-align:center}
+footer a{color:#aaa}
+</style>
+</head>
+<body>
+<nav><a href="../about.html">← 글 목록</a></nav>
+
+<h1>커버드콜 ETF 배당금, 과세표준 비율이 뭔가요<br><span style="font-size:15px;font-weight:500;color:#555">분배금 구조와 실제 세금 계산 방법</span></h1>
+<p class="meta">배당계산기 · 투자 가이드</p>
+
+<p>TIGER 미국배당+7%프리미엄다우존스, KODEX 미국배당프리미엄액티브 같은 커버드콜 ETF를 보유하고 있다면 "과세표준 비율"이라는 말을 한번쯤 들어봤을 거예요. 일반 주식 배당이랑 세금이 다르게 계산된다는 건 알겠는데, 정확히 어떻게 다른 건지 헷갈리는 분들을 위해 정리했습니다.</p>
+
+<h2>커버드콜 ETF 분배금의 구조</h2>
+<p>커버드콜 ETF는 주식을 보유하면서 동시에 콜옵션을 매도해서 프리미엄을 받아요. 이 프리미엄과 보유 주식의 배당금을 합쳐서 분배금으로 지급합니다.</p>
+<p>문제는 이 두 가지의 세금 처리가 달라요.</p>
+<div class="highlight">
+  분배금 = <strong>배당소득 (과세)</strong> + <strong>매매차익 환급 (과세 안 됨)</strong><br><br>
+  과세표준 비율 = 분배금 중 배당소득으로 과세되는 비율
+</div>
+<p>콜옵션 프리미엄에서 발생한 부분은 원금의 일부를 돌려주는 성격(자본 환급)이라 과세되지 않아요. 따라서 분배금 전체에 15.4%를 적용하면 세금을 과납하게 됩니다.</p>
+
+<h2>과세표준 비율 계산 예시</h2>
+<div class="calc-box">
+  <div class="title">📊 예시: 월 분배금 1,000원, 과세표준 비율 60%</div>
+  <table>
+    <tr><td>총 분배금</td><td>1,000원</td></tr>
+    <tr><td>과세표준 금액 (60%)</td><td>600원</td></tr>
+    <tr><td>비과세 금액 (40%)</td><td>400원</td></tr>
+    <tr><td>배당소득세 (15.4% × 600원)</td><td>92원</td></tr>
+    <tr class="total"><td>세후 수령액</td><td>908원</td></tr>
+  </table>
+</div>
+<p>과세표준 비율 없이 전체에 세금을 내면 154원을 납부해야 하지만, 비율을 적용하면 92원으로 줄어요. 차이가 꽤 커요.</p>
+
+<h2>과세표준 비율은 어디서 확인하나</h2>
+<p>각 ETF 운용사(삼성자산운용, 미래에셋자산운용 등)에서 분배금 지급 시 과세표준 비율을 공시해요. 증권사 공지나 ETF 공식 페이지에서 확인할 수 있어요.</p>
+<p>비율은 매번 바뀔 수 있어요. 시장 상황에 따라 배당소득 비중과 매매차익 비중이 달라지기 때문에, 매 분배금 지급 때마다 다른 비율이 적용되기도 해요.</p>
+
+<h3>비율이 100%인 경우도 있다</h3>
+<p>일부 커버드콜 ETF는 과세표준 비율이 100%로 공시될 때도 있어요. 이 경우는 분배금 전체가 배당소득이라는 뜻이니 15.4% 전부 적용돼요. 비율을 확인하지 않고 투자하면 세금 예측이 어려워질 수 있어요.</p>
+
+<h2>배당계산기에서 과세표준 비율 입력하는 방법</h2>
+<p>배당계산기 국내 주식 탭에서 세금 설정 항목 중 '비율 입력 모드'를 선택하면, 과세표준 비율을 직접 입력할 수 있어요. 예를 들어 60%로 설정하면 분배금의 60%에만 15.4%를 계산해서 세후 수령액을 보여줍니다.</p>
+
+<div class="tip">
+  <strong>💡 실전 팁</strong><br>
+  커버드콜 ETF를 보유 중이라면, 분배금 지급 후 증권사 거래내역에서 실제 세금 납부액을 확인해보세요. 예상보다 적게 떼였다면 과세표준 비율이 낮게 적용된 거예요. 이 비율을 계산기에 입력하면 다음 분배금도 미리 예측할 수 있어요.
+</div>
+
+<a class="cta" href="../index.html">→ 배당계산기에서 과세표준 비율 직접 설정해보기</a>
+
+<h2>정리</h2>
+<p>커버드콜 ETF 분배금은 배당소득 부분과 자본 환급 부분이 섞여 있어서, 과세표준 비율만큼만 세금이 부과돼요. 이 비율은 ETF마다, 분배 시기마다 다르므로 운용사 공시를 확인하는 습관이 필요해요. 정확한 비율을 입력할수록 세후 수령액 예측이 더 정확해집니다.</p>
+
+<footer>© 2025 배당계산기 · <a href="../index.html">메인</a> · <a href="../about.html">글 목록</a> · 본 글은 참고용이며 정확한 세액은 세무사에게 문의하세요.</footer>
+</body>
+</html>
