@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배당 계산기 - 국내·미국 주식 배당금 무료 계산</title>
+<meta name="description" content="국내 주식과 미국 주식의 배당금을 간편하게 계산하세요. 세후 수령액, 목표 배당금 역산, 배당수익률 분석까지 한번에 제공하는 무료 배당 계산기입니다.">
+<meta name="keywords" content="배당 계산기, 배당금 계산, 배당수익률, 미국 주식 배당, 국내 주식 배당, 세후 배당금, 배당소득세, 목표 배당금">
+<meta name="author" content="dividend-calculator">
+<meta property="og:title" content="배당 계산기 - 국내·미국 주식 배당금 무료 계산">
+<meta property="og:description" content="국내·미국 주식 배당금 계산, 세후 수령액, 목표 역산까지 한번에. 무료 배당 계산기.">
+<meta property="og:type" content="website">
+<meta name="google-site-verification" content="mofvFB6PjUo3CFx0y7ao4VvUIgCMD9m6dDCPQav5k70" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4179915942015593" crossorigin="anonymous"></script>
+<meta name="naver-site-verification" content="28af2361808f914abd9b9fb432b3dc0850d9a40e" />
+<meta name="robots" content="index, follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;background:#fff;color:#111;padding:16px;max-width:1100px;margin:0 auto}
+/* ── 공통 네비게이션 ── */
+.site-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:20px;padding-bottom:14px;border-bottom:1.5px solid #eee}
+.nav-tools{display:flex;gap:6px;flex-wrap:wrap}
+.nav-tool{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:#555;text-decoration:none;padding:5px 11px;border:1.5px solid #ddd;border-radius:8px;font-weight:500;transition:all .15s;white-space:nowrap}
+.nav-tool:hover{border-color:#555;color:#111}
+.nav-tool.active{background:#111;color:#fff;border-color:#111}
+.nav-info{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:#888;text-decoration:none;padding:5px 11px;border:1.5px solid #eee;border-radius:8px;font-weight:500;transition:all .15s;white-space:nowrap}
+.nav-info:hover{border-color:#aaa;color:#555}
+.nav-info.active{background:#555;color:#fff;border-color:#555}
+/* ── 공통 푸터 ── */
+.site-footer{margin-top:40px;padding:14px 16px;background:#f9f9f9;border-radius:10px;font-size:12px;color:#888;text-align:center;line-height:2}
+.site-footer a{color:#888;text-decoration:none}
+.site-footer a:hover{color:#333}
+@media(max-width:600px){.nav-tools{gap:4px}.nav-tool,.nav-info{font-size:12px;padding:4px 9px}}
+h1{font-size:19px;font-weight:700;margin-bottom:4px}
+.subtitle{font-size:13px;color:#333;margin-bottom:16px}
+.main-tabs{display:flex;gap:8px;margin-bottom:1.5rem}
+.main-tab{padding:9px 22px;border:1.5px solid #ccc;border-radius:8px;background:#fff;cursor:pointer;font-size:15px;font-weight:600;color:#333}
+.main-tab.active{background:#111;color:#fff;border-color:#111}
+.main-panel{display:none}
+.main-panel.active{display:block}
+.tabs{display:none;gap:8px;margin-bottom:1.25rem}
+.tab{padding:7px 18px;border:1.5px solid #ccc;border-radius:8px;background:#fff;cursor:pointer;font-size:15px;color:#333;font-weight:500}
+.tab.active{background:#111;color:#fff;border-color:#111}
+.panel{display:block}
+.desktop-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.ptitle{font-size:15px;font-weight:700;color:#000;margin-bottom:12px;padding-bottom:8px;border-bottom:1.5px solid #ddd}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.lbl{font-size:14px;color:#333;font-weight:600;margin-bottom:4px}
+input,select{width:100%;padding:8px 36px 8px 11px;border:1.5px solid #bbb;border-radius:8px;font-size:16px;font-weight:500;background:#fff;color:#111}
+.input-wrap{position:relative;margin-bottom:10px}
+.input-wrap input{margin-bottom:0;width:100%}
+.input-clear{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:none;border:none;color:#bbb;font-size:16px;cursor:pointer;padding:0 2px;line-height:1;display:none}
+.input-clear:hover{color:#888}
+.input-wrap input:not(:placeholder-shown) ~ .input-clear{display:block}
+body.dark .input-clear{color:#555}
+body.dark .input-wrap input:not(:placeholder-shown) ~ .input-clear{color:#888}
+input::placeholder{font-size:12px;color:#999;font-weight:400}
+input:focus,select:focus{outline:none;border-color:#555}
+.box{background:#f4f4f4;border-radius:8px;padding:10px 12px;margin-bottom:8px;border:1px solid #e4e4e4}
+.bhead{display:flex;align-items:center;justify-content:space-between}
+.bbody{margin-top:10px}
+hr{border:none;border-top:1.5px solid #e4e4e4;margin:.875rem 0}
+.trow{display:flex;align-items:center;gap:10px;margin-bottom:.875rem;padding:8px 12px;background:#f4f4f4;border-radius:8px;border:1px solid #e4e4e4}
+.tlbl{font-size:14px;color:#111;font-weight:600;flex:1}
+.tsub{font-size:12px;color:#444;margin-top:1px}
+.sw{position:relative;display:inline-block;width:38px;height:20px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0}
+.sl{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;border-radius:20px;transition:.2s}
+.sl:before{position:absolute;content:"";height:14px;width:14px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.2s}
+input:checked+.sl{background:#1D9E75}
+input:checked+.sl:before{transform:translateX(18px)}
+.freq-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.fq{padding:5px 12px;border:1.5px solid #ccc;border-radius:20px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:#333}
+.fq.active{background:#111;color:#fff;border-color:#111}
+.sim-freq-row{display:flex;gap:5px}
+.sfq{padding:4px 11px;border:1.5px solid #ccc;border-radius:20px;background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:#333}
+.sfq.active{background:#111;color:#fff;border-color:#111}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:.875rem}
+.mc{background:#f4f4f4;border-radius:8px;padding:9px 11px;border:1px solid #e4e4e4}
+.mc .ml{font-size:13px;color:#333;font-weight:500;margin-bottom:3px}
+.mc .mv{font-size:16px;font-weight:600;color:#444}
+.mc .mv.g{color:#1D9E75}.mc .mv.r{color:#D85A30}.mc .mv.b{color:#2563EB}
+.slbl{font-size:14px;font-weight:700;color:#222;margin-bottom:0}
+.gtabs{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.gt{padding:4px 10px;border:1.5px solid #ccc;border-radius:20px;background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:#333;white-space:nowrap}
+.gt.active{background:#111;color:#fff;border-color:#111}
+.gt.hope{border-color:#7C3AED;color:#7C3AED}
+.gt.hope.active{background:#7C3AED;color:white;border-color:#7C3AED}
+.gnote{font-size:12px;color:#333;margin-bottom:6px;padding:5px 8px;background:#f4f4f4;border-radius:8px;border:1px solid #e4e4e4}
+.tax-note{font-size:12px;color:#333;padding:7px 10px;background:#fffbeb;border-radius:8px;border:1px solid #fde68a;margin-bottom:8px;line-height:1.6}
+.cur-toggle{display:flex;gap:0;margin-bottom:10px;border:1.5px solid #ccc;border-radius:8px;overflow:hidden;width:fit-content}
+.cur-btn{padding:5px 14px;border:none;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:#333}
+.cur-btn.active{background:#111;color:#fff}
+.sim-wrap{max-height:300px;overflow-y:auto;border:1px solid #eee;border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-weight:700;color:#222;padding:6px 5px;border-bottom:2px solid #ddd;white-space:nowrap;background:#f9f9f9;position:sticky;top:0;z-index:1}
+td{padding:5px 5px;border-bottom:1px solid #eee;color:#111;font-weight:500;white-space:nowrap}
+td:last-child,th:last-child{text-align:right}
+.emp td{color:#999;text-align:center;white-space:normal;font-weight:400}
+.rbox{display:flex;align-items:center;gap:6px;margin-bottom:8px;padding:8px 11px;background:#f4f4f4;border-radius:8px;border:1px solid #e4e4e4;font-size:13px}
+.rbadge{font-size:12px;padding:2px 7px;border-radius:20px;font-weight:600}
+.rbadge.live{background:#dcfce7;color:#166534}
+.rbadge.fb{background:#fef9c3;color:#854d0e}
+.rval{font-weight:700;color:#111;font-size:14px}
+.rtime{color:#444;font-size:12px;margin-left:auto}
+.sumbox{margin-top:2rem;border:1.5px solid #ddd;border-radius:8px;overflow:hidden}
+.sumhead{padding:12px 16px;background:#f4f4f4;border-bottom:1.5px solid #ddd;display:flex;align-items:center;gap:8px}
+.sumtitle{font-size:14px;font-weight:700;color:#000}
+.sumsub{font-size:12px;color:#444;margin-left:auto}
+.sumgrid{display:grid;grid-template-columns:repeat(4,1fr)}
+.sumc{padding:14px 16px;border-right:1px solid #eee}
+.sumc:last-child{border-right:none}
+.sumc .sl2{font-size:12px;color:#333;font-weight:500;margin-bottom:4px}
+.sumc .sv{font-size:17px;font-weight:700;color:#111}
+.sumc .sv.g{color:#1D9E75}.sumc .sv.b{color:#2563EB}
+.sumc .ss{font-size:12px;color:#444;margin-top:2px}
+.semp{padding:14px 16px;font-size:13px;color:#444;text-align:center}
+.chart-wrap{padding:16px;border-top:1px solid #eee}
+.chart-title{font-size:13px;font-weight:600;color:#222;margin-bottom:12px}
+.bar-group{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:flex;align-items:center;gap:10px}
+.bar-label{font-size:12px;color:#333;font-weight:500;width:90px;flex-shrink:0;text-align:right}
+.bar-track{flex:1;background:#f0f0f0;border-radius:4px;height:22px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;min-width:2px}
+.bar-fill.kr{background:linear-gradient(90deg,#2563EB,#60a5fa)}
+.bar-fill.us{background:linear-gradient(90deg,#1D9E75,#34d399)}
+.bar-fill.total{background:linear-gradient(90deg,#7C3AED,#a78bfa)}
+.bar-val{font-size:12px;font-weight:600;color:#fff;white-space:nowrap}
+.bar-val-out{font-size:12px;font-weight:600;color:#333;margin-left:6px}
+.pie-wrap{display:flex;align-items:center;gap:28px;padding:16px;flex-wrap:wrap}
+.pie-legend{display:flex;flex-direction:column;gap:10px;min-width:140px}
+.pie-legend-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#222;font-weight:500}
+.pie-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.pie-legend-val{font-weight:700;color:#111;margin-left:auto}
+.sum-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pdfbtn{display:flex;align-items:center;gap:6px;padding:10px 18px;background:#111;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:1.25rem;margin-left:auto}
+.pdfbtn:hover{background:#333}
+.clear-btn{padding:6px 14px;background:transparent;border:1.5px solid #ddd;border-radius:8px;font-size:13px;font-weight:500;color:#444;cursor:pointer}
+.clear-btn:hover{border-color:#D85A30;color:#D85A30}
+.save-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
+.save-toast.show{opacity:1}
+/* 배당 계산기 차트 */
+.div-chart-section{margin-bottom:12px;background:#f9f9f9;border-radius:10px;border:1px solid #e4e4e4;padding:14px}
+.div-chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.div-chart-title{font-size:13px;font-weight:700;color:#111}
+.div-chart-legend{display:flex;gap:8px;flex-wrap:wrap}
+.div-legend-item{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#555;font-weight:500}
+.div-legend-dot{width:10px;height:3px;border-radius:2px;display:inline-block}
+.canvas-wrap{width:100%;overflow-x:auto}
+canvas{display:block;width:100%;height:auto}
+/* 세금 도넛 차트 */
+.tax-chart-section{margin-top:14px;background:#f9f9f9;border-radius:10px;border:1px solid #e4e4e4;padding:14px;display:none}
+.tax-donut-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.tax-donut-legend{display:flex;flex-direction:column;gap:8px;min-width:150px}
+.tax-donut-legend-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:#222}
+.tax-donut-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.tax-donut-pct{margin-left:auto;font-weight:700;color:#111;font-size:12px}
+/* 누적 배당 바 차트 */
+.cum-bar-section{margin-top:14px;background:#f9f9f9;border-radius:10px;border:1px solid #e4e4e4;padding:14px;display:none}
+.cum-bar-title{font-size:13px;font-weight:700;color:#111;margin-bottom:10px}
+/* Q&A / 용어설명 공통 */
+.qa-section{margin-top:2rem;border-top:1.5px solid #eee;padding-top:1.5rem}
+.qa-section-title{font-size:14px;font-weight:700;color:#333;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.qa-item{border:1px solid #e4e4e4;border-radius:10px;margin-bottom:8px;overflow:hidden;background:#fff}
+.qa-q{width:100%;text-align:left;background:none;border:none;padding:13px 16px;font-size:13px;font-weight:600;color:#111;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;line-height:1.4}
+.qa-q:hover{background:#f9f9f9}
+.qa-arrow{font-size:11px;color:#aaa;flex-shrink:0;transition:transform .2s}
+.qa-item.open .qa-arrow{transform:rotate(180deg)}
+.qa-a{display:none;padding:0 16px 13px;font-size:13px;color:#444;line-height:1.75;border-top:1px solid #f0f0f0}
+.qa-item.open .qa-a{display:block}
+.qa-a strong{color:#111;font-weight:700}
+.qa-a .tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:600;margin-right:4px;vertical-align:middle}
+.tag-kr{background:#dbeafe;color:#1e40af}
+.tag-us{background:#d1fae5;color:#065f46}
+.tag-tax{background:#fef3c7;color:#92400e}
+/* 용어설명 그리드 */
+.terms-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
+.term-card{background:#f9f9f9;border:1px solid #e4e4e4;border-radius:10px;padding:12px 14px}
+.term-word{font-size:13px;font-weight:700;color:#111;margin-bottom:4px}
+.term-desc{font-size:12px;color:#555;line-height:1.65}
+.term-badge{display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:600;margin-bottom:6px}
+/* 목표역산 배당수익률 주기 */
+.yield-freq-row{display:flex;gap:4px;margin-top:5px}
+.yfq{padding:3px 10px;border:1.5px solid #ccc;border-radius:20px;background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:#333;line-height:1.4}
+.yfq.active{background:#111;color:#fff;border-color:#111}
+/* 목표역산 */
+.goal-section{width:100%}
+.goal-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.goal-grid-title{font-size:14px;font-weight:700;color:#333;margin-bottom:10px;padding-bottom:6px;border-bottom:1.5px solid #eee}
+.goal-card{background:#f9f9f9;border-radius:12px;padding:16px;border:1px solid #e4e4e4;margin-bottom:0}
+.goal-card.c1{border-left:4px solid #2563EB}.goal-card.c2{border-left:4px solid #60a5fa}
+.goal-card.c3{border-left:4px solid #1D9E75}.goal-card.c4{border-left:4px solid #34d399}
+.goal-card.c1 .goal-title{color:#2563EB}.goal-card.c2 .goal-title{color:#1e6fb5}
+.goal-card.c3 .goal-title{color:#1D9E75}.goal-card.c4 .goal-title{color:#0f7a58}
+.goal-title{font-size:14px;font-weight:700;margin-bottom:12px}
+.goal-result{background:#fff;border-radius:10px;border:1.5px solid #e4e4e4;overflow:hidden;margin-top:12px}
+.goal-result-head{padding:10px 14px;background:#111;color:#fff;font-size:13px;font-weight:600}
+.goal-result-grid{display:grid;grid-template-columns:1fr 1fr}
+.goal-rc{padding:12px 14px;border-right:1px solid #eee;border-bottom:1px solid #eee}
+.goal-rc:nth-child(even){border-right:none}
+.goal-rc:nth-last-child(-n+2){border-bottom:none}
+.goal-rc .gl{font-size:12px;color:#333;font-weight:500;margin-bottom:4px}
+.goal-rc .gv{font-size:15px;font-weight:700;color:#111}
+.goal-rc .gv.g{color:#1D9E75}.goal-rc .gv.b{color:#2563EB}.goal-rc .gv.p{color:#7C3AED}
+.goal-note{font-size:12px;color:#444;padding:8px 14px;border-top:1px solid #eee;background:#fafafa}
+.goal-chart-section{margin-top:20px;background:#f9f9f9;border-radius:12px;border:1px solid #e4e4e4;padding:18px}
+.goal-chart-title{font-size:14px;font-weight:700;color:#111;margin-bottom:0}
+.chart-svg-wrap{width:100%;overflow-x:auto}
+.goal-pdf-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;background:#111;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:1.25rem;margin-left:auto}
+.goal-pdf-btn:hover{background:#333}
+/* 용어 */
+.terms-section{margin-top:2.5rem;border:1.5px solid #e4e4e4;border-radius:12px;overflow:hidden}
+.terms-head{padding:14px 18px;background:#f4f4f4;border-bottom:1px solid #e4e4e4;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.terms-head-title{font-size:15px;font-weight:700;color:#111}
+.terms-toggle-icon{font-size:14px;color:#444;transition:transform .2s}
+.terms-toggle-icon.open{transform:rotate(180deg)}
+.terms-body{display:none;padding:16px 18px}
+.terms-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.term-item{padding:12px 14px;background:#f9f9f9;border-radius:8px;border:1px solid #eee}
+.term-word{font-size:14px;font-weight:700;color:#111;margin-bottom:5px}
+.term-desc{font-size:13px;color:#333;line-height:1.6}
+.term-tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;font-weight:600;margin-bottom:5px}
+.term-tag.basic{background:#dbeafe;color:#1e40af}
+.term-tag.tax{background:#fef3c7;color:#92400e}
+.term-tag.invest{background:#d1fae5;color:#065f46}
+@media(max-width:640px){
+  body{font-size:14px}
+  .tabs{display:flex}.desktop-grid{display:block}.panel{display:none}.panel.active{display:block}
+  .sumgrid{grid-template-columns:1fr 1fr}.sumc{border-right:none;border-bottom:1px solid #eee}.sumc:nth-child(odd){border-right:1px solid #eee}
+  .terms-grid{grid-template-columns:1fr}.goal-grid{grid-template-columns:1fr}.sum-chart-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-tools">
+      <a class="nav-tool active" href="index.html">📊 배당계산기</a>
+      <a class="nav-tool" href="loan.html">🏦 대출·레버리지</a>
+      <a class="nav-tool" href="portfolio-scan.html">📂 포트폴리오 분석</a>
+      <a class="nav-tool" href="reinvest-simulator.html">📈 적립식 시뮬레이터</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px">
+    <button class="clear-btn" onclick="clearTab()">🗑️ 초기화</button>
+    <a class="nav-info" href="about.html">📋 글 목록</a>
+  </div>
+</nav>
+<p class="subtitle">국내 · 미국 주식 배당소득세 · 복리 재투자 시뮬레이션 &nbsp;<button onclick="fillExample()" style="font-size:12px;padding:3px 10px;border:1.5px solid #bbb;border-radius:6px;background:#f9f9f9;cursor:pointer;color:#555;font-weight:600">✏️ 예시값 채우기</button></p>
+<div class="main-tabs">
+  <button class="main-tab active" onclick="switchMain('calc')">📊 배당 계산기</button>
+  <button class="main-tab" onclick="switchMain('goal')">🎯 목표 역산</button>
+  <button class="main-tab" onclick="switchMain('tax')">🧾 세금 계산기</button>
+</div>
+<a href="loan.html" style="display:flex;align-items:center;gap:8px;background:#f0f4ff;border:1.5px solid #c7d7fd;border-radius:10px;padding:10px 14px;margin-bottom:16px;text-decoration:none;color:#1e3a8a;font-size:13px;font-weight:600">🏦 대출 레버리지 배당 계산기 → <span style="font-size:12px;font-weight:400;color:#555">대출 상환 계산 + 레버리지 ETF 투자 시뮬레이션</span></a>
+<div id="main-calc" class="main-panel active">
+<div class="tabs">
+  <button class="tab active" onclick="sw('kr')">국내 주식</button>
+  <button class="tab" onclick="sw('us')">미국 주식</button>
+</div>
+<div class="desktop-grid">
+<!-- 국내 -->
+<div id="p-kr" class="panel active">
+  <div class="ptitle">🇰🇷 국내 주식</div>
+  <div class="row"><div><div class="lbl">보유 주식 수 (주)</div><input type="text" inputmode="decimal" id="ks" placeholder="예) 100" oninput="cKR()"></div><div><div class="lbl">현재 주가 (원)</div><input type="text" inputmode="decimal" id="kp" placeholder="예) 50,000" oninput="cKR()"></div></div>
+  <div class="row"><div><div class="lbl">평균 매수가 (원)</div><input type="text" inputmode="decimal" id="kc" placeholder="예) 45,000" oninput="cKR()"></div><div><div class="lbl">재투자 기간 (년)</div><input type="text" inputmode="decimal" id="ky" placeholder="예) 10" oninput="cKR()"></div></div>
+  <div class="row"><div><div class="lbl" id="kd-lbl">월 배당금 (원)</div><input type="text" inputmode="decimal" id="kd" placeholder="예) 500" oninput="cKR()"></div><div></div></div>
+  <div class="lbl" style="margin-bottom:5px">배당 주기</div>
+  <div class="freq-row" id="k-freq">
+    <button class="fq" onclick="setFreq('k','w',this)">주배당</button>
+    <button class="fq active" onclick="setFreq('k','m',this)">월배당</button>
+    <button class="fq" onclick="setFreq('k','q',this)">분기배당</button>
+    <button class="fq" onclick="setFreq('k','y',this)">연배당</button>
+  </div>
+  <div class="box"><div class="bhead"><span style="font-size:12px;font-weight:600">📅 매월 추가 투자</span><label class="sw"><input type="checkbox" id="ka" onchange="tA('k')"><span class="sl"></span></label></div>
+    <div class="bbody" id="ka-b" style="display:none"><div class="row" style="margin-bottom:0"><div><div class="lbl">월 추가 투자금 (원)</div><input type="text" inputmode="decimal" id="km" placeholder="예) 300,000" oninput="cKR()"></div><div></div></div></div></div>
+  <div class="box"><div class="bhead"><span style="font-size:12px;font-weight:600">📈 주가 성장 가정</span><label class="sw"><input type="checkbox" id="kg" onchange="tG('k')"><span class="sl"></span></label></div>
+    <div class="bbody" id="kg-b" style="display:none"><div class="lbl" style="margin-bottom:6px">연 주가 성장률</div>
+      <div class="gtabs" id="kgt"><button class="gt active" onclick="sG('k',3,this)">+3%</button><button class="gt" onclick="sG('k',5,this)">+5%</button><button class="gt hope" onclick="sG('k',10,this)">+10% 🚀</button><button class="gt hope" onclick="sG('k',15,this)">+15% 🔥</button><button class="gt" onclick="sG('k','c',this)">직접입력</button></div>
+      <div id="kgc" style="display:none;margin-top:6px"><input type="text" inputmode="decimal" id="kgv" placeholder="성장률 % 입력" oninput="cKR()"></div></div></div>
+  <hr>
+  <div class="trow"><div><div class="tlbl">배당소득세 적용</div><div class="tsub">켜면 세후 기준으로 계산됩니다</div></div><label class="sw"><input type="checkbox" id="kt" onchange="document.getElementById('kr-tax-mode-wrap').style.display=this.checked?'block':'none';cKR()"><span class="sl"></span></label></div>
+  <div id="kr-tax-mode-wrap" style="display:none;margin-bottom:10px">
+    <div class="lbl" style="margin-bottom:5px">📋 과세 방식</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px">
+      <button class="fq active" id="kr-mode-full" onclick="setKRTaxMode('full',this)">전액과세 (15.4%)</button>
+      <button class="fq" id="kr-mode-ratio" onclick="setKRTaxMode('ratio',this)">비율 입력 (2%)</button>
+      <button class="fq" id="kr-mode-amt" onclick="setKRTaxMode('amt',this)">금액 직접입력 (연간)</button>
+    </div>
+    <div id="kr-mode-ratio-wrap" style="display:none">
+      <div class="lbl" style="margin-bottom:4px">과세 비율 (%)</div>
+      <input type="text" inputmode="decimal" id="kr-tax-ratio" value="2" oninput="cKR()">
+    </div>
+    <div id="kr-mode-amt-wrap" style="display:none">
+      <div class="lbl" style="margin-bottom:4px">과세 기준 금액 (원, 연간)</div>
+      <input type="text" inputmode="decimal" id="kr-tax-amt" placeholder="연간 과세 대상 금액" oninput="cKR()">
+    </div>
+  </div>
+  <div class="rgrid">
+    <div class="mc"><div class="ml">연간 배당금 (세전)</div><div class="mv" id="kr1">—</div></div>
+    <div class="mc"><div class="ml" id="kr2-lbl">배당소득세</div><div class="mv r" id="kr2">—</div></div>
+    <div class="mc"><div class="ml">실수령 배당금 (연)</div><div class="mv g" id="kr3">—</div></div>
+    <div class="mc"><div class="ml">월 환산 배당금</div><div class="mv g" id="kr3m">—</div></div>
+    <div class="mc"><div class="ml">현재가 기준 배당률</div><div class="mv" id="kr4">—</div></div>
+    <div class="mc"><div class="ml">평균 매수가 대비 배당률</div><div class="mv b" id="kr5">—</div></div>
+    <div class="mc"><div class="ml">투자 원금</div><div class="mv" id="kr6">—</div></div>
+    <div class="mc"><div class="ml">현재 평가금액</div><div class="mv b" id="kr7">—</div></div>
+  </div>
+  <div style="font-size:11px;color:#888;background:#f9f9f9;border:1px solid #eee;border-radius:7px;padding:6px 10px;margin-bottom:10px;line-height:1.6">
+    💡 <strong>투자 원금 참고</strong> — 평균단가 × 보유수량으로 계산됩니다. MTS 표시값과 수백 원 차이가 날 수 있는데, MTS는 소수점 단가까지 내부 저장하기 때문이에요.
+  </div>
+  <!-- 국내 복리 성장 라인 차트 -->
+  <div class="div-chart-section" id="kr-chart-sec" style="display:none">
+    <div class="div-chart-header">
+      <div class="div-chart-title">📈 복리 성장 라인 차트</div>
+      <div class="div-chart-legend" id="kr-chart-legend"></div>
+    </div>
+    <div class="canvas-wrap"><canvas id="kr-line-canvas" height="180"></canvas></div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <div class="slbl">복리 재투자 시뮬레이션</div>
+    <div class="sim-freq-row" id="k-sfq"><button class="sfq" onclick="setSFQ('k','w',this)">주별</button><button class="sfq" onclick="setSFQ('k','m',this)">월별</button><button class="sfq active" onclick="setSFQ('k','y',this)">연별</button></div>
+  </div>
+  <div class="gnote" id="krn" style="display:none"></div>
+  <div class="sim-wrap"><table><thead id="k-thead"><tr><th>년도</th><th>보유주식</th><th>주가(원)</th><th>배당금</th><th>추가투자</th><th>누적배당</th></tr></thead><tbody id="krt"><tr class="emp"><td colspan="6">위 항목을 입력하면 자동으로 계산됩니다</td></tr></tbody></table></div>
+</div>
+<!-- 미국 -->
+<div id="p-us" class="panel">
+  <div class="ptitle">🇺🇸 미국 주식</div>
+  <div class="row"><div><div class="lbl">보유 주식 수 (주)</div><input type="text" inputmode="decimal" id="us" placeholder="예) 100" oninput="cUS()"></div><div><div class="lbl">현재 주가 ($)</div><input type="text" inputmode="decimal" id="up" placeholder="예) 80" oninput="cUS()"></div></div>
+  <div class="row"><div><div class="lbl">평균 매수가 ($)</div><input type="text" inputmode="decimal" id="uc" placeholder="예) 70" oninput="cUS()"></div><div><div class="lbl">재투자 기간 (년)</div><input type="text" inputmode="decimal" id="uy" placeholder="예) 10" oninput="cUS()"></div></div>
+  <div class="row"><div><div class="lbl" id="ud-lbl">월 배당금 ($)</div><input type="text" inputmode="decimal" id="ud" placeholder="예) 0.5" oninput="cUS()"></div><div></div></div>
+  <div class="lbl" style="margin-bottom:5px">배당 주기</div>
+  <div class="freq-row" id="u-freq">
+    <button class="fq" onclick="setFreq('u','w',this)">주배당</button>
+    <button class="fq active" onclick="setFreq('u','m',this)">월배당</button>
+    <button class="fq" onclick="setFreq('u','q',this)">분기배당</button>
+    <button class="fq" onclick="setFreq('u','y',this)">연배당</button>
+  </div>
+  <div class="tax-note">💡 <strong>미국 주식 세금 안내</strong><br>미국에서 <strong>15% 원천징수</strong>로 끝나는 경우가 대부분이에요.<br>연간 금융소득이 2,000만원 초과 시 종합과세 대상이 될 수 있습니다.</div>
+  <div class="rbox"><span id="rbadge" class="rbadge fb">로딩중</span><span style="font-weight:600">USD/KRW</span><span class="rval" id="rdsp">—</span><span class="rtime" id="rtime"></span></div>
+  <div class="row"><div><div class="lbl">환율 (원/달러)</div><input type="text" inputmode="decimal" id="ur" placeholder="자동으로 불러옵니다" oninput="cUS()"></div><div></div></div>
+  <div class="box"><div class="bhead"><span style="font-size:12px;font-weight:600">📅 매월 추가 투자</span><label class="sw"><input type="checkbox" id="ua" onchange="tA('u')"><span class="sl"></span></label></div>
+    <div class="bbody" id="ua-b" style="display:none"><div class="row" style="margin-bottom:0"><div><div class="lbl">월 추가 투자금 ($)</div><input type="text" inputmode="decimal" id="um" placeholder="예) 300" oninput="cUS()"></div><div></div></div></div></div>
+  <div class="box"><div class="bhead"><span style="font-size:12px;font-weight:600">📈 주가 성장 가정</span><label class="sw"><input type="checkbox" id="ug" onchange="tG('u')"><span class="sl"></span></label></div>
+    <div class="bbody" id="ug-b" style="display:none"><div class="lbl" style="margin-bottom:6px">연 주가 성장률</div>
+      <div class="gtabs" id="ugt"><button class="gt active" onclick="sG('u',3,this)">+3%</button><button class="gt" onclick="sG('u',5,this)">+5%</button><button class="gt hope" onclick="sG('u',10,this)">+10% 🚀</button><button class="gt hope" onclick="sG('u',15,this)">+15% 🔥</button><button class="gt" onclick="sG('u','c',this)">직접입력</button></div>
+      <div id="ugc" style="display:none;margin-top:6px"><input type="text" inputmode="decimal" id="ugv" placeholder="성장률 % 입력" oninput="cUS()"></div></div></div>
+  <hr>
+  <div class="trow"><div><div class="tlbl">미국 원천징수세 적용 (15%)</div><div class="tsub">끄면 세전 기준으로 계산됩니다</div></div><label class="sw"><input type="checkbox" id="utt" checked onchange="cUS()"><span class="sl"></span></label></div>
+  <!-- 미국 복리 성장 라인 차트 -->
+  <div class="div-chart-section" id="us-chart-sec" style="display:none">
+    <div class="div-chart-header">
+      <div class="div-chart-title">📈 복리 성장 라인 차트</div>
+      <div class="div-chart-legend" id="us-chart-legend"></div>
+    </div>
+    <div class="canvas-wrap"><canvas id="us-line-canvas" height="180"></canvas></div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <span class="lbl" style="margin-bottom:0">결과 표시 단위</span>
+    <div class="cur-toggle"><button class="cur-btn active" id="cur-usd" onclick="setCur('usd')">달러 ($)</button><button class="cur-btn" id="cur-krw" onclick="setCur('krw')">원화 (₩)</button></div>
+  </div>
+  <div class="rgrid">
+    <div class="mc"><div class="ml">연간 배당금 (세전)</div><div class="mv" id="ur1">—</div></div>
+    <div class="mc"><div class="ml">원천징수세</div><div class="mv r" id="ur2">—</div></div>
+    <div class="mc"><div class="ml">세후 배당 (연)</div><div class="mv g" id="ur3">—</div></div>
+    <div class="mc"><div class="ml">월 환산 배당금</div><div class="mv g" id="ur3m">—</div></div>
+    <div class="mc"><div class="ml">현재가 기준 배당률</div><div class="mv" id="ur4">—</div></div>
+    <div class="mc"><div class="ml">평균 매수가 대비 배당률</div><div class="mv b" id="ur5">—</div></div>
+    <div class="mc"><div class="ml">투자 원금</div><div class="mv" id="ur6">—</div></div>
+    <div class="mc"><div class="ml">현재 평가금액</div><div class="mv b" id="ur7">—</div></div>
+  </div>
+  <div style="font-size:11px;color:#888;background:#f9f9f9;border:1px solid #eee;border-radius:7px;padding:6px 10px;margin-bottom:10px;line-height:1.6">
+    💡 <strong>투자 원금 참고</strong> — 평균단가 × 보유수량으로 계산됩니다. MTS 표시값과 수백 원 차이가 날 수 있는데, MTS는 소수점 단가까지 내부 저장하기 때문이에요.
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <div class="slbl">복리 재투자 시뮬레이션</div>
+    <div class="sim-freq-row" id="u-sfq"><button class="sfq" onclick="setSFQ('u','w',this)">주별</button><button class="sfq" onclick="setSFQ('u','m',this)">월별</button><button class="sfq active" onclick="setSFQ('u','y',this)">연별</button></div>
+  </div>
+  <div class="gnote" id="urn" style="display:none"></div>
+  <div class="sim-wrap"><table><thead id="u-thead"><tr><th>년도</th><th>보유주식</th><th>주가</th><th>배당금</th><th>추가투자</th><th>누적배당</th></tr></thead><tbody id="urt"><tr class="emp"><td colspan="6">위 항목을 입력하면 자동으로 계산됩니다</td></tr></tbody></table></div>
+</div>
+</div>
+<!-- 합산 -->
+<div class="sumbox">
+  <div class="sumhead"><span>📊</span><span class="sumtitle">포트폴리오 합산</span><span class="sumsub" id="ssub">국내 · 미국 합계</span></div>
+  <div id="sbody"><div class="semp">국내 또는 미국 중 하나 이상 입력하면 합산이 표시됩니다</div></div>
+  <div class="chart-wrap" id="chart-wrap" style="display:none">
+    <div class="sum-chart-grid">
+      <div><div class="chart-title">📈 연간 배당금</div><div class="bar-group" id="bar-group"></div></div>
+      <div><div class="chart-title">🥧 원금 비중</div><div class="pie-wrap"><svg id="pie-svg" width="120" height="120" viewBox="0 0 120 120"></svg><div class="pie-legend" id="pie-legend"></div></div></div>
+    </div>
+  </div>
+  <!-- 누적 배당 바 차트 -->
+  <div class="cum-bar-section" id="cum-bar-section">
+    <div class="cum-bar-title">📊 연도별 누적 배당금 바 차트</div>
+    <div class="canvas-wrap"><canvas id="cum-bar-canvas" height="200"></canvas></div>
+  </div>
+</div>
+<button class="pdfbtn" onclick="doPDF()"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 15h8v1H8v-1zm0-3h8v1H8v-1zm0 6h5v1H8v-1z"/></svg> PDF로 저장</button>
+</div><!-- /main-calc -->
+
+<!-- Q&A: 배당 계산기 -->
+<div id="qa-calc" class="qa-panel" style="display:block">
+  <div class="qa-section">
+    <div class="qa-section-title">❓ 자주 묻는 질문 — 배당 계산기</div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">배당수익률은 어떻게 계산하나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">배당수익률(%) = <strong>연간 배당금 ÷ 현재 주가 × 100</strong>이에요. 예를 들어 주가 50,000원에 연간 2,000원 배당이면 수익률은 4%예요. 이 계산기는 입력한 주기별 배당금을 자동으로 연간 기준으로 환산해서 계산해줘요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">YOC(취득원가 대비 배당률)가 왜 중요한가요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">YOC = <strong>연간 배당금 ÷ 평균 매수가 × 100</strong>이에요. 현재 주가가 올랐어도 내가 산 가격 기준으로 배당률이 얼마인지 보여줘요. 오래 보유할수록 YOC가 높아지는 게 배당 투자의 핵심 매력이에요. 예를 들어 30,000원에 샀는데 지금 주가가 60,000원이고 배당금이 3,000원이면 현재 배당수익률은 5%지만 YOC는 <strong>10%</strong>예요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">복리 재투자 시뮬레이션은 어떤 기준으로 계산되나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">받은 배당금 전액으로 같은 주식을 추가 매수하는 <strong>DRIP(배당 재투자 프로그램)</strong> 방식으로 계산돼요. 주식 수가 늘면 → 배당금이 늘고 → 다시 더 많은 주식을 사는 복리 효과가 발생해요. 세금 적용 시 세후 배당금 기준으로 재투자 수량을 계산해요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">국내 주식과 미국 주식의 세금 차이는? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a"><span class="tag tag-kr">국내</span> 배당소득세 <strong>15.4%</strong> (소득세 14% + 지방소득세 1.4%) 원천징수돼요.<br><span class="tag tag-us">미국</span> 미국 현지에서 <strong>15%</strong> 원천징수 후 지급돼요. 한미 조세조약으로 이중과세는 없어요. 단, 금융소득이 연 <strong>2,000만원</strong> 초과 시 국내·미국 배당 합산해서 종합과세 대상이 될 수 있어요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">주가 성장 가정을 켜면 어떻게 달라지나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">주가 성장 가정을 켜면 해마다 설정한 비율(%)만큼 <strong>주가와 배당금이 함께 성장</strong>한다는 가정을 추가해요. 현실적으로 좋은 배당 기업들은 주가도 서서히 오르고 배당도 늘리는 경향이 있어요. 보수적으로 보려면 이 옵션을 끄고 사용하세요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">월 추가 투자를 설정하면 어떻게 반영되나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">매월 설정한 금액으로 같은 주식을 추가 매수하는 것으로 계산돼요. 배당 재투자 수량과 <strong>별도로 합산</strong>되며, 적립식 투자 + 배당 재투자를 동시에 시뮬레이션할 수 있어요. 장기 복리 효과를 극대화하고 싶을 때 활용하세요.</div>
+    </div>
+  </div>
+  <div class="qa-section">
+    <div class="qa-section-title">📖 배당 투자 핵심 용어</div>
+    <div class="terms-grid">
+      <div class="term-card"><span class="term-badge" style="background:#dbeafe;color:#1e40af">기초</span><div class="term-word">배당금 (Dividend)</div><div class="term-desc">기업이 이익의 일부를 주주에게 나눠주는 돈이에요. 주식 수 × 주당 배당금으로 계산해요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#dbeafe;color:#1e40af">기초</span><div class="term-word">배당수익률 (Dividend Yield)</div><div class="term-desc">연간 배당금 ÷ 현재 주가 × 100(%). 높을수록 현재 주가 대비 배당을 많이 주는 주식이에요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#d1fae5;color:#065f46">투자</span><div class="term-word">YOC (Yield on Cost)</div><div class="term-desc">내가 산 가격 기준 배당률이에요. 주가가 올라도 내 매수가는 그대로니, 오래 보유할수록 YOC가 커져요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#d1fae5;color:#065f46">투자</span><div class="term-word">DRIP (배당 재투자)</div><div class="term-desc">Dividend Reinvestment Plan. 배당금으로 같은 주식을 자동으로 다시 사는 방식으로 복리 효과를 극대화해요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#dbeafe;color:#1e40af">기초</span><div class="term-word">배당락일 (Ex-Dividend Date)</div><div class="term-desc">이 날 이후 매수하면 해당 배당을 못 받아요. 배당락일 하루 전날까지 보유해야 배당을 받을 수 있어요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#d1fae5;color:#065f46">투자</span><div class="term-word">월배당 ETF</div><div class="term-desc">매월 배당금을 지급하는 ETF. 미국의 JEPI·SCHD, 국내의 KODEX 고배당 등이 대표적이에요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 목표역산 -->
+<div id="main-goal" class="main-panel">
+<div class="goal-section">
+  <div class="goal-grid-title">🇰🇷 국내 주식</div>
+  <div class="goal-grid">
+    <div class="goal-card c1">
+      <div class="goal-title" style="display:flex;align-items:center;justify-content:space-between">🎯 목표 월 배당금 → 필요 원금<button onclick="clearGoalCard(1)" style="font-size:11px;padding:2px 8px;border:1px solid #ccc;border-radius:6px;background:#f9f9f9;cursor:pointer;color:#666;font-weight:500">초기화</button></div>
+      <div class="row"><div><div class="lbl">목표 월 배당금 (원)</div><input type="text" inputmode="decimal" id="g-target" placeholder="예) 500,000" oninput="calcGoal()"></div><div><div class="lbl">예상 배당수익률 (%)</div><input type="text" inputmode="decimal" id="g-yield" placeholder="예) 4" oninput="calcGoal()"><div class="yield-freq-row" id="g-yfreq"><button class="yfq" onclick="setYFreq('g',this,'w')">주</button><button class="yfq" onclick="setYFreq('g',this,'m')">월</button><button class="yfq active" onclick="setYFreq('g',this,'y')">연</button></div></div></div>
+      <div class="row"><div><div class="lbl">현재 주가 (원)</div><input type="text" inputmode="decimal" id="g-price" placeholder="예) 50,000" oninput="calcGoal()"></div><div></div></div>
+      <div class="trow"><div><div class="tlbl">배당소득세 적용 (15.4%)</div><div class="tsub">켜면 세후 기준으로 계산됩니다</div></div><label class="sw"><input type="checkbox" id="g-tax-toggle" checked onchange="calcGoal()"><span class="sl"></span></label></div>
+      <div id="goal-result" style="display:none"><div class="goal-result"><div class="goal-result-head">📌 역산 결과</div><div class="goal-result-grid"><div class="goal-rc"><div class="gl">필요 연간 배당(세후)</div><div class="gv g" id="g-r1">—</div></div><div class="goal-rc"><div class="gl">세전 필요 배당금</div><div class="gv" id="g-r2">—</div></div><div class="goal-rc"><div class="gl">필요 투자 원금</div><div class="gv b" id="g-r3">—</div></div><div class="goal-rc"><div class="gl">필요 보유 주식 수</div><div class="gv p" id="g-r4">—</div></div></div><div class="goal-note" id="g-note"></div></div></div>
+    </div>
+    <div class="goal-card c2">
+      <div class="goal-title" style="display:flex;align-items:center;justify-content:space-between">💰 투자금 → 예상 월 배당금<button onclick="clearGoalCard(2)" style="font-size:11px;padding:2px 8px;border:1px solid #ccc;border-radius:6px;background:#f9f9f9;cursor:pointer;color:#666;font-weight:500">초기화</button></div>
+      <div class="row"><div><div class="lbl">투자 가능 금액 (원)</div><input type="text" inputmode="decimal" id="g2-amount" placeholder="예) 10,000,000" oninput="calcGoal2()"></div><div><div class="lbl">예상 배당수익률 (%)</div><input type="text" inputmode="decimal" id="g2-yield" placeholder="예) 4" oninput="calcGoal2()"><div class="yield-freq-row" id="g2-yfreq"><button class="yfq" onclick="setYFreq('g2',this,'w')">주</button><button class="yfq" onclick="setYFreq('g2',this,'m')">월</button><button class="yfq active" onclick="setYFreq('g2',this,'y')">연</button></div></div></div>
+      <div class="row"><div><div class="lbl">현재 주가 (원)</div><input type="text" inputmode="decimal" id="g2-price" placeholder="예) 50,000" oninput="calcGoal2()"></div><div></div></div>
+      <div class="trow"><div><div class="tlbl">배당소득세 적용 (15.4%)</div><div class="tsub">켜면 세후 기준으로 계산됩니다</div></div><label class="sw"><input type="checkbox" id="g2-tax-toggle" checked onchange="calcGoal2()"><span class="sl"></span></label></div>
+      <div id="goal2-result" style="display:none"><div class="goal-result"><div class="goal-result-head">📌 역산 결과</div><div class="goal-result-grid"><div class="goal-rc"><div class="gl">살 수 있는 주식 수</div><div class="gv p" id="g2-r1">—</div></div><div class="goal-rc"><div class="gl">연간 배당금(세후)</div><div class="gv g" id="g2-r2">—</div></div><div class="goal-rc"><div class="gl">월 배당금(세후)</div><div class="gv g" id="g2-r3">—</div></div><div class="goal-rc"><div class="gl">실효 배당수익률</div><div class="gv b" id="g2-r4">—</div></div></div><div class="goal-note" id="g2-note"></div></div></div>
+    </div>
+  </div>
+  <div class="goal-grid-title" style="margin-top:24px">🇺🇸 미국 주식</div>
+  <div class="goal-grid">
+    <div class="goal-card c3">
+      <div class="goal-title" style="display:flex;align-items:center;justify-content:space-between">🎯 목표 월 배당금 → 필요 원금<button onclick="clearGoalCard(3)" style="font-size:11px;padding:2px 8px;border:1px solid #ccc;border-radius:6px;background:#f9f9f9;cursor:pointer;color:#666;font-weight:500">초기화</button></div>
+      <div class="row"><div><div class="lbl">목표 월 배당금 ($)</div><input type="text" inputmode="decimal" id="g3-target" placeholder="예) 500" oninput="calcGoal3()"></div><div><div class="lbl">예상 배당수익률 (%)</div><input type="text" inputmode="decimal" id="g3-yield" placeholder="예) 4" oninput="calcGoal3()"><div class="yield-freq-row" id="g3-yfreq"><button class="yfq" onclick="setYFreq('g3',this,'w')">주</button><button class="yfq" onclick="setYFreq('g3',this,'m')">월</button><button class="yfq active" onclick="setYFreq('g3',this,'y')">연</button></div></div></div>
+      <div class="row"><div><div class="lbl">현재 주가 ($)</div><input type="text" inputmode="decimal" id="g3-price" placeholder="예) 80" oninput="calcGoal3()"></div><div></div></div>
+      <div class="trow"><div><div class="tlbl">원천징수세 적용 (15%)</div><div class="tsub">켜면 세후 기준으로 계산됩니다</div></div><label class="sw"><input type="checkbox" id="g3-tax-toggle" checked onchange="calcGoal3()"><span class="sl"></span></label></div>
+      <div class="trow"><div><div class="tlbl">결과를 원화(₩)로 표시</div><div class="tsub">켜면 달러 대신 원화로 표시됩니다</div></div><label class="sw"><input type="checkbox" id="g3-krw-toggle" onchange="calcGoal3()"><span class="sl"></span></label></div>
+      <div class="rbox" id="g3-rate-box" style="display:none"><span id="g3-rbadge" class="rbadge fb">로딩중</span><span style="font-weight:600">USD/KRW</span><span class="rval" id="g3-rdsp">—</span><span class="rtime" id="g3-rtime"></span></div>
+      <div class="row"><div><div class="lbl">환율 (원/달러)</div><input type="text" inputmode="decimal" id="g3-rate" placeholder="자동입력" oninput="calcGoal3()"></div><div></div></div>
+      <div id="goal3-result" style="display:none"><div class="goal-result"><div class="goal-result-head">📌 역산 결과</div><div class="goal-result-grid"><div class="goal-rc"><div class="gl" id="g3-l1">필요 연간 배당(세후)</div><div class="gv g" id="g3-r1">—</div></div><div class="goal-rc"><div class="gl" id="g3-l2">세전 필요 배당금</div><div class="gv" id="g3-r2">—</div></div><div class="goal-rc"><div class="gl">필요 투자 원금</div><div class="gv b" id="g3-r3">—</div></div><div class="goal-rc"><div class="gl">원화 환산 원금</div><div class="gv b" id="g3-r4">—</div></div><div class="goal-rc"><div class="gl">필요 보유 주식 수</div><div class="gv p" id="g3-r5">—</div></div><div class="goal-rc"><div class="gl" id="g3-l6">월 배당금</div><div class="gv g" id="g3-r6">—</div></div></div><div class="goal-note" id="g3-note"></div></div></div>
+    </div>
+    <div class="goal-card c4">
+      <div class="goal-title" style="display:flex;align-items:center;justify-content:space-between">💰 투자금 → 예상 월 배당금<button onclick="clearGoalCard(4)" style="font-size:11px;padding:2px 8px;border:1px solid #ccc;border-radius:6px;background:#f9f9f9;cursor:pointer;color:#666;font-weight:500">초기화</button></div>
+      <div class="row"><div><div class="lbl">투자 가능 금액 ($)</div><input type="text" inputmode="decimal" id="g4-amount" placeholder="예) 10,000" oninput="calcGoal4()"></div><div><div class="lbl">예상 배당수익률 (%)</div><input type="text" inputmode="decimal" id="g4-yield" placeholder="예) 4" oninput="calcGoal4()"><div class="yield-freq-row" id="g4-yfreq"><button class="yfq" onclick="setYFreq('g4',this,'w')">주</button><button class="yfq" onclick="setYFreq('g4',this,'m')">월</button><button class="yfq active" onclick="setYFreq('g4',this,'y')">연</button></div></div></div>
+      <div class="row"><div><div class="lbl">현재 주가 ($)</div><input type="text" inputmode="decimal" id="g4-price" placeholder="예) 80" oninput="calcGoal4()"></div><div></div></div>
+      <div class="trow"><div><div class="tlbl">원천징수세 적용 (15%)</div><div class="tsub">켜면 세후 기준으로 계산됩니다</div></div><label class="sw"><input type="checkbox" id="g4-tax-toggle" checked onchange="calcGoal4()"><span class="sl"></span></label></div>
+      <div class="trow"><div><div class="tlbl">결과를 원화(₩)로 표시</div><div class="tsub">켜면 달러 대신 원화로 표시됩니다</div></div><label class="sw"><input type="checkbox" id="g4-krw-toggle" onchange="calcGoal4()"><span class="sl"></span></label></div>
+      <div class="rbox" id="g4-rate-box" style="display:none"><span id="g4-rbadge" class="rbadge fb">로딩중</span><span style="font-weight:600">USD/KRW</span><span class="rval" id="g4-rdsp">—</span><span class="rtime" id="g4-rtime"></span></div>
+      <div class="row"><div><div class="lbl">환율 (원/달러)</div><input type="text" inputmode="decimal" id="g4-rate" placeholder="자동입력" oninput="calcGoal4()"></div><div></div></div>
+      <div id="goal4-result" style="display:none"><div class="goal-result"><div class="goal-result-head">📌 역산 결과</div><div class="goal-result-grid"><div class="goal-rc"><div class="gl">살 수 있는 주식 수</div><div class="gv p" id="g4-r1">—</div></div><div class="goal-rc"><div class="gl" id="g4-l2">월 배당금(세후)</div><div class="gv g" id="g4-r2">—</div></div><div class="goal-rc"><div class="gl">월 배당금(원화)</div><div class="gv g" id="g4-r3">—</div></div><div class="goal-rc"><div class="gl">실효 배당수익률</div><div class="gv b" id="g4-r4">—</div></div></div><div class="goal-note" id="g4-note"></div></div></div>
+    </div>
+  </div>
+  <!-- 그래프 -->
+  <div class="goal-chart-section" id="goal-chart-section" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div class="goal-chart-title">📈 복리 성장 시뮬레이션</div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;color:#666;font-weight:500">기간</span><input type="number" id="goal-sim-years" value="10" min="1" max="30" style="width:60px;padding:5px 8px;border:1.5px solid #ccc;border-radius:8px;font-size:13px;font-weight:600;text-align:center" oninput="drawGoalChart()"><span style="font-size:12px;color:#666">년</span></div>
+    </div>
+    <div style="margin-bottom:10px;display:flex;gap:6px;flex-wrap:wrap" id="chart-legend"></div>
+    <div class="chart-svg-wrap"><svg id="goal-svg" width="700" height="260" viewBox="0 0 700 260" style="width:100%;height:auto"></svg></div>
+    <div style="font-size:11px;color:#888;margin-top:8px;line-height:1.6" id="chart-note">* 복리 재투자 시뮬레이션</div>
+  </div>
+  <button class="goal-pdf-btn" onclick="goalPDF()"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 15h8v1H8v-1zm0-3h8v1H8v-1zm0 6h5v1H8v-1z"/></svg> PDF로 저장</button>
+</div>
+</div><!-- /main-goal -->
+
+<!-- Q&A: 목표 역산 -->
+<div id="qa-goal" class="qa-panel" style="display:none">
+  <div class="qa-section">
+    <div class="qa-section-title">❓ 자주 묻는 질문 — 목표 역산</div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">목표 월 배당금을 받으려면 얼마가 필요한가요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">필요 투자금 = <strong>목표 월 배당금 × 12 ÷ 배당수익률(%/100)</strong>이에요. 예를 들어 월 100만원을 연 6% 배당 ETF로 받으려면 <strong>약 2억원</strong>이 필요해요. 세금을 고려하면 15.4% 더 필요하므로 실제론 약 2억 3,600만원 정도가 돼요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">배당수익률 주기를 바꾸면 뭐가 달라지나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">입력하는 배당수익률의 기준 주기를 바꾸는 거예요. 주별·월별·연별 중 선택할 수 있고, 내부적으로 자동으로 <strong>연간 기준으로 환산</strong>해서 계산해요. 예를 들어 월 0.5%와 연 6%는 동일한 수익률이에요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">세전/세후 두 가지를 같이 보여주는 이유는? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">실제 투자 목표를 세울 때 <strong>세전 기준으로 종목을 고르지만, 실제 수령은 세후</strong>이기 때문이에요. 세전 목표와 세후 실수령액의 차이를 미리 인식하고 계획을 세우는 게 중요해요. 국내 15.4%, 미국 15% 기준으로 자동 계산돼요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">현실적인 배당수익률은 어느 정도인가요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">일반적인 배당 ETF 기준으로 국내는 <strong>3~5%</strong>, 미국 커버드콜 ETF(JEPI 등)는 <strong>7~12%</strong> 수준이에요. 수익률이 너무 높으면 주가 하락이나 배당 삭감 리스크가 있을 수 있어요. <strong>6~8% 수준</strong>을 현실적인 목표로 잡는 투자자가 많아요.</div>
+    </div>
+  </div>
+  <div class="qa-section">
+    <div class="qa-section-title">📖 목표 역산 관련 용어</div>
+    <div class="terms-grid">
+      <div class="term-card"><span class="term-badge" style="background:#d1fae5;color:#065f46">투자</span><div class="term-word">배당 목표 역산</div><div class="term-desc">원하는 배당 수입을 먼저 정하고, 거기서 역으로 필요한 투자금·주식 수를 계산하는 방식이에요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#dbeafe;color:#1e40af">기초</span><div class="term-word">연간 배당금 환산</div><div class="term-desc">주배당·월배당·분기배당을 연간 기준으로 통일해 비교하는 방법이에요. 주배당×52, 월배당×12, 분기배당×4로 계산해요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#fef3c7;color:#92400e">세금</span><div class="term-word">세전 vs 세후 수익률</div><div class="term-desc">세전 배당수익률에서 국내 15.4% 또는 미국 15% 원천징수 후 실제 수령하는 금액 기준 수익률을 세후 수익률이라 해요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#d1fae5;color:#065f46">투자</span><div class="term-word">커버드콜 ETF</div><div class="term-desc">보유 주식에 콜옵션을 매도해 프리미엄 수익을 배당으로 지급하는 ETF. 높은 배당수익률이 특징이지만 주가 상승 이익이 제한돼요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 세금 계산기 -->
+<div id="main-tax" class="main-panel">
+  <div style="margin-bottom:16px">
+    <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:4px">🧾 배당소득 세금 계산기</div>
+    <div style="font-size:13px;color:#555">1년간 받은 배당금과 근로/사업소득을 입력하면 세금과 건강보험료를 안내해드려요.</div>
+  </div>
+
+  <!-- 시나리오 버튼 -->
+  <div style="margin-bottom:10px">
+    <div class="lbl" style="margin-bottom:6px">📋 소득 시나리오 예시 (클릭하면 자동 입력)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px">
+      <button class="fq" onclick="setTaxScenario('근로',2400,0)">👔 근로 월200 (연2,400)</button>
+      <button class="fq" onclick="setTaxScenario('근로',3600,0)">👔 근로 월300 (연3,600)</button>
+      <button class="fq" onclick="setTaxScenario('근로',6000,0)">👔 근로 월500 (연6,000)</button>
+      <button class="fq" onclick="setTaxScenario('사업',3000,0)">🏢 사업소득 연3,000</button>
+      <button class="fq" onclick="setTaxScenario('사업',5000,0)">🏢 사업소득 연5,000</button>
+      <button class="fq" onclick="setTaxScenario('사업',8000,0)">🏢 사업소득 연8,000</button>
+      <button class="fq" onclick="setTaxScenario('없음',0,0)">🏖️ 소득 없이 배당만</button>
+    </div>
+  </div>
+
+  <div class="desktop-grid">
+    <!-- 입력 -->
+    <div>
+      <div class="ptitle">입력</div>
+      <div style="margin-bottom:10px">
+        <div class="lbl" style="margin-bottom:4px">소득 유형</div>
+        <div style="display:flex;gap:6px">
+          <button class="fq active" id="tax-type-근로" onclick="setTaxType('근로')">근로소득</button>
+          <button class="fq" id="tax-type-사업" onclick="setTaxType('사업')">사업소득</button>
+          <button class="fq" id="tax-type-없음" onclick="setTaxType('없음')">소득 없음</button>
+        </div>
+      </div>
+      <div id="tax-income-wrap">
+        <div class="lbl" style="margin-bottom:4px" id="tax-income-lbl">근로소득 (연, 만원)</div>
+        <input type="text" inputmode="decimal" id="tax-income" placeholder="예) 3,600 (월300×12)" oninput="calcTax()">
+        <div style="font-size:11px;color:#888;margin-top:3px">만원 단위로 입력 (예: 월 300만원 = 연 3,600)</div>
+      </div>
+      <div style="height:12px"></div>
+      <div class="lbl" style="margin-bottom:4px">국내 주식 배당금 (연, 만원)</div>
+      <input type="text" inputmode="decimal" id="tax-kr-div" placeholder="예) 500 (연간 500만원)" oninput="calcTax()">
+      <div style="margin-top:7px;margin-bottom:3px">
+        <div class="lbl" style="margin-bottom:4px;font-size:12px">과세 방식 (ETF 과세표준 설정)</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px">
+          <button class="fq active" id="tax-mode-full" onclick="setTaxKRMode('full')">전액과세 (15.4%)</button>
+          <button class="fq" id="tax-mode-ratio" onclick="setTaxKRMode('ratio')">비율 입력 (2%)</button>
+          <button class="fq" id="tax-mode-amt" onclick="setTaxKRMode('amt')">금액 직접입력 (연간)</button>
+        </div>
+        <div id="tax-mode-ratio-wrap" style="display:none;margin-bottom:4px">
+          <input type="text" inputmode="decimal" id="tax-kr-ratio" value="2" oninput="calcTax()">
+        </div>
+        <div id="tax-mode-amt-wrap" style="display:none;margin-bottom:4px">
+          <input type="text" inputmode="decimal" id="tax-kr-taxamt" placeholder="연간 과세 대상 금액" oninput="calcTax()">
+        </div>
+      </div>
+      <div style="height:8px"></div>
+      <div class="lbl" style="margin-bottom:4px">미국 주식 배당금 (연, 달러)</div>
+      <input type="text" inputmode="decimal" id="tax-us-div" placeholder="예) 3,000 (연간 $3,000)" oninput="calcTax()">
+      <div style="height:8px"></div>
+      <div class="lbl" style="margin-bottom:4px">환율 (원/달러)</div>
+      <input type="text" inputmode="decimal" id="tax-rate" placeholder="자동으로 불러옵니다" oninput="calcTax()">
+    </div>
+
+    <!-- 결과 -->
+    <div>
+      <div class="ptitle">계산 결과</div>
+      <div id="tax-result-wrap">
+        <div class="rgrid">
+          <div class="mc"><div class="ml" id="tx-kr-wht-lbl">국내 배당 원천징수 (15.4%)</div><div class="mv r" id="tx-kr-wht">—</div></div>
+          <div class="mc"><div class="ml">미국 배당 원천징수 (15%)</div><div class="mv r" id="tx-us-wht">—</div></div>
+          <div class="mc"><div class="ml">세후 국내 배당 (연)</div><div class="mv g" id="tx-kr-net">—</div></div>
+          <div class="mc"><div class="ml">세후 미국 배당 (연)</div><div class="mv g" id="tx-us-net">—</div></div>
+          <div class="mc"><div class="ml">총 금융소득 (원화 합산)</div><div class="mv b" id="tx-total-fin">—</div></div>
+          <div class="mc"><div class="ml">종합과세 대상 여부</div><div class="mv" id="tx-jh-yn">—</div></div>
+        </div>
+        <div style="height:8px"></div>
+        <!-- 종합과세 안내 -->
+        <div id="tx-jh-box" style="display:none;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:12px;line-height:1.7">
+          <strong>⚠️ 금융소득 종합과세 대상</strong><br>
+          <span id="tx-jh-detail"></span>
+        </div>
+        <div id="tx-jh-safe" style="display:none;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:12px;line-height:1.7">
+          ✅ <strong>분리과세 적용</strong> — 금융소득 2,000만원 이하로 종합과세 대상이 아니에요. 원천징수로 납세 완료!
+        </div>
+        <!-- 건보료 -->
+        <div style="background:#f0f4ff;border:1px solid #c7d7fd;border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.7;margin-bottom:8px">
+          <strong>🏥 건강보험료 안내</strong><br>
+          <span id="tx-health"></span>
+        </div>
+        <div class="rgrid" id="tx-health-calc-wrap" style="display:none">
+          <div class="mc"><div class="ml">건보료 연간 (추정)</div><div class="mv r" id="tx-health-amt">—</div></div>
+          <div class="mc"><div class="ml">건보료 월 (추정)</div><div class="mv r" id="tx-health-month">—</div></div>
+          <div class="mc"><div class="ml">건보료 부과 기준</div><div class="mv" id="tx-health-base">—</div></div>
+        </div>
+        <!-- 피부양자 재산 안내 -->
+        <div id="tx-dep-info" style="display:none;background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:9px 12px;font-size:11px;line-height:1.8;margin-top:6px">
+          📋 <strong>피부양자 자격 재산 기준 참고</strong><br>
+          재산세 과표 <strong>5.4억 이하</strong> → 금융소득 2,000만원 이하면 유지<br>
+          재산세 과표 <strong>5.4억~9억</strong> → 금융소득 1,000만원 이하여야 유지<br>
+          재산세 과표 <strong>9억 초과</strong> → 소득 무관 즉시 탈락
+        </div>
+        <!-- 총 세금 요약 -->
+        <div style="height:8px"></div>
+        <div class="rgrid">
+          <div class="mc"><div class="ml">예상 총 납부 세금</div><div class="mv r" id="tx-total-tax">—</div></div>
+          <div class="mc"><div class="ml">세후 총 배당 수령액</div><div class="mv g" id="tx-final-net">—</div></div>
+        </div>
+        <div style="font-size:11px;color:#888;background:#f9f9f9;border:1px solid #eee;border-radius:7px;padding:8px 10px;margin-top:8px;line-height:1.7">
+          ⚠️ <strong>참고용 안내입니다.</strong> 실제 세금은 개인 공제 항목·소득 구성에 따라 달라질 수 있어요. 정확한 세액은 세무사 상담을 권장드려요.
+        </div>
+        <!-- 세금 도넛 차트 -->
+        <div class="tax-chart-section" id="tax-chart-section">
+          <div class="div-chart-title" style="margin-bottom:12px">🥧 세금·순수령액 구성</div>
+          <div class="tax-donut-wrap">
+            <canvas id="tax-donut-canvas" width="160" height="160" style="flex-shrink:0"></canvas>
+            <div class="tax-donut-legend" id="tax-donut-legend"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="pdfbtn" onclick="taxPDF()"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 15h8v1H8v-1zm0-3h8v1H8v-1zm0 6h5v1H8v-1z"/></svg> PDF로 저장</button>
+</div>
+<!-- /main-tax -->
+
+<!-- Q&A: 세금 계산기 -->
+<div id="qa-tax" class="qa-panel" style="display:none">
+  <div class="qa-section">
+    <div class="qa-section-title">❓ 자주 묻는 질문 — 세금 계산기</div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">배당소득세는 자동으로 떼이나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">네, <strong>원천징수</strong> 방식이에요. 국내 주식은 증권사가 배당 지급 시 15.4%를 자동 공제 후 지급하고, 미국 주식은 미국에서 15%를 원천징수해요. 별도로 신고하거나 납부할 필요 없이 <strong>세후 금액이 통장에 들어와요.</strong></div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">금융소득 종합과세 2,000만원 기준은 어떻게 계산하나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">이자소득 + 배당소득을 합친 <strong>세전 금융소득 합계</strong>가 연 2,000만원을 초과하면 종합과세 대상이에요. 국내·미국 배당금 모두 포함되고, 원천징수된 세금은 세액공제 방식으로 처리돼요. 초과분은 다른 소득과 합산해 <strong>6~45% 누진세율</strong>로 과세돼요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">건강보험료 피부양자 탈락 기준이 복잡한데, 간단히 정리해주세요. <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">재산세 과표 기준으로 3단계로 나뉘어요.<br>
+      ① <strong>5.4억 이하</strong> → 합산 소득 2,000만원 초과 시 탈락<br>
+      ② <strong>5.4억~9억</strong> → 금융소득 1,000만원 초과 시 탈락<br>
+      ③ <strong>9억 초과</strong> → 소득 무관 즉시 탈락<br>
+      탈락 시 지역가입자로 전환되어 재산·소득 합산 기준으로 건보료가 부과돼요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">직장가입자인데 배당을 받으면 건보료가 추가로 붙나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">직장가입자는 급여 외 소득(배당·임대 등)이 연 <strong>2,000만원을 초과</strong>하면 초과분에 대해 소득월액 보험료가 추가로 부과돼요. 요율은 약 <strong>7.09%</strong>예요. 2,000만원 이하라면 추가 건보료 없어요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">미국 주식은 이중과세가 없다던데, 정확히 어떻게 되나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">한미 조세조약으로 미국에서 원천징수한 15%를 국내에서 외국납부세액으로 공제해줘요. 금융소득 2,000만원 이하면 미국에서 낸 15%로 납세가 끝나요. 종합과세 대상이 되면 세율 차이(한국세율 - 15%)만큼 추가 납부가 생길 수 있지만, <strong>이중으로 15%씩 내는 건 아니에요.</strong></div>
+    </div>
+  </div>
+  <div class="qa-section">
+    <div class="qa-section-title">📖 배당 세금 핵심 용어</div>
+    <div class="terms-grid">
+      <div class="term-card"><span class="term-badge" style="background:#fef3c7;color:#92400e">세금</span><div class="term-word">원천징수 (Withholding Tax)</div><div class="term-desc">배당 지급 시 세금을 미리 떼고 주는 방식이에요. 국내 15.4%, 미국 15%가 자동으로 공제돼요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#fef3c7;color:#92400e">세금</span><div class="term-word">금융소득 종합과세</div><div class="term-desc">연간 금융소득(이자+배당) 합계가 2,000만원 초과 시 다른 소득과 합산해 6~45% 누진세율로 과세해요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#fef3c7;color:#92400e">세금</span><div class="term-word">분리과세</div><div class="term-desc">금융소득이 2,000만원 이하면 원천징수(15.4%)로 납세 종결. 다른 소득과 합산하지 않아 유리한 경우가 많아요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#fef3c7;color:#92400e">세금</span><div class="term-word">외국납부세액공제</div><div class="term-desc">미국에서 납부한 15% 세금을 국내 세금에서 공제해주는 제도예요. 이중과세를 방지해요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#fef3c7;color:#92400e">세금</span><div class="term-word">소득월액 보험료</div><div class="term-desc">직장가입자가 급여 외 소득 2,000만원 초과 시 초과분에 약 7.09%의 건보료가 추가로 부과돼요.</div></div>
+      <div class="term-card"><span class="term-badge" style="background:#fef3c7;color:#92400e">세금</span><div class="term-word">피부양자 탈락</div><div class="term-desc">건보 피부양자 자격을 잃으면 지역가입자로 전환되어 재산·소득 합산 기준으로 건보료가 새로 부과돼요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 용어 -->
+<div class="terms-section" id="terms-section">
+  <div class="terms-head" onclick="toggleTerms()"><span class="terms-head-title">📚 배당 투자 용어 설명</span><span class="terms-toggle-icon" id="terms-icon">▼</span></div>
+  <div class="terms-body" id="terms-body">
+    <div class="terms-grid">
+      <div class="term-item"><span class="term-tag basic">기초</span><div class="term-word">배당금 (Dividend)</div><div class="term-desc">기업이 이익의 일부를 주주에게 나눠주는 돈이에요.</div></div>
+      <div class="term-item"><span class="term-tag basic">기초</span><div class="term-word">배당수익률 (Dividend Yield)</div><div class="term-desc">현재 주가 대비 연간 배당금의 비율이에요. 주가 50,000원에 배당금 2,000원이면 4%예요.</div></div>
+      <div class="term-item"><span class="term-tag invest">투자</span><div class="term-word">YOC (Yield on Cost)</div><div class="term-desc">평균 매수가 대비 배당률이에요. 오래 보유할수록 YOC가 올라가는 게 배당 투자의 묘미예요.</div></div>
+      <div class="term-item"><span class="term-tag invest">투자</span><div class="term-word">복리 재투자 (DRIP)</div><div class="term-desc">받은 배당금으로 다시 같은 주식을 사는 전략이에요. 시간이 지날수록 보유 주식과 배당금이 같이 늘어요.</div></div>
+      <div class="term-item"><span class="term-tag invest">투자</span><div class="term-word">월배당 ETF</div><div class="term-desc">매월 배당금을 지급하는 ETF예요. JEPI, SCHD 같은 미국 ETF가 대표적이에요.</div></div>
+      <div class="term-item"><span class="term-tag basic">기초</span><div class="term-word">배당락일 (Ex-Dividend Date)</div><div class="term-desc">이 날 이후에 주식을 사면 해당 배당을 받을 수 없어요. 배당락일 전날까지 보유해야 해요.</div></div>
+      <div class="term-item"><span class="term-tag tax">세금</span><div class="term-word">배당소득세 (국내 15.4%)</div><div class="term-desc">국내 주식 배당금에는 소득세 14% + 지방소득세 1.4% = 총 15.4%가 원천징수돼요.</div></div>
+      <div class="term-item"><span class="term-tag tax">세금</span><div class="term-word">미국 원천징수세 (15%)</div><div class="term-desc">미국 주식 배당금은 미국에서 15%를 원천징수해요. 한미 조세조약으로 이중과세는 없어요.</div></div>
+      <div class="term-item"><span class="term-tag tax">세금</span><div class="term-word">금융소득 종합과세</div><div class="term-desc">이자·배당 등 금융소득 합계가 연 2,000만원을 초과하면 근로·사업소득과 합산해 6~45% 누진세율로 과세돼요.</div></div>
+      <div class="term-item"><span class="term-tag tax">세금</span><div class="term-word">분리과세</div><div class="term-desc">금융소득이 2,000만원 이하면 원천징수(15.4%)로 납세가 끝나요. 다른 소득과 합산하지 않아요.</div></div>
+      <div class="term-item"><span class="term-tag tax">세금</span><div class="term-word">건강보험료 피부양자 탈락</div><div class="term-desc">금융소득 1,000만원 초과 + 재산과표 5.4억~9억이면 탈락, 재산과표 9억 초과면 소득 무관 즉시 탈락, 재산과표 5.4억 이하면 합산소득 2,000만원 기준으로 판단해요. 직장가입자는 2,000만원 초과 기준이에요.</div></div>
+      <div class="term-item"><span class="term-tag tax">세금</span><div class="term-word">소득월액 보험료</div><div class="term-desc">직장가입자가 급여 외 소득(배당·임대 등)이 연 2,000만원을 초과하면 초과분에 약 7.09% 건보료가 추가로 붙어요.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="save-toast" id="save-toast">💾 입력값이 저장됐어요</div>
+
+<script>
+var S={k:{g:3,ug:false,nd:0,pr:0,mo:0,freq:'m',sfq:'y'},u:{g:3,ug:false,nd:0,pr:0,mo:0,freq:'m',sfq:'y',cur:'usd'}};
+var KR_TAX_MODE='full';
+function setKRTaxMode(mode){
+  KR_TAX_MODE=mode;
+  ['full','ratio','amt'].forEach(function(m){
+    var b=document.getElementById('kr-mode-'+m);if(b)b.classList.toggle('active',m===mode);
+  });
+  document.getElementById('kr-mode-ratio-wrap').style.display=(mode==='ratio')?'block':'none';
+  document.getElementById('kr-mode-amt-wrap').style.display=(mode==='amt')?'block':'none';
+  cKR();
+}
+function getModeLabel(){
+  if(KR_TAX_MODE==='full') return '전액 15.4%';
+  if(KR_TAX_MODE==='ratio'){
+    var r=parseFloat((document.getElementById('kr-tax-ratio').value||'').replace(/,/g,''))||2;
+    return '과세비율 '+r+'%×15.4%';
+  }
+  if(KR_TAX_MODE==='amt') return '금액기준 15.4%';
+  return '';
+}
+function getKRTaxRate(gd){
+  // Returns effective tax rate (0~1) for use in simulation loops
+  if(!document.getElementById('kt').checked) return 0;
+  if(KR_TAX_MODE==='full') return 0.154;
+  if(KR_TAX_MODE==='ratio'){
+    var r=parseFloat((document.getElementById('kr-tax-ratio').value||'').replace(/,/g,''))||2;
+    return (r/100)*0.154;
+  }
+  if(KR_TAX_MODE==='amt'){
+    var a=parseFloat((document.getElementById('kr-tax-amt').value||'').replace(/,/g,''))||0;
+    return gd>0?Math.min(a/gd*0.154,0.154):0;
+  }
+  return 0;
+}
+function getKRTax(gd){
+  var at=document.getElementById('kt').checked;
+  if(!at) return 0;
+  if(KR_TAX_MODE==='full') return gd*0.154;
+  if(KR_TAX_MODE==='ratio'){
+    var r=parseFloat((document.getElementById('kr-tax-ratio').value||'').replace(/,/g,''))||2;
+    return gd*(r/100)*0.154;
+  }
+  if(KR_TAX_MODE==='amt'){
+    var a=parseFloat((document.getElementById('kr-tax-amt').value||'').replace(/,/g,''))||0;
+    return a*0.154;
+  }
+  return 0;
+}
+var GYF={g:'y',g2:'y',g3:'y',g4:'y'}; // 목표역산 배당수익률 주기
+var FM={w:{label:'주',ppy:52},m:{label:'월',ppy:12},q:{label:'분기',ppy:4},y:{label:'연',ppy:1}};
+var lastRate=1400,saveTimer=null,debounceTimer=null;
+var SAVE_KEY='divCalc_v1';
+
+function f(n){return Math.round(n).toLocaleString('ko-KR');}
+function fd(n){return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function gv(id){var e=document.getElementById(id);if(!e)return 0;return parseFloat(e.value.replace(/,/g,''))||0;}
+function sv(id,n){var e=document.getElementById(id);if(!e)return;if(!n&&n!==0){e.value='';return;}e.value=fmt(String(n));}
+function fmt(s){if(!s)return '';var p=String(s).replace(/,/g,'').split('.');p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');return p.length>1?p[0]+'.'+p[1]:p[0];}
+function ac(el){var r=el.value.replace(/[^0-9.]/g,'');var p=r.split('.');if(p.length>2)r=p[0]+'.'+p.slice(1).join('');var c=el.selectionStart,ol=el.value.length,fm=fmt(r);el.value=fm;var d=fm.length-ol;try{el.setSelectionRange(c+d,c+d);}catch(e){}}
+
+function switchMain(t){var tabs=['calc','goal','tax'];document.querySelectorAll('.main-tab').forEach(function(b,i){b.classList.toggle('active',i===tabs.indexOf(t));});tabs.forEach(function(id){document.getElementById('main-'+id).classList.toggle('active',id===t);document.getElementById('qa-'+id).style.display=(id===t)?'block':'none';});}
+function sw(t){document.querySelectorAll('.tab').forEach(function(b,i){b.classList.toggle('active',i===(t==='kr'?0:1));});document.getElementById('p-kr').classList.toggle('active',t==='kr');document.getElementById('p-us').classList.toggle('active',t==='us');}
+function toggleTerms(){var b=document.getElementById('terms-body'),ic=document.getElementById('terms-icon'),o=b.style.display==='block';b.style.display=o?'none':'block';ic.classList.toggle('open',!o);}
+function toggleQA(btn){var item=btn.closest('.qa-item');item.classList.toggle('open');}
+function setCur(v){S.u.cur=v;document.getElementById('cur-usd').classList.toggle('active',v==='usd');document.getElementById('cur-krw').classList.toggle('active',v==='krw');cUS();}
+function tA(p){var id=p==='k'?'ka':'ua';document.getElementById(id+'-b').style.display=document.getElementById(id).checked?'block':'none';p==='k'?cKR():cUS();}
+function tG(p){var id=p==='k'?'kg':'ug';document.getElementById(id+'-b').style.display=document.getElementById(id).checked?'block':'none';S[p].ug=document.getElementById(id).checked;p==='k'?cKR():cUS();}
+function sG(p,v,el){document.querySelectorAll('#'+p+'gt .gt').forEach(function(b){b.classList.remove('active');});el.classList.add('active');if(v==='c'){document.getElementById(p+'gc').style.display='block';S[p].g=+document.getElementById(p+'gv').value||0;}else{document.getElementById(p+'gc').style.display='none';S[p].g=v;}p==='k'?cKR():cUS();}
+function setFreq(p,v,el){document.querySelectorAll('#'+p+'-freq .fq').forEach(function(b){b.classList.remove('active');});el.classList.add('active');S[p].freq=v;document.getElementById(p==='k'?'kd-lbl':'ud-lbl').textContent=FM[v].label+' 배당금 '+(p==='k'?'(원)':'($)');p==='k'?cKR():cUS();}
+function setSFQ(p,v,el){document.querySelectorAll('#'+p+'-sfq .sfq').forEach(function(b){b.classList.remove('active');});el.classList.add('active');S[p].sfq=v;p==='k'?cKR():cUS();}
+function setYFreq(p,el,v){document.querySelectorAll('#'+p+'-yfreq .yfq').forEach(function(b){b.classList.remove('active');});el.classList.add('active');GYF[p]=v;if(p==='g')calcGoal();else if(p==='g2')calcGoal2();else if(p==='g3')calcGoal3();else calcGoal4();}
+function toAnnual(y,freq){if(freq==='w')return y*52;if(freq==='m')return y*12;return y;}
+function freqLabel(freq){if(freq==='w')return '주';if(freq==='m')return '월';return '연';}
+function annualToDisp(ay){return {y:ay,m:ay/12,w:ay/52};}  
+
+function currentTab(){var tabs=['calc','goal','tax'];for(var i=0;i<tabs.length;i++){if(document.getElementById('main-'+tabs[i]).classList.contains('active'))return tabs[i];}return 'calc';}
+function clearTab(){
+  var tab=currentTab();
+  var names={calc:'배당 계산기',goal:'목표 역산',tax:'세금 계산기'};
+  if(!confirm('['+names[tab]+'] 탭의 입력값을 초기화할까요?'))return;
+  if(tab==='calc'){
+    ['ks','kd','kp','kc','ky','km','us','ud','up','uc','uy','um'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+    ['ka','kt','kg','ua','ug'].forEach(function(id){var e=document.getElementById(id);if(e)e.checked=false;});
+    document.getElementById('utt').checked=true;
+    ['ka-b','kg-b','ua-b','ug-b','kgc','ugc'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+    S.k={g:3,ug:false,nd:0,pr:0,mo:0,freq:'m',sfq:'y'};
+    S.u={g:3,ug:false,nd:0,pr:0,mo:0,freq:'m',sfq:'y',cur:'usd'};
+    document.querySelectorAll('#k-freq .fq').forEach(function(b,i){b.classList.toggle('active',i===1);});
+    document.querySelectorAll('#u-freq .fq').forEach(function(b,i){b.classList.toggle('active',i===1);});
+    document.querySelectorAll('#k-sfq .sfq').forEach(function(b,i){b.classList.toggle('active',i===2);});
+    document.querySelectorAll('#u-sfq .sfq').forEach(function(b,i){b.classList.toggle('active',i===2);});
+    document.getElementById('kd-lbl').textContent='월 배당금 (원)';
+    document.getElementById('ud-lbl').textContent='월 배당금 ($)';
+    document.getElementById('cur-usd').classList.add('active');document.getElementById('cur-krw').classList.remove('active');
+    document.querySelectorAll('#kgt .gt').forEach(function(b,i){b.classList.toggle('active',i===0);});
+    document.querySelectorAll('#ugt .gt').forEach(function(b,i){b.classList.toggle('active',i===0);});
+    // 배당 계산기 차트 숨기기
+    ['kr-chart-sec','us-chart-sec','cum-bar-section'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+    S.k._cumPts=[]; S.u._cumPts=[];
+    cKR();cUS();
+  } else if(tab==='goal'){
+    ['g-target','g-yield','g-price','g2-amount','g2-yield','g2-price','g3-target','g3-yield','g3-price','g3-rate','g4-amount','g4-yield','g4-price','g4-rate'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+    ['goal-result','goal2-result','goal3-result','goal4-result'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+    var cs=document.getElementById('goal-chart-section');if(cs)cs.style.display='none';
+  } else if(tab==='tax'){
+    ['tax-income','tax-kr-div','tax-us-div'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+    setTaxType('근로');
+    ['tx-kr-wht','tx-us-wht','tx-kr-net','tx-us-net','tx-total-fin','tx-total-tax','tx-final-net','tx-health-amt','tx-health-month','tx-health-base'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent='—';});
+    document.getElementById('tx-jh-yn').textContent='—';document.getElementById('tx-jh-yn').style.color='';
+    document.getElementById('tx-jh-box').style.display='none';document.getElementById('tx-jh-safe').style.display='none';
+    document.getElementById('tx-health').textContent='배당금을 입력해주세요.';
+    document.getElementById('tx-health-calc-wrap').style.display='none';
+    document.getElementById('tx-dep-info').style.display='none';
+    // 세금 도넛 차트 숨기기
+    var tc=document.getElementById('tax-chart-section');if(tc)tc.style.display='none';
+  }
+  try{if(tab==='calc')localStorage.removeItem(SAVE_KEY);}catch(e){}
+  var t=document.getElementById('save-toast');t.textContent='🗑️ 초기화됐어요';t.classList.add('show');
+  clearTimeout(saveTimer);saveTimer=setTimeout(function(){t.classList.remove('show');t.textContent='💾 입력값이 저장됐어요';},2000);
+}
+
+function fillExample(){
+  var tab=currentTab();
+  if(tab==='calc'){
+    document.getElementById('ks').value='100';
+    document.getElementById('kp').value='50,000';
+    document.getElementById('kc').value='45,000';
+    document.getElementById('kd').value='500';
+    document.getElementById('ky').value='10';
+    document.getElementById('us').value='50';
+    document.getElementById('up').value='80';
+    document.getElementById('uc').value='70';
+    document.getElementById('ud').value='0.5';
+    document.getElementById('uy').value='10';
+    cKR();cUS();
+  } else if(tab==='goal'){
+    document.getElementById('g-target').value='500,000';
+    document.getElementById('g-yield').value='4';
+    document.getElementById('g-price').value='50,000';
+    document.getElementById('g2-amount').value='10,000,000';
+    document.getElementById('g2-yield').value='4';
+    document.getElementById('g2-price').value='50,000';
+    document.getElementById('g3-target').value='500';
+    document.getElementById('g3-yield').value='4';
+    document.getElementById('g3-price').value='80';
+    document.getElementById('g4-amount').value='10,000';
+    document.getElementById('g4-yield').value='4';
+    document.getElementById('g4-price').value='80';
+    calcGoal();calcGoal2();calcGoal3();calcGoal4();
+  } else if(tab==='tax'){
+    setTaxType('근로');
+    document.getElementById('tax-income').value='3,600';
+    document.getElementById('tax-kr-div').value='500';
+    document.getElementById('tax-us-div').value='3,000';
+    calcTax();
+  }
+  var t=document.getElementById('save-toast');t.textContent='✏️ 예시값을 채웠어요';t.classList.add('show');
+  clearTimeout(saveTimer);saveTimer=setTimeout(function(){t.classList.remove('show');},2000);
+}
+
+function makeBar(label,val,maxVal,cls){var pct=Math.max(val/maxVal*100,0.5),show=val>maxVal*0.15;return '<div class="bar-row"><div class="bar-label">'+label+'</div><div class="bar-track"><div class="bar-fill '+cls+'" style="width:'+pct.toFixed(1)+'%">'+(show?'<span class="bar-val">'+f(val)+'원</span>':'')+'</div></div>'+(!show?'<span class="bar-val-out">'+f(val)+'원</span>':'')+'</div>';}
+
+function drawPie(kp,up,hk,hu){var svg=document.getElementById('pie-svg'),leg=document.getElementById('pie-legend');if(!svg||!leg)return;var ns='http://www.w3.org/2000/svg';while(svg.firstChild)svg.removeChild(svg.firstChild);leg.innerHTML='';var tot=kp+up;if(!tot)return;var items=[];if(hk&&kp>0)items.push({label:'🇰🇷 국내',val:kp,color:'#2563EB'});if(hu&&up>0)items.push({label:'🇺🇸 미국',val:up,color:'#1D9E75'});if(!items.length)return;var cx=60,cy=60,r=50,sa=-Math.PI/2;items.forEach(function(it){var pct=it.val/tot,ang=pct*Math.PI*2,ea=sa+ang-0.04;if(pct>=1){var c=document.createElementNS(ns,'circle');c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r);c.setAttribute('fill',it.color);svg.appendChild(c);}else{var x1=cx+r*Math.cos(sa),y1=cy+r*Math.sin(sa),x2=cx+r*Math.cos(ea),y2=cy+r*Math.sin(ea),lg=ang>Math.PI?1:0;var d='M'+cx+','+cy+' L'+x1.toFixed(2)+','+y1.toFixed(2)+' A'+r+','+r+' 0 '+lg+',1 '+x2.toFixed(2)+','+y2.toFixed(2)+' Z';var path=document.createElementNS(ns,'path');path.setAttribute('d',d);path.setAttribute('fill',it.color);svg.appendChild(path);var ma=sa+ang/2,tx=cx+(r*0.65)*Math.cos(ma),ty=cy+(r*0.65)*Math.sin(ma);var pt=document.createElementNS(ns,'text');pt.setAttribute('x',tx.toFixed(1));pt.setAttribute('y',ty.toFixed(1));pt.setAttribute('text-anchor','middle');pt.setAttribute('dominant-baseline','middle');pt.setAttribute('font-size','11');pt.setAttribute('font-weight','700');pt.setAttribute('fill','white');pt.textContent=(pct*100).toFixed(1)+'%';svg.appendChild(pt);}sa+=ang;var li=document.createElement('div');li.className='pie-legend-item';li.innerHTML='<span class="pie-dot" style="background:'+it.color+'"></span><span>'+it.label+'</span><span class="pie-legend-val">'+f(it.val)+'원</span>';leg.appendChild(li);});var inn=document.createElementNS(ns,'circle');inn.setAttribute('cx',cx);inn.setAttribute('cy',cy);inn.setAttribute('r',28);inn.setAttribute('fill','white');svg.appendChild(inn);var ct=document.createElementNS(ns,'text');ct.setAttribute('x',cx);ct.setAttribute('y',cy-6);ct.setAttribute('text-anchor','middle');ct.setAttribute('font-size','9');ct.setAttribute('fill','#888');ct.textContent='투자 원금';svg.appendChild(ct);var ct2=document.createElementNS(ns,'text');ct2.setAttribute('x',cx);ct2.setAttribute('y',cy+8);ct2.setAttribute('text-anchor','middle');ct2.setAttribute('font-size','10');ct2.setAttribute('font-weight','700');ct2.setAttribute('fill','#111');ct2.textContent=tot>=100000000?Math.round(tot/100000000)+'억':Math.round(tot/10000)+'만';svg.appendChild(ct2);}
+
+function uSum(){var kn=S.k.nd,un=S.u.nd,kp=S.k.pr,up=S.u.pr,km=S.k.mo,um=S.u.mo;var hk=kn>0||kp>0,hu=un>0||up>0;if(!hk&&!hu){document.getElementById('sbody').innerHTML='<div class="semp">국내 또는 미국 중 하나 이상 입력하면 합산이 표시됩니다</div>';document.getElementById('chart-wrap').style.display='none';return;}var tp=kp+up,ta=kn+un,tm=Math.round(ta/12),tma=km+um,ty=tp>0?(ta/tp*100):0;document.getElementById('ssub').textContent=hk&&hu?'국내 + 미국 합계':hk?'국내 합계':'미국 합계';document.getElementById('sbody').innerHTML='<div class="sumgrid"><div class="sumc"><div class="sl2">합산 투자 원금</div><div class="sv">'+f(tp)+'원</div><div class="ss">'+(hk&&hu?'국내 '+f(kp)+'원 + 미국 '+f(up)+'원':'')+'</div></div><div class="sumc"><div class="sl2">월 배당금 (세후)</div><div class="sv g">'+f(tm)+'원</div><div class="ss">연 '+f(ta)+'원</div></div><div class="sumc"><div class="sl2">포트폴리오 배당률</div><div class="sv b">'+ty.toFixed(2)+'%</div><div class="ss">원금 대비 연 수익률</div></div><div class="sumc"><div class="sl2">월 추가 투자</div><div class="sv">'+(tma>0?f(tma)+'원':'—')+'</div><div class="ss">'+(tma>0?'연 '+f(tma*12)+'원':'')+'</div></div></div>';drawPie(kp,up,hk,hu);var mv=Math.max(kn,un,ta)||1,bars='';if(hk)bars+=makeBar('🇰🇷 국내',kn,mv,'kr');if(hu)bars+=makeBar('🇺🇸 미국',un,mv,'us');if(hk&&hu)bars+=makeBar('합계',ta,mv,'total');document.getElementById('bar-group').innerHTML=bars;document.getElementById('chart-wrap').style.display='block';}
+
+function cKR(){var sh=gv('ks'),dv=gv('kd'),pr=gv('kp'),co=gv('kc'),yr=gv('ky');var at=document.getElementById('kt').checked;var ua=document.getElementById('ka').checked,mo=ua?gv('km'):0;var ug=S.k.ug,gr=S.k.g/100,ppy=FM[S.k.freq].ppy;var gd=sh*dv*ppy,tx=getKRTax(gd),nd=gd-tx;var TX=gd>0?tx/gd:0;var TXR=getKRTaxRate(gd>0?gd:1);var yd=pr>0?(dv*ppy/pr*100):0,yc=co>0?(dv*ppy*(1-TX)/co*100):0,pi=sh*co;S.k.nd=nd;S.k.pr=pi;S.k.mo=mo;document.getElementById('kr2-lbl').textContent=at?'배당소득세 ('+getModeLabel()+')':'배당소득세';document.getElementById('kr1').textContent=gd?f(gd)+'원':'—';document.getElementById('kr2').textContent=at?(tx?f(tx)+'원':'—'):'미적용';document.getElementById('kr3').textContent=nd?f(nd)+'원':'—';document.getElementById('kr3m').textContent=nd?f(Math.round(nd/12))+'원/월':'—';document.getElementById('kr4').textContent=yd?yd.toFixed(2)+'%':'—';document.getElementById('kr5').textContent=yc?yc.toFixed(2)+'%':'—';document.getElementById('kr6').textContent=pi?f(pi)+'원':'—';var ev=sh*pr;document.getElementById('kr7').textContent=ev?f(ev)+'원':'—';var ne=document.getElementById('krn');if(ug){ne.style.display='block';ne.textContent='📈 연 '+S.k.g+'% 주가 성장 가정';}else ne.style.display='none';if(!sh||!dv||!pr||!yr){document.getElementById('krt').innerHTML='<tr class="emp"><td colspan="6">위 항목을 입력하면 자동으로 계산됩니다</td></tr>';document.getElementById('kr-chart-sec').style.display='none';uSum();debounceSave();return;}var sfq=S.k.sfq,h2='',cs=sh,cu=0,cp=pr,cd=dv;if(sfq==='y'){document.getElementById('k-thead').innerHTML='<tr><th>년도</th><th>보유주식</th><th>주가(원)</th><th>연간배당</th><th>추가투자</th><th>누적배당</th></tr>';for(var y=1;y<=Math.min(yr,50);y++){if(ug&&y>1){cp*=(1+gr);cd*=(1+gr);}var an=cs*cd*ppy*(1-TXR),ya=mo*12,as2=cp>0?Math.floor(ya/cp):0,ds=cp>0?Math.floor(an/cp):0;cu+=an;cs+=ds+as2;h2+='<tr><td>'+y+'년</td><td>'+f(cs)+'주</td><td>'+f(Math.round(cp))+'원</td><td>'+f(an)+'원</td><td>'+(mo>0?f(ya)+'원':'—')+'</td><td>'+f(cu)+'원</td></tr>';}}else if(sfq==='m'){document.getElementById('k-thead').innerHTML='<tr><th>월</th><th>보유주식</th><th>주가(원)</th><th>월배당</th><th>추가투자</th><th>누적배당</th></tr>';var tot=yr*12;for(var m=1;m<=tot;m++){if(ug&&m>1&&m%12===1){cp*=(1+gr);cd*=(1+gr);}var md=cs*cd*ppy*(1-TXR)/12,as2=cp>0?Math.floor(mo/cp):0,ds=cp>0?Math.floor(md/cp):0;cu+=md;cs+=ds+as2;h2+='<tr><td>'+m+'월</td><td>'+f(cs)+'주</td><td>'+f(Math.round(cp))+'원</td><td>'+f(md)+'원</td><td>'+(mo>0?f(mo)+'원':'—')+'</td><td>'+f(cu)+'원</td></tr>';}}else{document.getElementById('k-thead').innerHTML='<tr><th>주차</th><th>보유주식</th><th>주가(원)</th><th>주배당</th><th>추가투자</th><th>누적배당</th></tr>';var tot=yr*52;for(var w=1;w<=tot;w++){if(ug&&w>1&&w%52===1){cp*=(1+gr);cd*=(1+gr);}var wd=cs*cd*ppy*(1-TXR)/52,wa=mo/4.33,as2=cp>0?Math.floor(wa/cp):0,ds=cp>0?Math.floor(wd/cp):0;cu+=wd;cs+=ds+as2;h2+='<tr><td>'+w+'주차</td><td>'+f(cs)+'주</td><td>'+f(Math.round(cp))+'원</td><td>'+f(wd)+'원</td><td>'+(mo>0?f(wa)+'원':'—')+'</td><td>'+f(cu)+'원</td></tr>';}}document.getElementById('krt').innerHTML=h2||'<tr class="emp"><td colspan="6">—</td></tr>';
+// 라인 차트 그리기
+var krPts=getKRSimPts(sh,dv,pr,co,Math.min(yr,30),TXR,ppy,mo,S.k.g,ug);
+drawLineChart('kr-line-canvas','kr-chart-sec','kr-chart-legend',{pts:krPts,color:'#2563EB',label:'🇰🇷 월 배당금'},function(v){return v>=10000?Math.round(v/10000)+'만원':f(v)+'원';});
+S.k._cumPts=krPts; updateCumBarChart();
+uSum();debounceSave();}
+
+function updateCumBarChart(){
+  var kp=S.k._cumPts||[], up=S.u._cumPts||[];
+  // convert monthly to cumulative annual
+  var kCum=[],uCum=[],kAcc=0,uAcc=0;
+  var len=Math.max(kp.length,up.length);
+  for(var i=0;i<len;i++){kAcc+=(kp[i]||0)*12;uAcc+=(up[i]||0)*12;kCum.push(kAcc);uCum.push(uAcc);}
+  drawCumBarChart(kCum,uCum);
+}
+
+function cUS(){var sh=gv('us'),dv=gv('ud'),pr=gv('up'),co=gv('uc'),rt=gv('ur')||lastRate,yr=gv('uy');var ak=document.getElementById('utt').checked,et=ak?0.15:0;var ua=document.getElementById('ua').checked,mo=ua?gv('um'):0;var ug=S.u.ug,gr=S.u.g/100,ppy=FM[S.u.freq].ppy;var gdU=sh*dv*ppy,txU=gdU*et,ndU=gdU-txU,nk=ndU*rt;var yd=pr>0?(dv*ppy/pr*100):0,yc=co>0?(dv*ppy*(1-et)/co*100):0;S.u.nd=nk;S.u.pr=sh*co*rt;S.u.mo=mo*rt;var cur=S.u.cur;function fU(n){return cur==='usd'?'$'+fd(n):f(Math.round(n*rt))+'원';}document.getElementById('ur1').textContent=gdU?fU(gdU):'—';document.getElementById('ur2').textContent=ak?(txU?fU(txU):'—'):'미적용';document.getElementById('ur3').textContent=ndU?fU(ndU):'—';document.getElementById('ur3m').textContent=ndU?fU(ndU/12)+'/월':'—';document.getElementById('ur4').textContent=yd?yd.toFixed(2)+'%':'—';document.getElementById('ur5').textContent=yc?yc.toFixed(2)+'%':'—';document.getElementById('ur6').textContent=sh*co*rt?f(Math.round(sh*co*rt))+'원':'—';var evU=sh*pr*rt;document.getElementById('ur7').textContent=evU?f(Math.round(evU))+'원':'—';var ne=document.getElementById('urn');if(ug){ne.style.display='block';ne.textContent='📈 연 '+S.u.g+'% 주가 성장 가정';}else ne.style.display='none';if(!sh||!dv||!pr||!yr||!rt){document.getElementById('urt').innerHTML='<tr class="emp"><td colspan="6">위 항목을 입력하면 자동으로 계산됩니다</td></tr>';document.getElementById('us-chart-sec').style.display='none';uSum();debounceSave();return;}var sfq=S.u.sfq,h2='',cs=sh,cu=0,cp=pr,cd=dv,isK=cur==='krw';if(sfq==='y'){document.getElementById('u-thead').innerHTML='<tr><th>년도</th><th>보유주식</th><th>주가</th><th>연간배당</th><th>추가투자</th><th>누적배당</th></tr>';for(var y=1;y<=Math.min(yr,50);y++){if(ug&&y>1){cp*=(1+gr);cd*=(1+gr);}var au=cs*cd*ppy*(1-et),ya=mo*12,as2=cp>0?Math.floor(ya/cp):0,ds=cp>0?Math.floor(au/cp):0;cu+=au;cs+=ds+as2;h2+='<tr><td>'+y+'년</td><td>'+f(cs)+'주</td><td>'+(isK?f(Math.round(cp*rt))+'원':'$'+fd(cp))+'</td><td>'+(isK?f(Math.round(au*rt))+'원':'$'+fd(au))+'</td><td>'+(mo>0?(isK?f(Math.round(ya*rt))+'원':'$'+fd(ya)):'—')+'</td><td>'+(isK?f(Math.round(cu*rt))+'원':'$'+fd(cu))+'</td></tr>';}}else if(sfq==='m'){document.getElementById('u-thead').innerHTML='<tr><th>월</th><th>보유주식</th><th>주가</th><th>월배당</th><th>추가투자</th><th>누적배당</th></tr>';var tot=yr*12;for(var m=1;m<=tot;m++){if(ug&&m>1&&m%12===1){cp*=(1+gr);cd*=(1+gr);}var mdu=cs*cd*ppy*(1-et)/12,as2=cp>0?Math.floor(mo/cp):0,ds=cp>0?Math.floor(mdu/cp):0;cu+=mdu;cs+=ds+as2;h2+='<tr><td>'+m+'월</td><td>'+f(cs)+'주</td><td>'+(isK?f(Math.round(cp*rt))+'원':'$'+fd(cp))+'</td><td>'+(isK?f(Math.round(mdu*rt))+'원':'$'+fd(mdu))+'</td><td>'+(mo>0?(isK?f(Math.round(mo*rt))+'원':'$'+fd(mo)):'—')+'</td><td>'+(isK?f(Math.round(cu*rt))+'원':'$'+fd(cu))+'</td></tr>';}}else{document.getElementById('u-thead').innerHTML='<tr><th>주차</th><th>보유주식</th><th>주가</th><th>주배당</th><th>추가투자</th><th>누적배당</th></tr>';var tot=yr*52;for(var w=1;w<=tot;w++){if(ug&&w>1&&w%52===1){cp*=(1+gr);cd*=(1+gr);}var wdu=cs*cd*ppy*(1-et)/52,wa=mo/4.33,as2=cp>0?Math.floor(wa/cp):0,ds=cp>0?Math.floor(wdu/cp):0;cu+=wdu;cs+=ds+as2;h2+='<tr><td>'+w+'주차</td><td>'+f(cs)+'주</td><td>'+(isK?f(Math.round(cp*rt))+'원':'$'+fd(cp))+'</td><td>'+(isK?f(Math.round(wdu*rt))+'원':'$'+fd(wdu))+'</td><td>'+(mo>0?(isK?f(Math.round(wa*rt))+'원':'$'+fd(wa)):'—')+'</td><td>'+(isK?f(Math.round(cu*rt))+'원':'$'+fd(cu))+'</td></tr>';}}document.getElementById('urt').innerHTML=h2||'<tr class="emp"><td colspan="6">—</td></tr>';
+// 라인 차트 그리기
+var usPts=getUSSimPts(sh,dv,pr,co,rt,Math.min(yr,30),et,ppy,mo,S.u.g,ug);
+drawLineChart('us-line-canvas','us-chart-sec','us-chart-legend',{pts:usPts,color:'#1D9E75',label:'🇺🇸 월 배당금(원환산)'},function(v){return v>=10000?Math.round(v/10000)+'만원':f(v)+'원';});
+S.u._cumPts=usPts; updateCumBarChart();
+uSum();debounceSave();}
+
+function calcGoal(){var t=gv('g-target'),y=gv('g-yield'),p=gv('g-price'),txOn=document.getElementById('g-tax-toggle').checked,tx=txOn?0.154:0;if(!t||!y){document.getElementById('goal-result').style.display='none';return;}var freq=GYF['g'],ay=toAnnual(y,freq),an=t*12,ag=tx>0?an/(1-tx):an,pr=ay>0?ag/(ay/100):0,sh=p>0?Math.ceil(pr/p):0;var d=annualToDisp(ay);document.getElementById('g-r1').textContent=f(an)+'원/년 ('+f(Math.round(an/12))+'원/월)';document.getElementById('g-r2').textContent=f(Math.round(ag))+'원/년';document.getElementById('g-r3').textContent=pr?f(Math.round(pr))+'원':'—';document.getElementById('g-r4').textContent=sh?f(sh)+'주':'—';document.getElementById('g-note').textContent='입력 배당수익률 '+y+'%('+freqLabel(freq)+') → 연환산 '+d.y.toFixed(2)+'% · 월환산 '+d.m.toFixed(2)+'%'+(p?' · 주당 '+f(p)+'원':'')+(tx>0?' · 세후':'');document.getElementById('goal-result').style.display='block';drawGoalChart();}
+function calcGoal2(){var a=gv('g2-amount'),y=gv('g2-yield'),p=gv('g2-price'),txOn=document.getElementById('g2-tax-toggle').checked,tx=txOn?0.154:0;if(!a||!y){document.getElementById('goal2-result').style.display='none';return;}var freq=GYF['g2'],ay=toAnnual(y,freq),sh=p>0?Math.floor(a/p):0,ag=a*(ay/100),an=ag*(1-tx),mn=an/12,ey=a>0?(an/a*100):0;var d=annualToDisp(ay);document.getElementById('g2-r1').textContent=sh?f(sh)+'주':'—';document.getElementById('g2-r2').textContent=f(Math.round(an))+'원/년';document.getElementById('g2-r3').textContent=f(Math.round(mn))+'원/월';document.getElementById('g2-r4').textContent=ey.toFixed(2)+'%';document.getElementById('g2-note').textContent='투자금 '+f(a)+'원 · 입력 '+y+'%('+freqLabel(freq)+') → 연 '+d.y.toFixed(2)+'% · 월 '+d.m.toFixed(2)+'%'+(tx>0?' · 세후':'');document.getElementById('goal2-result').style.display='block';drawGoalChart();}
+function calcGoal3(){var t=gv('g3-target'),y=gv('g3-yield'),p=gv('g3-price'),txOn=document.getElementById('g3-tax-toggle').checked,tx=txOn?0.15:0,r=gv('g3-rate')||lastRate,useKrw=document.getElementById('g3-krw-toggle').checked;if(!t||!y){document.getElementById('goal3-result').style.display='none';drawGoalChart();return;}var freq=GYF['g3'],ay=toAnnual(y,freq),an=t*12,ag=tx>0?an/(1-tx):an,pu=ay>0?ag/(ay/100):0,pk=pu*r,sh=p>0?Math.ceil(pu/p):0;var d=annualToDisp(ay),cur=useKrw?'원':'$';document.getElementById('g3-l1').textContent='필요 연간 배당(세후, '+cur+')';document.getElementById('g3-l2').textContent='세전 필요 배당금('+cur+')';document.getElementById('g3-l6').textContent='월 배당금('+(useKrw?'원화':'달러')+')';document.getElementById('g3-r1').textContent=(useKrw?f(Math.round(an*r))+'원/년':'$'+fd(an)+'/년');document.getElementById('g3-r2').textContent=(useKrw?f(Math.round(ag*r))+'원/년':'$'+fd(ag)+'/년');document.getElementById('g3-r3').textContent=pu?(useKrw?f(Math.round(pu*r))+'원':'$'+fd(pu)):'—';document.getElementById('g3-r4').textContent=pk?f(Math.round(pk))+'원':'—';document.getElementById('g3-r5').textContent=sh?f(sh)+'주':'—';document.getElementById('g3-r6').textContent=(useKrw?f(Math.round(t*(1-tx)*r))+'원/월':'$'+fd(t*(1-tx))+'/월');document.getElementById('g3-note').textContent='입력 '+y+'%('+freqLabel(freq)+') → 연 '+d.y.toFixed(2)+'% · 월 '+d.m.toFixed(2)+'% · 환율 '+f(r)+'원'+(tx>0?' · 세후':'');document.getElementById('goal3-result').style.display='block';drawGoalChart();}
+function calcGoal4(){var a=gv('g4-amount'),y=gv('g4-yield'),p=gv('g4-price'),txOn=document.getElementById('g4-tax-toggle').checked,tx=txOn?0.15:0,r=gv('g4-rate')||lastRate,useKrw=document.getElementById('g4-krw-toggle').checked;if(!a||!y){document.getElementById('goal4-result').style.display='none';drawGoalChart();return;}var freq=GYF['g4'],ay=toAnnual(y,freq),sh=p>0?Math.floor(a/p):0,ag=a*(ay/100),an=ag*(1-tx),mn=an/12,mk=mn*r,ey=a>0?(an/a*100):0;var d=annualToDisp(ay);document.getElementById('g4-l2').textContent='월 배당금('+(useKrw?'원화':'달러')+', 세후)';document.getElementById('g4-r1').textContent=sh?f(sh)+'주':'—';document.getElementById('g4-r2').textContent=useKrw?f(Math.round(mn*r))+'원/월':'$'+fd(mn)+'/월';document.getElementById('g4-r3').textContent=f(Math.round(mk))+'원/월';document.getElementById('g4-r4').textContent=ey.toFixed(2)+'%';document.getElementById('g4-note').textContent='투자금 $'+fd(a)+' · 입력 '+y+'%('+freqLabel(freq)+') → 연 '+d.y.toFixed(2)+'% · 월 '+d.m.toFixed(2)+'%'+(tx>0?' · 세후':'');document.getElementById('goal4-result').style.display='block';drawGoalChart();}
+
+function drawGoalChart(){var lines=[],colors=['#2563EB','#60a5fa','#1D9E75','#34d399'],labels=['🇰🇷 국내(목표월배당)','🇰🇷 국내(투자금)','🇺🇸 미국(목표월배당)','🇺🇸 미국(투자금)'];var YRS=+document.getElementById('goal-sim-years').value||10;var g1t=gv('g-target'),g1y=toAnnual(gv('g-yield'),GYF['g']),g1tx=document.getElementById('g-tax-toggle').checked?0.154:0,g1p=gv('g-price')||50000;if(g1t&&g1y){var pr=g1t*12/(g1y/100)*(g1tx>0?1/(1-g1tx):1),pts=[],cur=pr;for(var i=0;i<=YRS;i++){var an=cur*(g1y/100)*(1-g1tx);pts.push(Math.round(an/12));cur+=g1p>0?Math.floor(an/g1p)*g1p:0;}lines.push({label:labels[0],pts:pts,color:colors[0]});}
+var g2a=gv('g2-amount'),g2y=toAnnual(gv('g2-yield'),GYF['g2']),g2tx=document.getElementById('g2-tax-toggle').checked?0.154:0,g2p=gv('g2-price')||50000;if(g2a&&g2y){var pts=[],cur=g2a;for(var i=0;i<=YRS;i++){var an=cur*(g2y/100)*(1-g2tx);pts.push(Math.round(an/12));cur+=g2p>0?Math.floor(an/g2p)*g2p:0;}lines.push({label:labels[1],pts:pts,color:colors[1]});}
+var g3t=gv('g3-target'),g3y=toAnnual(gv('g3-yield'),GYF['g3']),g3tx=document.getElementById('g3-tax-toggle').checked?0.15:0,g3p=gv('g3-price')||80,g3r=gv('g3-rate')||lastRate;if(g3t&&g3y){var pu=g3t*12/(g3y/100)*(g3tx>0?1/(1-g3tx):1),pts=[],cur=pu;for(var i=0;i<=YRS;i++){var an=cur*(g3y/100)*(1-g3tx);pts.push(Math.round(an/12*g3r));cur+=g3p>0?Math.floor(an/g3p)*g3p:0;}lines.push({label:labels[2],pts:pts,color:colors[2]});}
+var g4a=gv('g4-amount'),g4y=toAnnual(gv('g4-yield'),GYF['g4']),g4tx=document.getElementById('g4-tax-toggle').checked?0.15:0,g4p=gv('g4-price')||80,g4r=gv('g4-rate')||lastRate;if(g4a&&g4y){var pts=[],cur=g4a;for(var i=0;i<=YRS;i++){var an=cur*(g4y/100)*(1-g4tx);pts.push(Math.round(an/12*g4r));cur+=g4p>0?Math.floor(an/g4p)*g4p:0;}lines.push({label:labels[3],pts:pts,color:colors[3]});}
+var sec=document.getElementById('goal-chart-section');if(!lines.length){sec.style.display='none';return;}sec.style.display='block';
+var W=700,H=260,PL=80,PR=30,PT=20,PB=50,cw=W-PL-PR,ch=H-PT-PB;var allP=lines.reduce(function(a,l){return a.concat(l.pts);},[]);var maxV=Math.max.apply(null,allP)||1;var mag=Math.pow(10,Math.floor(Math.log10(maxV)));maxV=Math.ceil(maxV/mag)*mag;var ns='http://www.w3.org/2000/svg',svg=document.getElementById('goal-svg');while(svg.firstChild)svg.removeChild(svg.firstChild);svg.setAttribute('viewBox','0 0 '+W+' '+H);function px(i){return PL+cw*(i/YRS);}function py(v){return PT+ch*(1-v/maxV);}function fv(v){return v>=10000?Math.round(v/10000)+'만원':f(v)+'원';}
+var bg=document.createElementNS(ns,'rect');bg.setAttribute('x',PL);bg.setAttribute('y',PT);bg.setAttribute('width',cw);bg.setAttribute('height',ch);bg.setAttribute('fill','#fafafa');bg.setAttribute('stroke','#eee');svg.appendChild(bg);
+for(var g=0;g<=5;g++){var yy=py(maxV*g/5);var gl=document.createElementNS(ns,'line');gl.setAttribute('x1',PL);gl.setAttribute('x2',W-PR);gl.setAttribute('y1',yy);gl.setAttribute('y2',yy);gl.setAttribute('stroke',g===0?'#ddd':'#eee');gl.setAttribute('stroke-width','1');gl.setAttribute('stroke-dasharray',g>0&&g<5?'4,3':'');svg.appendChild(gl);var gt=document.createElementNS(ns,'text');gt.setAttribute('x',PL-8);gt.setAttribute('y',yy+4);gt.setAttribute('text-anchor','end');gt.setAttribute('font-size','10');gt.setAttribute('fill','#888');gt.textContent=fv(maxV*g/5);svg.appendChild(gt);}
+var gxStep=YRS<=10?1:YRS<=20?2:5;for(var xi=0;xi<=YRS;xi++){if(xi%gxStep!==0&&xi!==YRS)continue;var xx=px(xi);var xt=document.createElementNS(ns,'text');xt.setAttribute('x',xx);xt.setAttribute('y',H-PB+16);xt.setAttribute('text-anchor','middle');xt.setAttribute('font-size','9');xt.setAttribute('fill','#aaa');xt.textContent=xi+'년';svg.appendChild(xt);}
+lines.forEach(function(line){var d='';line.pts.forEach(function(v,i){d+=(i===0?'M':'L')+px(i).toFixed(1)+','+py(v).toFixed(1);});var path=document.createElementNS(ns,'path');path.setAttribute('d',d);path.setAttribute('fill','none');path.setAttribute('stroke',line.color);path.setAttribute('stroke-width','2.5');path.setAttribute('stroke-linejoin','round');path.setAttribute('stroke-linecap','round');svg.appendChild(path);
+line.pts.forEach(function(v,i){if(i===0)return;if(i%gxStep!==0&&i!==YRS)return;var cx2=px(i),cy2=py(v);var dc=document.createElementNS(ns,'circle');dc.setAttribute('cx',cx2.toFixed(1));dc.setAttribute('cy',cy2.toFixed(1));dc.setAttribute('r',i===YRS?'5':'3');dc.setAttribute('fill',line.color);svg.appendChild(dc);var lbl=v>=100000000?(Math.round(v/100000000*10)/10+'억'):v>=10000?(Math.round(v/10000)+'만'):(Math.round(v).toLocaleString());var dt=document.createElementNS(ns,'text');dt.setAttribute('x',cx2.toFixed(1));dt.setAttribute('y',(cy2-8).toFixed(1));dt.setAttribute('text-anchor','middle');dt.setAttribute('font-size',i===YRS?'11':'9');dt.setAttribute('font-weight','700');dt.setAttribute('fill',line.color);dt.textContent=lbl;svg.appendChild(dt);});});
+var leg=document.getElementById('chart-legend');leg.innerHTML='';lines.forEach(function(l){var sp=document.createElement('span');sp.style.cssText='display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:#444;background:#f4f4f4;padding:3px 10px;border-radius:12px;border:1px solid #eee';sp.innerHTML='<span style="display:inline-block;width:14px;height:3px;background:'+l.color+';border-radius:2px"></span>'+l.label;leg.appendChild(sp);});
+var ds=[];lines.forEach(function(l){ds.push(l.label+' → '+YRS+'년 후 '+fv(l.pts[l.pts.length-1])+'/월');});document.getElementById('chart-note').textContent='* 복리 재투자 '+YRS+'년 시뮬레이션 | '+ds.join(' · ');}
+
+// ===== 차트 함수들 =====
+
+// Canvas 라인 차트 (배당 계산기 - 국내/미국 복리 성장)
+function drawLineChart(canvasId, secId, legendId, data, labelFn) {
+  var sec = document.getElementById(secId);
+  var canvas = document.getElementById(canvasId);
+  if (!canvas || !data || !data.pts || !data.pts.length) { if(sec) sec.style.display='none'; return; }
+  sec.style.display = 'block';
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  var W = canvas.offsetWidth || 600, H = 180;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+  var PL=60,PR=16,PT=16,PB=40,cw=W-PL-PR,ch=H-PT-PB;
+  var pts = data.pts, yrs = pts.length - 1;
+  var maxV = Math.max.apply(null, pts) || 1;
+  var mag = Math.pow(10, Math.floor(Math.log10(maxV)));
+  maxV = Math.ceil(maxV / mag) * mag;
+  // bg
+  ctx.fillStyle = '#f9f9f9'; ctx.fillRect(0,0,W,H);
+  // grid
+  for (var g=0;g<=4;g++) {
+    var yy = PT + ch*(1-g/4);
+    ctx.beginPath(); ctx.moveTo(PL,yy); ctx.lineTo(W-PR,yy);
+    ctx.strokeStyle = g===0?'#ddd':'#eee'; ctx.lineWidth=1;
+    if(g>0) ctx.setLineDash([4,3]); else ctx.setLineDash([]);
+    ctx.stroke(); ctx.setLineDash([]);
+    var lv = maxV*g/4;
+    ctx.fillStyle='#999'; ctx.font='9px sans-serif'; ctx.textAlign='right';
+    ctx.fillText(lv>=100000000?(Math.round(lv/100000000)+'억'):lv>=10000?(Math.round(lv/10000)+'만'):(Math.round(lv).toLocaleString()), PL-4, yy+3);
+  }
+  // x축: 10년 이하 매년, 20년 이하 짝수년, 초과 5년 단위
+  var xStep = yrs<=10 ? 1 : yrs<=20 ? 2 : 5;
+  for (var i=0;i<=yrs;i++) {
+    if(i%xStep!==0&&i!==yrs) continue;
+    var xx = PL + cw*(i/yrs);
+    ctx.fillStyle='#bbb'; ctx.font='8px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(i+'년', xx, H-PB+13);
+  }
+  // gradient fill under line
+  var grad = ctx.createLinearGradient(0,PT,0,PT+ch);
+  grad.addColorStop(0, data.color+'33');
+  grad.addColorStop(1, data.color+'00');
+  ctx.beginPath();
+  pts.forEach(function(v,i){ var x=PL+cw*(i/yrs),y=PT+ch*(1-v/maxV); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  ctx.lineTo(PL+cw,PT+ch); ctx.lineTo(PL,PT+ch); ctx.closePath();
+  ctx.fillStyle=grad; ctx.fill();
+  // line
+  ctx.beginPath();
+  pts.forEach(function(v,i){ var x=PL+cw*(i/yrs),y=PT+ch*(1-v/maxV); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  ctx.strokeStyle=data.color; ctx.lineWidth=2.5; ctx.lineJoin='round'; ctx.lineCap='round';
+  ctx.setLineDash([]); ctx.stroke();
+  // 점 + 값 레이블 (xStep 기준, i=0 제외)
+  pts.forEach(function(v,i){
+    if(i===0) return;
+    if(i%xStep!==0&&i!==yrs) return;
+    var x=PL+cw*(i/yrs), y=PT+ch*(1-v/maxV);
+    // 점
+    ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fillStyle=data.color; ctx.fill();
+    // 값 레이블
+    var lbl=v>=100000000?(Math.round(v/100000000*10)/10+'억'):v>=10000?(Math.round(v/10000)+'만'):(Math.round(v).toLocaleString());
+    ctx.fillStyle=data.color; ctx.font='bold 8px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(lbl, x, y-8);
+  });
+  // 끝점 강조
+  var lastV=pts[pts.length-1];
+  var ex=PL+cw, ey=PT+ch*(1-lastV/maxV);
+  ctx.beginPath(); ctx.arc(ex,ey,5,0,Math.PI*2); ctx.fillStyle=data.color; ctx.fill();
+  ctx.fillStyle=data.color; ctx.font='bold 10px sans-serif'; ctx.textAlign='right';
+  ctx.fillText(labelFn(lastV), ex-2, ey-11);
+  // legend
+  var leg=document.getElementById(legendId); if(!leg) return;
+  leg.innerHTML='<span class="div-legend-item"><span class="div-legend-dot" style="background:'+data.color+'"></span>'+data.label+'<span style="margin-left:4px;font-weight:700;color:'+data.color+'">'+labelFn(lastV)+'</span></span>';
+}
+
+// 누적 배당 바 차트 (포트폴리오 합산)
+function drawCumBarChart(krPts, usPts) {
+  var sec = document.getElementById('cum-bar-section');
+  var canvas = document.getElementById('cum-bar-canvas');
+  if (!canvas || (!krPts.length && !usPts.length)) { if(sec) sec.style.display='none'; return; }
+  var len = Math.max(krPts.length, usPts.length);
+  if (len < 2) { sec.style.display='none'; return; }
+  sec.style.display = 'block';
+  // show every N years
+  var step = len <= 11 ? 1 : len <= 21 ? 2 : 5;
+  var indices = [];
+  for (var i=0;i<len;i+=step) indices.push(i);
+  if (indices[indices.length-1] !== len-1) indices.push(len-1);
+  var dpr = window.devicePixelRatio || 1;
+  var W = canvas.offsetWidth || 600, H = 200;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  var ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr);
+  var PL=60,PR=16,PT=16,PB=40,cw=W-PL-PR,ch=H-PT-PB;
+  var maxV = 0;
+  indices.forEach(function(i){ maxV = Math.max(maxV, (krPts[i]||0)+(usPts[i]||0)); });
+  if(!maxV) { sec.style.display='none'; return; }
+  var mag2 = Math.pow(10, Math.floor(Math.log10(maxV)));
+  maxV = Math.ceil(maxV/mag2)*mag2;
+  ctx.fillStyle='#f9f9f9'; ctx.fillRect(0,0,W,H);
+  // y grid
+  for(var g=0;g<=4;g++){
+    var yy=PT+ch*(1-g/4);
+    ctx.beginPath(); ctx.moveTo(PL,yy); ctx.lineTo(W-PR,yy);
+    ctx.strokeStyle=g===0?'#ddd':'#eee'; ctx.lineWidth=1;
+    if(g>0) ctx.setLineDash([4,3]); else ctx.setLineDash([]);
+    ctx.stroke(); ctx.setLineDash([]);
+    var lv=maxV*g/4;
+    ctx.fillStyle='#999'; ctx.font='9px sans-serif'; ctx.textAlign='right';
+    ctx.fillText(lv>=100000000?(Math.round(lv/100000000)+'억'):lv>=10000?(Math.round(lv/10000)+'만'):(Math.round(lv).toLocaleString()), PL-4, yy+3);
+  }
+  var n = indices.length, bw = Math.max(6, Math.min(40, cw/n*0.65)), gap = cw/n;
+  indices.forEach(function(idx, i){
+    var x = PL + gap*(i+0.5) - bw/2;
+    var kv = krPts[idx]||0, uv = usPts[idx]||0, tot=kv+uv;
+    if(!tot) return;
+    var yBase=PT+ch;
+    // KR bar
+    if(kv>0){ var kh=ch*(kv/maxV); ctx.fillStyle='#2563EB'; ctx.fillRect(x,yBase-kh,bw,kh); }
+    // US bar stacked
+    if(uv>0){ var uh=ch*(uv/maxV),kyBase=kv>0?(yBase-ch*(kv/maxV)):yBase; ctx.fillStyle='#1D9E75'; ctx.fillRect(x,kyBase-uh,bw,uh); }
+    // total label on top
+    ctx.fillStyle='#333'; ctx.font='bold 8px sans-serif'; ctx.textAlign='center';
+    var totH=ch*(tot/maxV);
+    if(bw>12) ctx.fillText(tot>=100000000?(Math.round(tot/100000000)+'억'):tot>=10000?(Math.round(tot/10000)+'만'):(Math.round(tot).toLocaleString()), x+bw/2, yBase-totH-3);
+    // x label
+    ctx.fillStyle='#999'; ctx.font='9px sans-serif';
+    ctx.fillText(idx+'년', x+bw/2, H-PB+14);
+  });
+  // legend
+  var leg = document.createElement('div');
+  leg.style.cssText='display:flex;gap:12px;margin-top:8px;flex-wrap:wrap';
+  var hasKr=krPts.some(function(v){return v>0;}), hasUs=usPts.some(function(v){return v>0;});
+  if(hasKr) leg.innerHTML+='<span style="font-size:11px;display:inline-flex;align-items:center;gap:4px;color:#555"><span style="display:inline-block;width:10px;height:10px;background:#2563EB;border-radius:2px"></span>🇰🇷 국내 누적배당</span>';
+  if(hasUs) leg.innerHTML+='<span style="font-size:11px;display:inline-flex;align-items:center;gap:4px;color:#555"><span style="display:inline-block;width:10px;height:10px;background:#1D9E75;border-radius:2px"></span>🇺🇸 미국 누적배당</span>';
+  var existing = sec.querySelector('.cum-bar-legend');
+  if(existing) existing.remove();
+  leg.className='cum-bar-legend'; sec.appendChild(leg);
+}
+
+// 세금 도넛 차트
+function drawTaxDonut(krWht, usWht, healthAmt, netAmt) {
+  var sec = document.getElementById('tax-chart-section');
+  var canvas = document.getElementById('tax-donut-canvas');
+  var leg = document.getElementById('tax-donut-legend');
+  if (!canvas || !leg) return;
+  var total = krWht + usWht + healthAmt + netAmt;
+  if (!total || total <= 0) { sec.style.display='none'; return; }
+  sec.style.display = 'block';
+  var dpr = window.devicePixelRatio || 1;
+  canvas.width = 160*dpr; canvas.height = 160*dpr;
+  canvas.style.width='160px'; canvas.style.height='160px';
+  var ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr);
+  var cx=80,cy=80,r=65,ir=42;
+  var items = [
+    {label:'🇰🇷 국내 원천징수 (15.4%)', val:krWht, color:'#D85A30'},
+    {label:'🇺🇸 미국 원천징수 (15%)', val:usWht, color:'#f97316'},
+    {label:'🏥 건강보험료 (추정)', val:healthAmt, color:'#7C3AED'},
+    {label:'✅ 세후 순수령액', val:netAmt, color:'#1D9E75'}
+  ].filter(function(it){return it.val>0;});
+  var sa=-Math.PI/2;
+  items.forEach(function(it){
+    var ang=(it.val/total)*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,sa+ang); ctx.closePath();
+    ctx.fillStyle=it.color; ctx.fill();
+    // 도넛 띠 중간에 % 표시 (조각이 충분히 클 때만)
+    var pct=it.val/total;
+    if(pct>0.06){
+      var mid=sa+ang/2, mr=(ir+r)/2;
+      var tx=cx+mr*Math.cos(mid), ty=cy+mr*Math.sin(mid);
+      ctx.fillStyle='rgba(255,255,255,0.95)';
+      ctx.font='bold '+(pct>0.15?'10':'8')+'px sans-serif';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText((pct*100).toFixed(1)+'%', tx, ty);
+      ctx.textBaseline='alphabetic';
+    }
+    sa+=ang;
+  });
+  ctx.beginPath(); ctx.arc(cx,cy,ir,0,Math.PI*2); ctx.fillStyle='#f9f9f9'; ctx.fill();
+  ctx.fillStyle='#888'; ctx.font='9px sans-serif'; ctx.textAlign='center'; ctx.fillText('총 배당',cx,cy-5);
+  ctx.fillStyle='#111'; ctx.font='bold 11px sans-serif'; ctx.fillText(total>=100000000?(Math.round(total/100000000)+'억'):(Math.round(total/10000)+'만원'), cx, cy+9);
+  leg.innerHTML='';
+  items.forEach(function(it){
+    var pct=(it.val/total*100).toFixed(1);
+    leg.innerHTML+='<div class="tax-donut-legend-item"><div class="tax-donut-dot" style="background:'+it.color+'"></div><span>'+it.label+'</span><span class="tax-donut-pct">'+pct+'%</span></div><div style="font-size:11px;color:#555;margin-left:20px;margin-top:-4px">'+Math.round(it.val).toLocaleString('ko-KR')+'원</div>';
+  });
+}
+
+// KR 복리 시뮬 데이터 추출 (차트용)
+function getKRSimPts(sh, dv, pr, co, yr, TX, ppy, mo, gr, ug) {
+  var pts=[sh*dv*ppy*(1-TX)/12], cs=sh, cp=pr, cd=dv, cu=0;
+  var sfq='y';
+  for(var y=1;y<=Math.min(yr,30);y++){
+    if(ug&&y>1){cp*=(1+gr/100);cd*=(1+gr/100);}
+    var an=cs*cd*ppy*(1-TX),ya=mo*12,as2=cp>0?Math.floor(ya/cp):0,ds=cp>0?Math.floor(an/cp):0;
+    cu+=an; cs+=ds+as2;
+    pts.push(Math.round(an/12));
+  }
+  return pts;
+}
+function getUSSimPts(sh, dv, pr, co, rt, yr, et, ppy, mo, gr, ug) {
+  var pts=[sh*dv*ppy*(1-et)/12*rt], cs=sh, cp=pr, cd=dv, cu=0;
+  for(var y=1;y<=Math.min(yr,30);y++){
+    if(ug&&y>1){cp*=(1+gr/100);cd*=(1+gr/100);}
+    var au=cs*cd*ppy*(1-et),ya=mo*12,as2=cp>0?Math.floor(ya/cp):0,ds=cp>0?Math.floor(au/cp):0;
+    cu+=au; cs+=ds+as2;
+    pts.push(Math.round(au/12*rt));
+  }
+  return pts;
+}
+
+// 저장/불러오기
+function debounceSave(){clearTimeout(debounceTimer);debounceTimer=setTimeout(saveAll,1000);}
+function saveAll(){try{var d={ks:document.getElementById('ks').value,kd:document.getElementById('kd').value,kp:document.getElementById('kp').value,kc:document.getElementById('kc').value,ky:document.getElementById('ky').value,km:document.getElementById('km').value,ka:document.getElementById('ka').checked,kt:document.getElementById('kt').checked,kfreq:S.k.freq,ksfq:S.k.sfq,kug:S.k.ug,kg:S.k.g,us:document.getElementById('us').value,ud:document.getElementById('ud').value,up:document.getElementById('up').value,uc:document.getElementById('uc').value,uy:document.getElementById('uy').value,um:document.getElementById('um').value,ua:document.getElementById('ua').checked,utt:document.getElementById('utt').checked,ufreq:S.u.freq,usfq:S.u.sfq,uug:S.u.ug,ug2:S.u.g,ucur:S.u.cur};localStorage.setItem(SAVE_KEY,JSON.stringify(d));var t=document.getElementById('save-toast');t.textContent='💾 입력값이 저장됐어요';t.classList.add('show');clearTimeout(saveTimer);saveTimer=setTimeout(function(){t.classList.remove('show');},2000);}catch(e){}}
+function loadAll(){try{var raw=localStorage.getItem(SAVE_KEY);if(!raw)return;var d=JSON.parse(raw);['ks','kd','kp','kc','ky','km','us','ud','up','uc','uy','um'].forEach(function(id){if(d[id])document.getElementById(id).value=d[id];});if(d.ka){document.getElementById('ka').checked=true;document.getElementById('ka-b').style.display='block';}if(d.kt)document.getElementById('kt').checked=true;if(d.ua){document.getElementById('ua').checked=true;document.getElementById('ua-b').style.display='block';}if(d.utt!==undefined)document.getElementById('utt').checked=d.utt;if(d.kfreq){S.k.freq=d.kfreq;document.querySelectorAll('#k-freq .fq').forEach(function(b){b.classList.remove('active');});var km={w:0,m:1,q:2,y:3};if(km[d.kfreq]!==undefined)document.querySelectorAll('#k-freq .fq')[km[d.kfreq]].classList.add('active');document.getElementById('kd-lbl').textContent=FM[d.kfreq].label+' 배당금 (원)';}if(d.ksfq){S.k.sfq=d.ksfq;document.querySelectorAll('#k-sfq .sfq').forEach(function(b){b.classList.remove('active');});var ks={w:0,m:1,y:2};if(ks[d.ksfq]!==undefined)document.querySelectorAll('#k-sfq .sfq')[ks[d.ksfq]].classList.add('active');}if(d.kug){S.k.ug=true;document.getElementById('kg').checked=true;document.getElementById('kg-b').style.display='block';}if(d.ufreq){S.u.freq=d.ufreq;document.querySelectorAll('#u-freq .fq').forEach(function(b){b.classList.remove('active');});var um2={w:0,m:1,q:2,y:3};if(um2[d.ufreq]!==undefined)document.querySelectorAll('#u-freq .fq')[um2[d.ufreq]].classList.add('active');document.getElementById('ud-lbl').textContent=FM[d.ufreq].label+' 배당금 ($)';}if(d.usfq){S.u.sfq=d.usfq;document.querySelectorAll('#u-sfq .sfq').forEach(function(b){b.classList.remove('active');});var us2={w:0,m:1,y:2};if(us2[d.usfq]!==undefined)document.querySelectorAll('#u-sfq .sfq')[us2[d.usfq]].classList.add('active');}if(d.uug){S.u.ug=true;document.getElementById('ug').checked=true;document.getElementById('ug-b').style.display='block';}if(d.ucur){S.u.cur=d.ucur;document.getElementById('cur-usd').classList.toggle('active',d.ucur==='usd');document.getElementById('cur-krw').classList.toggle('active',d.ucur==='krw');}cKR();cUS();}catch(e){}}
+
+// PDF - 새창 방식
+function doPDF(){
+  var date=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+  var w=window.open('','_blank');
+  var krRows=document.getElementById('krt').innerHTML;
+  var usRows=document.getElementById('urt').innerHTML;
+  var sumHtml=document.getElementById('sbody').innerHTML;
+  w.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>배당금 계산기 결과</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,sans-serif;font-size:12px;color:#111;padding:20px;max-width:1060px;margin:0 auto}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.sec{border:1px solid #ddd;border-radius:8px;padding:14px}.stitle{font-size:13px;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee}.irow{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px}.il{font-size:10px;color:#666;margin-bottom:2px}.iv{font-size:12px;font-weight:600;background:#f5f5f5;padding:3px 7px;border-radius:4px}.rg{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}.mc{background:#f5f5f5;border-radius:6px;padding:7px 9px}.ml{font-size:10px;color:#666;margin-bottom:2px}.mv{font-size:12px;font-weight:600}.mv.g{color:#1D9E75}.mv.r{color:#D85A30}.mv.b{color:#2563EB}table{width:100%;border-collapse:collapse;font-size:10px;margin-top:8px}th{text-align:left;font-weight:600;color:#444;padding:4px;border-bottom:1px solid #ddd;background:#f9f9f9}td{padding:4px;border-bottom:1px solid #eee}td:last-child,th:last-child{text-align:right}.sum{margin-top:16px;border:1px solid #ddd;border-radius:8px;padding:14px}.sumg{display:grid;grid-template-columns:repeat(4,1fr)}.sc{padding:10px 14px;border-right:1px solid #eee}.sc:last-child{border-right:none}.sl{font-size:10px;color:#666;margin-bottom:3px}.sv{font-size:14px;font-weight:700}.sv.g{color:#1D9E75}.sv.b{color:#2563EB}.ss{font-size:10px;color:#888}h1{font-size:16px;font-weight:700;margin-bottom:4px}.dt{font-size:11px;color:#666;margin-bottom:16px}.pbtn{display:block;margin:16px auto;padding:10px 30px;background:#111;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}@media print{.pbtn{display:none}}</style></head><body>');
+  w.document.write('<h1>📊 주식 배당금 계산기 — 시뮬레이션 결과</h1><div class="dt">출력일: '+date+'</div>');
+  w.document.write('<button class="pbtn" onclick="window.print()">🖨️ PDF / 인쇄</button>');
+  w.document.write('<div class="grid">');
+  w.document.write('<div class="sec"><div class="stitle">🇰🇷 국내 주식</div><div class="irow"><div><div class="il">보유주식</div><div class="iv">'+document.getElementById('ks').value+'주</div></div><div><div class="il">현재주가</div><div class="iv">'+document.getElementById('kp').value+'원</div></div><div><div class="il">평균매수가</div><div class="iv">'+document.getElementById('kc').value+'원</div></div><div><div class="il">배당금/주기</div><div class="iv">'+document.getElementById('kd').value+'원 / '+FM[S.k.freq].label+'배당</div></div><div><div class="il">재투자기간</div><div class="iv">'+document.getElementById('ky').value+'년</div></div></div><div class="rg"><div class="mc"><div class="ml">연간배당(세전)</div><div class="mv">'+document.getElementById('kr1').textContent+'</div></div><div class="mc"><div class="ml">배당소득세</div><div class="mv r">'+document.getElementById('kr2').textContent+'</div></div><div class="mc"><div class="ml">실수령(연)</div><div class="mv g">'+document.getElementById('kr3').textContent+'</div></div><div class="mc"><div class="ml">월 환산</div><div class="mv g">'+document.getElementById('kr3m').textContent+'</div></div><div class="mc"><div class="ml">현재가배당률</div><div class="mv">'+document.getElementById('kr4').textContent+'</div></div><div class="mc"><div class="ml">매수가대비배당률</div><div class="mv b">'+document.getElementById('kr5').textContent+'</div></div><div class="mc"><div class="ml">투자원금</div><div class="mv">'+document.getElementById('kr6').textContent+'</div></div><div class="mc"><div class="ml">현재 평가금액</div><div class="mv b">'+document.getElementById('kr7').textContent+'</div></div></div><table><thead>'+document.getElementById('k-thead').innerHTML+'</thead><tbody>'+krRows+'</tbody></table></div>');
+  w.document.write('<div class="sec"><div class="stitle">🇺🇸 미국 주식</div><div class="irow"><div><div class="il">보유주식</div><div class="iv">'+document.getElementById('us').value+'주</div></div><div><div class="il">현재주가</div><div class="iv">$'+document.getElementById('up').value+'</div></div><div><div class="il">평균매수가</div><div class="iv">$'+document.getElementById('uc').value+'</div></div><div><div class="il">배당금/주기</div><div class="iv">$'+document.getElementById('ud').value+' / '+FM[S.u.freq].label+'배당</div></div><div><div class="il">재투자기간</div><div class="iv">'+document.getElementById('uy').value+'년</div></div><div><div class="il">환율</div><div class="iv">'+document.getElementById('ur').value+'원</div></div></div><div class="rg"><div class="mc"><div class="ml">연간배당(세전)</div><div class="mv">'+document.getElementById('ur1').textContent+'</div></div><div class="mc"><div class="ml">원천징수세</div><div class="mv r">'+document.getElementById('ur2').textContent+'</div></div><div class="mc"><div class="ml">세후배당(연)</div><div class="mv g">'+document.getElementById('ur3').textContent+'</div></div><div class="mc"><div class="ml">월 환산</div><div class="mv g">'+document.getElementById('ur3m').textContent+'</div></div><div class="mc"><div class="ml">현재가배당률</div><div class="mv">'+document.getElementById('ur4').textContent+'</div></div><div class="mc"><div class="ml">매수가대비배당률</div><div class="mv b">'+document.getElementById('ur5').textContent+'</div></div><div class="mc"><div class="ml">투자원금</div><div class="mv">'+document.getElementById('ur6').textContent+'</div></div><div class="mc"><div class="ml">현재 평가금액</div><div class="mv b">'+document.getElementById('ur7').textContent+'</div></div></div><table><thead>'+document.getElementById('u-thead').innerHTML+'</thead><tbody>'+usRows+'</tbody></table></div>');
+  // 차트 이미지 캡처
+  var krChart = canvasToDataURL('kr-line-canvas');
+  var usChart = canvasToDataURL('us-line-canvas');
+  // 포트폴리오 합산 차트 캡처
+  var pieChart = svgToDataURL('pie-svg');
+  var cumBarChart = canvasToDataURL('cum-bar-canvas');
+  var pieLegendsHtml = (function(){
+    var el = document.getElementById('pie-legend');
+    return el ? el.innerHTML : '';
+  })();
+  var barGroupHtml = (function(){
+    var el = document.getElementById('bar-group');
+    return el ? el.innerHTML : '';
+  })();
+  w.document.write('</div><div class="sum"><div class="stitle">📊 포트폴리오 합산</div>'+sumHtml+'</div>');
+  // 합산 차트 섹션
+  var chartWrap = document.getElementById('chart-wrap');
+  if(chartWrap && chartWrap.style.display !== 'none'){
+    w.document.write('<div style="margin-top:14px;border:1px solid #ddd;border-radius:8px;padding:14px">');
+    w.document.write('<div style="font-size:13px;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee">📈 연간 배당금 &amp; 원금 비중</div>');
+    w.document.write('<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center">');
+    // 바 차트 (HTML)
+    w.document.write('<div><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">📈 연간 배당금</div><div style="font-size:11px">'+barGroupHtml+'</div></div>');
+    // 파이차트 + 레전드
+    w.document.write('<div><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">🥧 원금 비중</div><div style="display:flex;align-items:center;gap:16px">');
+    if(pieChart) w.document.write(imgTag(pieChart,'120px'));
+    if(pieLegendsHtml) w.document.write('<div style="font-size:11px;display:flex;flex-direction:column;gap:6px">'+pieLegendsHtml+'</div>');
+    w.document.write('</div></div>');
+    w.document.write('</div>');
+    w.document.write('</div>');
+  }
+  // 누적 배당 바 차트
+  var cumBarSec = document.getElementById('cum-bar-section');
+  if(cumBarChart && cumBarSec && cumBarSec.style.display !== 'none'){
+    w.document.write('<div style="margin-top:10px;border:1px solid #ddd;border-radius:8px;padding:14px">');
+    w.document.write('<div style="font-size:13px;font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee">📊 연도별 누적 배당금 바 차트</div>');
+    w.document.write(imgTag(cumBarChart,'100%'));
+    w.document.write('</div>');
+  }
+  if(krChart||usChart){
+    w.document.write('<div style="margin-top:16px;border:1px solid #ddd;border-radius:8px;padding:14px"><div style="font-size:13px;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee">📈 복리 성장 차트</div>');
+    if(krChart) w.document.write('<div style="font-size:11px;color:#555;font-weight:600;margin-bottom:4px">🇰🇷 국내 주식 복리 성장</div>'+imgTag(krChart,'100%'));
+    if(usChart) w.document.write('<div style="font-size:11px;color:#555;font-weight:600;margin-bottom:4px;margin-top:8px">🇺🇸 미국 주식 복리 성장</div>'+imgTag(usChart,'100%'));
+    w.document.write('</div>');
+  }
+  w.document.write('<button class="pbtn" onclick="window.print()">🖨️ PDF / 인쇄</button></body></html>');
+  w.document.close();
+}
+
+function goalPDF(){
+  var date=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+  function gi(id){var e=document.getElementById(id);return e?e.value:'';}
+  function gt(id){var e=document.getElementById(id);return e?e.textContent:'—';}
+  var w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>목표 역산 결과</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,sans-serif;font-size:12px;color:#111;padding:20px;max-width:1060px;margin:0 auto}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}.card{border-radius:8px;padding:14px;border:1px solid #e4e4e4}.card.c1{border-left:4px solid #2563EB}.card.c2{border-left:4px solid #60a5fa}.card.c3{border-left:4px solid #1D9E75}.card.c4{border-left:4px solid #34d399}.ct{font-size:12px;font-weight:700;margin-bottom:10px}.ct.c1{color:#2563EB}.ct.c2{color:#1e6fb5}.ct.c3{color:#1D9E75}.ct.c4{color:#0f7a58}.ir{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px}.il{font-size:10px;color:#666;margin-bottom:2px}.iv{font-size:11px;font-weight:600;background:#f5f5f5;padding:3px 7px;border-radius:4px}.rh{background:#111;color:#fff;padding:7px 10px;border-radius:5px 5px 0 0;font-size:11px;font-weight:600;margin-top:8px}.rg{display:grid;grid-template-columns:1fr 1fr;border:1px solid #eee;border-top:none;border-radius:0 0 5px 5px;overflow:hidden}.rc{padding:8px 10px;border-right:1px solid #eee;border-bottom:1px solid #eee}.rc:nth-child(even){border-right:none}.rl{font-size:10px;color:#666;margin-bottom:2px}.rv{font-size:12px;font-weight:700}.rv.g{color:#1D9E75}.rv.b{color:#2563EB}.rv.p{color:#7C3AED}.rn{font-size:10px;color:#888;padding:5px 10px;background:#fafafa;border:1px solid #eee;border-top:none;border-radius:0 0 5px 5px}.stit{font-size:13px;font-weight:700;color:#555;margin:16px 0 8px;padding-bottom:5px;border-bottom:1.5px solid #eee}h1{font-size:16px;font-weight:700;margin-bottom:4px}.dt{font-size:11px;color:#666;margin-bottom:16px}.pbtn{display:block;margin:16px auto;padding:10px 30px;background:#111;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}@media print{.pbtn{display:none}}</style></head><body>');
+  w.document.write('<h1>🎯 목표 역산 — 시뮬레이션 결과</h1><div class="dt">출력일: '+date+'</div>');
+  w.document.write('<button class="pbtn" onclick="window.print()">🖨️ PDF / 인쇄</button>');
+  w.document.write('<div class="stit">🇰🇷 국내 주식</div><div class="grid">');
+  w.document.write('<div class="card c1"><div class="ct c1">🎯 목표 월 배당금 → 필요 원금</div><div class="ir"><div><div class="il">목표 월 배당금</div><div class="iv">'+(gi('g-target')||'—')+'원</div></div><div><div class="il">배당수익률</div><div class="iv">'+(gi('g-yield')||'—')+'%</div></div><div><div class="il">현재 주가</div><div class="iv">'+(gi('g-price')||'—')+'원</div></div></div><div class="rh">📌 역산 결과</div><div class="rg"><div class="rc"><div class="rl">필요 연간 배당(세후)</div><div class="rv g">'+gt('g-r1')+'</div></div><div class="rc"><div class="rl">세전 필요 배당금</div><div class="rv">'+gt('g-r2')+'</div></div><div class="rc"><div class="rl">필요 투자 원금</div><div class="rv b">'+gt('g-r3')+'</div></div><div class="rc"><div class="rl">필요 보유 주식 수</div><div class="rv p">'+gt('g-r4')+'</div></div></div><div class="rn">'+gt('g-note')+'</div></div>');
+  w.document.write('<div class="card c2"><div class="ct c2">💰 투자금 → 예상 월 배당금</div><div class="ir"><div><div class="il">투자 가능 금액</div><div class="iv">'+(gi('g2-amount')||'—')+'원</div></div><div><div class="il">배당수익률</div><div class="iv">'+(gi('g2-yield')||'—')+'%</div></div><div><div class="il">현재 주가</div><div class="iv">'+(gi('g2-price')||'—')+'원</div></div></div><div class="rh">📌 역산 결과</div><div class="rg"><div class="rc"><div class="rl">살 수 있는 주식 수</div><div class="rv p">'+gt('g2-r1')+'</div></div><div class="rc"><div class="rl">연간 배당금(세후)</div><div class="rv g">'+gt('g2-r2')+'</div></div><div class="rc"><div class="rl">월 배당금(세후)</div><div class="rv g">'+gt('g2-r3')+'</div></div><div class="rc"><div class="rl">실효 배당수익률</div><div class="rv b">'+gt('g2-r4')+'</div></div></div><div class="rn">'+gt('g2-note')+'</div></div>');
+  w.document.write('</div><div class="stit">🇺🇸 미국 주식</div><div class="grid">');
+  w.document.write('<div class="card c3"><div class="ct c3">🎯 목표 월 배당금 → 필요 원금</div><div class="ir"><div><div class="il">목표 월 배당금</div><div class="iv">$'+(gi('g3-target')||'—')+'</div></div><div><div class="il">배당수익률</div><div class="iv">'+(gi('g3-yield')||'—')+'%</div></div><div><div class="il">현재 주가</div><div class="iv">$'+(gi('g3-price')||'—')+'</div></div><div><div class="il">환율</div><div class="iv">'+(gi('g3-rate')||'—')+'원</div></div></div><div class="rh">📌 역산 결과</div><div class="rg"><div class="rc"><div class="rl">필요 연간 배당(세후)</div><div class="rv g">'+gt('g3-r1')+'</div></div><div class="rc"><div class="rl">세전 필요 배당금</div><div class="rv">'+gt('g3-r2')+'</div></div><div class="rc"><div class="rl">필요 투자 원금($)</div><div class="rv b">'+gt('g3-r3')+'</div></div><div class="rc"><div class="rl">원화 환산 원금</div><div class="rv b">'+gt('g3-r4')+'</div></div><div class="rc"><div class="rl">필요 보유 주식 수</div><div class="rv p">'+gt('g3-r5')+'</div></div><div class="rc"><div class="rl">월 배당금(원화)</div><div class="rv g">'+gt('g3-r6')+'</div></div></div><div class="rn">'+gt('g3-note')+'</div></div>');
+  w.document.write('<div class="card c4"><div class="ct c4">💰 투자금 → 예상 월 배당금</div><div class="ir"><div><div class="il">투자 가능 금액</div><div class="iv">$'+(gi('g4-amount')||'—')+'</div></div><div><div class="il">배당수익률</div><div class="iv">'+(gi('g4-yield')||'—')+'%</div></div><div><div class="il">현재 주가</div><div class="iv">$'+(gi('g4-price')||'—')+'</div></div><div><div class="il">환율</div><div class="iv">'+(gi('g4-rate')||'—')+'원</div></div></div><div class="rh">📌 역산 결과</div><div class="rg"><div class="rc"><div class="rl">살 수 있는 주식 수</div><div class="rv p">'+gt('g4-r1')+'</div></div><div class="rc"><div class="rl">월 배당금($,세후)</div><div class="rv g">'+gt('g4-r2')+'</div></div><div class="rc"><div class="rl">월 배당금(원화)</div><div class="rv g">'+gt('g4-r3')+'</div></div><div class="rc"><div class="rl">실효 배당수익률</div><div class="rv b">'+gt('g4-r4')+'</div></div></div><div class="rn">'+gt('g4-note')+'</div></div>');
+  // 목표역산 SVG 차트 캡처
+  var goalChart = svgToDataURL('goal-svg');
+  if(goalChart){
+    w.document.write('<div style="margin-top:14px;border:1px solid #ddd;border-radius:8px;padding:14px"><div style="font-size:13px;font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee">📈 복리 성장 시뮬레이션 차트</div>'+imgTag(goalChart,'100%')+'</div>');
+  }
+  w.document.write('</div><button class="pbtn" onclick="window.print()">🖨️ PDF / 인쇄</button></body></html>');
+  w.document.close();
+}
+
+// 콤마 입력
+document.querySelectorAll('input[inputmode="decimal"]').forEach(function(el){el.addEventListener('input',function(){ac(this);});});
+
+// 환율 로드
+(async function(){
+  try{
+    var res=await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    var data=await res.json();
+    var rate=data.rates['KRW'];
+    if(rate){
+      lastRate=Math.round(rate);
+      sv('ur',lastRate);
+      document.getElementById('rdsp').textContent=lastRate.toLocaleString('ko-KR')+'원';
+      document.getElementById('rbadge').textContent='실시간';
+      document.getElementById('rbadge').className='rbadge live';
+      var now=new Date();
+      var timeStr=now.getHours()+':'+String(now.getMinutes()).padStart(2,'0')+' 기준';
+      document.getElementById('rtime').textContent=timeStr;
+      // 목표역산 환율
+      sv('g3-rate',lastRate);sv('g4-rate',lastRate);
+      ['g3','g4'].forEach(function(p){
+        var box=document.getElementById(p+'-rate-box');
+        var badge=document.getElementById(p+'-rbadge');
+        var disp=document.getElementById(p+'-rdsp');
+        var time=document.getElementById(p+'-rtime');
+        if(box)box.style.display='flex';
+        if(badge){badge.textContent='실시간';badge.className='rbadge live';}
+        if(disp)disp.textContent=lastRate.toLocaleString('ko-KR')+'원';
+        if(time)time.textContent=timeStr;
+      });
+      cUS();syncTaxRate(lastRate);
+    }
+  }catch(e){
+    document.getElementById('rbadge').textContent='오류';
+    document.getElementById('rbadge').className='rbadge fb';
+    document.getElementById('rtime').textContent='직접 입력해주세요';
+  }
+})();
+
+// ===== 세금 계산기 =====
+var taxType='근로';
+var TAX_KR_MODE='full';
+function setTaxKRMode(mode){
+  TAX_KR_MODE=mode;
+  ['full','ratio','amt'].forEach(function(m){
+    var b=document.getElementById('tax-mode-'+m);if(b)b.classList.toggle('active',m===mode);
+  });
+  document.getElementById('tax-mode-ratio-wrap').style.display=(mode==='ratio')?'block':'none';
+  document.getElementById('tax-mode-amt-wrap').style.display=(mode==='amt')?'block':'none';
+  calcTax();
+}
+function getKRDivWht(krDiv){
+  // krDiv: 연간 배당금(원)
+  if(TAX_KR_MODE==='full') return krDiv*0.154;
+  if(TAX_KR_MODE==='ratio'){
+    var r=parseFloat((document.getElementById('tax-kr-ratio').value||'').replace(/,/g,''))||2;
+    return krDiv*(r/100)*0.154;
+  }
+  if(TAX_KR_MODE==='amt'){
+    var a=(parseFloat((document.getElementById('tax-kr-taxamt').value||'').replace(/,/g,''))||0)*10000;
+    return a*0.154;
+  }
+  return krDiv*0.154;
+}
+function getTaxModeLabel(){
+  if(TAX_KR_MODE==='full') return '전액 15.4%';
+  if(TAX_KR_MODE==='ratio'){
+    var r=parseFloat((document.getElementById('tax-kr-ratio').value||'').replace(/,/g,''))||2;
+    return '과세비율 '+r+'%';
+  }
+  if(TAX_KR_MODE==='amt') return '금액기준';
+  return '';
+}
+function setTaxType(t){taxType=t;['근로','사업','없음'].forEach(function(k){document.getElementById('tax-type-'+k).classList.toggle('active',k===t);});var wrap=document.getElementById('tax-income-wrap');wrap.style.display=t==='없음'?'none':'block';if(t!=='없음')document.getElementById('tax-income-lbl').textContent=(t==='근로'?'근로소득':'사업소득')+' (연, 만원)';calcTax();}
+function setTaxScenario(type,income,_){setTaxType(type);if(type!=='없음'){document.getElementById('tax-income').value=income?fmt(String(income)):'';}else{document.getElementById('tax-income').value='';}calcTax();}
+function calcTax(){
+  var rt=gv('tax-rate')||lastRate;
+  var krDiv=gv('tax-kr-div')*10000; // 만원→원
+  var usDiv=gv('tax-us-div')*rt;    // 달러→원
+  var income=(taxType!=='없음'?gv('tax-income')*10000:0);
+
+  // 원천징수
+  var krWht=getKRDivWht(krDiv);
+  var usWht=usDiv*0.15;
+  var krNet=krDiv-krWht;
+  var usNet=usDiv-usWht;
+  var totalFin=krDiv+usDiv; // 총 금융소득(세전, 원화)
+
+  document.getElementById('tx-kr-wht-lbl').textContent='국내 배당 원천징수 ('+getTaxModeLabel()+')';
+  document.getElementById('tx-kr-wht').textContent=krDiv?f(krWht)+'원':'—';
+  document.getElementById('tx-us-wht').textContent=usDiv?f(usWht)+'원':'—';
+  document.getElementById('tx-kr-net').textContent=krDiv?f(krNet)+'원':'—';
+  document.getElementById('tx-us-net').textContent=usDiv?f(usNet)+'원':'—';
+  document.getElementById('tx-total-fin').textContent=(krDiv||usDiv)?f(totalFin)+'원':'—';
+
+  if(!krDiv&&!usDiv){
+    document.getElementById('tx-jh-yn').textContent='—';
+    document.getElementById('tx-jh-box').style.display='none';
+    document.getElementById('tx-jh-safe').style.display='none';
+    document.getElementById('tx-health').textContent='배당금을 입력해주세요.';
+    document.getElementById('tx-total-tax').textContent='—';
+    document.getElementById('tx-final-net').textContent='—';
+    return;
+  }
+
+  var isJH=totalFin>20000000; // 2000만원 초과 종합과세
+  document.getElementById('tx-jh-yn').textContent=isJH?'⚠️ 종합과세 대상':'✅ 분리과세 (원천징수 완료)';
+  document.getElementById('tx-jh-yn').style.color=isJH?'#D85A30':'#1D9E75';
+  document.getElementById('tx-jh-box').style.display=isJH?'block':'none';
+  document.getElementById('tx-jh-safe').style.display=isJH?'none':'block';
+
+  var totalTax=krWht+usWht;
+  var addTax=0;
+
+  if(isJH){
+    // 종합과세: 초과분에 대해 근로/사업소득과 합산해 세율 적용 (참고용 추정)
+    var over=totalFin-20000000;
+    var baseIncome=income;
+    // 간이 세율표 (종합소득세, 공제 미반영 참고용)
+    function incomeTaxRate(amt){
+      if(amt<=14000000)return 0.06;
+      if(amt<=50000000)return 0.15;
+      if(amt<=88000000)return 0.24;
+      if(amt<=150000000)return 0.35;
+      if(amt<=300000000)return 0.38;
+      if(amt<=500000000)return 0.40;
+      return 0.42;
+    }
+    var marginalRate=incomeTaxRate(baseIncome+totalFin);
+    addTax=over*(marginalRate-0.154>0?marginalRate-0.154:0); // 이미 낸 15.4% 차감
+    var detail='금융소득 <strong>'+f(totalFin)+'원</strong> 중 2,000만원 초과분 <strong>'+f(over)+'원</strong>이 '+
+      (baseIncome?'근로/사업소득('+f(baseIncome)+'원)과 합산':'단독으로')+'과세 대상이에요.<br>'+
+      '합산소득 기준 한계세율 약 <strong>'+(marginalRate*100).toFixed(0)+'%</strong> 적용 (공제 전 참고값) — 추가납부 예상액 약 <strong>'+f(addTax)+'원</strong>';
+    document.getElementById('tx-jh-detail').innerHTML=detail;
+    totalTax+=addTax;
+  }
+
+  // 건강보험료 계산
+  var healthMsg='';var healthAmt=0;var healthBase='';
+  var hWrap=document.getElementById('tx-health-calc-wrap');
+  if(taxType==='없음'){
+    if(totalFin>10000000){
+      healthAmt=Math.round(totalFin*0.0709/12)*12;
+      healthBase='전체 금융소득 '+f(totalFin)+'원 × 7.09% (전액 합산)';
+      healthMsg='금융소득 1,000만원 초과로 <strong>피부양자 자격 박탈</strong> 가능성이 높아요. 1,000만원을 넘는 순간 <strong>전체 금액</strong>이 건보료 부과 대상이에요.';
+      hWrap.style.display='grid';
+      totalTax+=healthAmt;
+    } else {
+      healthMsg='금융소득 1,000만원 이하면 피부양자 유지 가능해요. 단, 재산·다른 소득 요건도 충족해야 해요. ✅';
+      hWrap.style.display='none';
+    }
+  } else if(taxType==='근로'){
+    if(totalFin>20000000){
+      var overFin=totalFin-20000000;
+      healthAmt=Math.round(overFin*0.0709);
+      healthBase='초과분 '+f(overFin)+'원 × 7.09%';
+      healthMsg='직장가입자 소득월액 보험료 부과 대상이에요. 급여 외 금융소득 <strong>2,000만원 초과분</strong>에 7.09% 건보료가 추가돼요.';
+      hWrap.style.display='grid';
+      totalTax+=healthAmt;
+    } else {
+      healthMsg='금융소득 2,000만원 이하 — 직장가입자 건보료에 영향 없어요. ✅';
+      hWrap.style.display='none';
+    }
+  } else {
+    if(totalFin>10000000){
+      healthAmt=Math.round(totalFin*0.0709/12)*12;
+      healthBase='전체 금융소득 '+f(totalFin)+'원 × 7.09% (전액 합산)';
+      healthMsg='사업소득자(지역가입자)는 금융소득 1,000만원 초과 시 <strong>전체 금액</strong>이 건보료 부과 대상이에요. 아래는 소득 기준 간이 추정값이에요.';
+      hWrap.style.display='grid';
+      totalTax+=healthAmt;
+    } else {
+      healthMsg='금융소득 1,000만원 이하 — 지역가입자 건보료 부과 대상이 아니에요. ✅';
+      hWrap.style.display='none';
+    }
+  }
+  document.getElementById('tx-health').innerHTML=healthMsg;
+  var depInfo=document.getElementById('tx-dep-info');
+  if(healthAmt){
+    document.getElementById('tx-health-amt').textContent=f(healthAmt)+'원/년';
+    document.getElementById('tx-health-month').textContent=f(Math.round(healthAmt/12))+'원/월';
+    document.getElementById('tx-health-base').textContent=healthBase;
+  }
+  depInfo.style.display=(taxType==='없음')?'block':'none';
+
+  document.getElementById('tx-total-tax').textContent=f(totalTax)+'원'+(isJH||healthAmt?' (추정)':'');
+  document.getElementById('tx-final-net').textContent=f(krNet+usNet)+'원';
+  // 도넛 차트 그리기 (krWht, usWht는 calcTax 스코프 내 존재)
+  setTimeout(function(){ drawTaxDonut(Math.round(krWht), Math.round(usWht), Math.round(healthAmt), Math.round(krNet+usNet)); }, 0);
+}
+function taxPDF(){
+  var date=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+  function gt(id){var e=document.getElementById(id);return e?e.textContent:'—';}
+  function gi(id){var e=document.getElementById(id);return e?e.value:'';}
+  var w=window.open('','_blank');
+  var typeLabel={근로:'근로소득',사업:'사업소득',없음:'소득 없음'};
+  var incomeVal=gi('tax-income')?gi('tax-income')+'만원':'—';
+  var jhBox=document.getElementById('tx-jh-box').style.display!=='none'?document.getElementById('tx-jh-detail').innerHTML:'해당 없음 (분리과세)';
+  var hCalc=document.getElementById('tx-health-calc-wrap').style.display!=='none'?
+    '<tr><td>추가 건보료</td><td>'+gt('tx-health-amt')+'</td></tr><tr><td>건보료 부과 기준</td><td>'+gt('tx-health-base')+'</td></tr>':'';
+  w.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>세금 계산 결과</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,sans-serif;font-size:12px;color:#111;padding:24px;max-width:700px;margin:0 auto}h1{font-size:16px;font-weight:700;margin-bottom:4px}.dt{font-size:11px;color:#666;margin-bottom:20px}table{width:100%;border-collapse:collapse;margin-bottom:16px}th{background:#f4f4f4;text-align:left;padding:8px 12px;font-size:12px;border-bottom:2px solid #ddd}td{padding:8px 12px;border-bottom:1px solid #eee;font-size:12px}td:last-child{font-weight:700;text-align:right}.stit{font-size:13px;font-weight:700;margin:16px 0 8px;padding-bottom:5px;border-bottom:1.5px solid #eee}.note{font-size:11px;color:#777;background:#f9f9f9;border:1px solid #eee;border-radius:6px;padding:8px 12px;margin-top:12px;line-height:1.7}.jh-box{background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px 12px;font-size:11px;line-height:1.7;margin-bottom:12px}.pbtn{display:block;margin:16px auto;padding:10px 30px;background:#111;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}@media print{.pbtn{display:none}}.g{color:#1D9E75}.r{color:#D85A30}.b{color:#2563EB}</style></head><body>');
+  w.document.write('<h1>🧾 배당소득 세금 계산 결과</h1><div class="dt">출력일: '+date+'</div>');
+  w.document.write('<button class="pbtn" onclick="window.print()">🖨️ PDF / 인쇄</button>');
+  w.document.write('<div class="stit">📥 입력 정보</div>');
+  w.document.write('<table><tr><th>항목</th><th>값</th></tr><tr><td>소득 유형</td><td>'+typeLabel[taxType]+'</td></tr>');
+  if(taxType!=='없음')w.document.write('<tr><td>소득 (연)</td><td>'+incomeVal+'</td></tr>');
+  w.document.write('<tr><td>국내 배당금 (연)</td><td>'+(gi('tax-kr-div')||'—')+'만원</td></tr><tr><td>미국 배당금 (연)</td><td>'+(gi('tax-us-div')||'—')+'달러</td></tr><tr><td>환율</td><td>'+(gi('tax-rate')||'—')+'원</td></tr></table>');
+  w.document.write('<div class="stit">📊 계산 결과</div>');
+  w.document.write('<table><tr><th>항목</th><th>금액</th></tr><tr><td>국내 배당 원천징수 (15.4%)</td><td class="r">'+gt('tx-kr-wht')+'</td></tr><tr><td>미국 배당 원천징수 (15%)</td><td class="r">'+gt('tx-us-wht')+'</td></tr><tr><td>세후 국내 배당</td><td class="g">'+gt('tx-kr-net')+'</td></tr><tr><td>세후 미국 배당</td><td class="g">'+gt('tx-us-net')+'</td></tr><tr><td>총 금융소득 (원화)</td><td class="b">'+gt('tx-total-fin')+'</td></tr><tr><td>종합과세 여부</td><td>'+gt('tx-jh-yn')+'</td></tr>'+hCalc+'<tr><td><strong>예상 총 납부 세금</strong></td><td class="r"><strong>'+gt('tx-total-tax')+'</strong></td></tr><tr><td><strong>세후 총 배당 수령액</strong></td><td class="g"><strong>'+gt('tx-final-net')+'</strong></td></tr></table>');
+  if(document.getElementById('tx-jh-box').style.display!=='none'){w.document.write('<div class="jh-box"><strong>⚠️ 종합과세 안내</strong><br>'+jhBox+'</div>');}
+  // 도넛 차트 + 레전드 캡처
+  var taxChart = canvasToDataURL('tax-donut-canvas');
+  var taxLegendHtml = (function(){
+    var el = document.getElementById('tax-donut-legend');
+    return el ? el.innerHTML : '';
+  })();
+  if(taxChart || taxLegendHtml){
+    w.document.write('<div style="margin-top:14px;border:1px solid #ddd;border-radius:8px;padding:14px"><div style="font-size:13px;font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee">🥧 세금·순수령액 구성</div>');
+    w.document.write('<div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">');
+    if(taxChart) w.document.write(imgTag(taxChart,'160px'));
+    if(taxLegendHtml) w.document.write('<div style="display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:500;color:#222">'+taxLegendHtml+'</div>');
+    w.document.write('</div></div>');
+  }
+  w.document.write('<div class="note">⚠️ 본 결과는 <strong>참고용</strong>이며, 개인 공제·소득 구성에 따라 실제 세액과 다를 수 있어요. 정확한 세액은 세무사 상담을 권장드려요.</div>');
+  w.document.write('<button class="pbtn" onclick="window.print()">🖨️ PDF / 인쇄</button></body></html>');
+  w.document.close();
+}
+
+// 환율 세금탭에도 반영
+function syncTaxRate(rate){var el=document.getElementById('tax-rate');if(el&&!el.value)sv('tax-rate',rate);}
+// ===== 세금 계산기 끝 =====
+
+
+
+// ── PDF 차트 헬퍼 ──────────────────────────────────────────
+function canvasToDataURL(id) {
+  var el = document.getElementById(id);
+  if (!el) return null;
+  try { return el.toDataURL('image/png'); } catch(e) { return null; }
+}
+function svgToDataURL(id) {
+  var el = document.getElementById(id);
+  if (!el) return null;
+  try {
+    var xml = new XMLSerializer().serializeToString(el);
+    var b64 = btoa(unescape(encodeURIComponent(xml)));
+    return 'data:image/svg+xml;base64,' + b64;
+  } catch(e) { return null; }
+}
+function imgTag(dataUrl, w) {
+  if (!dataUrl) return '';
+  return '<img src="'+dataUrl+'" style="width:'+( w||'100%' )+';max-width:100%;display:block;margin:8px 0;border-radius:6px;border:1px solid #eee">';
+}
+// ────────────────────────────────────────────────────────────
+
+loadAll();
+
+function clearGoalCard(n){
+  var map={
+    1:{inputs:['g-target','g-yield','g-price'],result:'goal-result'},
+    2:{inputs:['g2-amount','g2-yield','g2-price'],result:'goal2-result'},
+    3:{inputs:['g3-target','g3-yield','g3-price','g3-rate'],result:'goal3-result'},
+    4:{inputs:['g4-amount','g4-yield','g4-price','g4-rate'],result:'goal4-result'}
+  };
+  var m=map[n];if(!m)return;
+  m.inputs.forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+  var r=document.getElementById(m.result);if(r)r.style.display='none';
+  // 남은 결과 있으면 그래프 다시 그리고, 없으면 그래프 숨김
+  var cs=document.getElementById('goal-chart-section');
+  var anyVisible=['goal-result','goal2-result','goal3-result','goal4-result'].some(function(id){var e=document.getElementById(id);return e&&e.style.display!=='none';});
+  if(anyVisible){drawGoalChart();}else{if(cs)cs.style.display='none';}
+}
+
+// 모든 input에 × 버튼 자동 삽입
+(function(){
+  document.querySelectorAll('input[type="text"],input[inputmode="decimal"]').forEach(function(el){
+    if(el.closest('.input-wrap'))return;
+    var wrap=document.createElement('div');
+    wrap.className='input-wrap';
+    el.parentNode.insertBefore(wrap,el);
+    wrap.appendChild(el);
+    var btn=document.createElement('button');
+    btn.className='input-clear';btn.type='button';btn.textContent='×';
+    btn.setAttribute('tabindex','-1');
+    btn.onclick=function(){el.value='';el.dispatchEvent(new Event('input'));el.focus();};
+    wrap.appendChild(btn);
+  });
+})();
+</script>
+<div class="site-footer">
+  © 2025 배당계산기 &nbsp;·&nbsp;
+  <a href="index.html">📊 배당계산기</a> &nbsp;·&nbsp;
+  <a href="loan.html">🏦 대출·레버리지</a> &nbsp;·&nbsp;
+  <a href="portfolio-scan.html">📂 포트폴리오 분석</a> &nbsp;·&nbsp;
+  <a href="reinvest-simulator.html">📈 적립식 시뮬레이터</a> &nbsp;·&nbsp;
+  <a href="about.html">📋 글 목록</a><br><span style="font-size:11px">세후 수령액 · 목표 배당금 역산 · 세금 분석</span>
+</div>
+</body>
+</html>
