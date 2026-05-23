@@ -10,9 +10,20 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;background:#fff;color:#111;padding:16px;max-width:860px;margin:0 auto;line-height:1.6}
 
-/* nav */
-nav{margin-bottom:20px}
-nav a{font-size:13px;color:#555;text-decoration:none;padding:5px 12px;border:1.5px solid #ddd;border-radius:8px}
+/* ── 공통 네비게이션 ── */
+.site-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:20px;padding-bottom:14px;border-bottom:1.5px solid #eee}
+.nav-tools{display:flex;gap:6px;flex-wrap:wrap}
+.nav-tool{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:#555;text-decoration:none;padding:5px 11px;border:1.5px solid #ddd;border-radius:8px;font-weight:500;transition:all .15s;white-space:nowrap}
+.nav-tool:hover{border-color:#555;color:#111}
+.nav-tool.active{background:#111;color:#fff;border-color:#111}
+.nav-info{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:#888;text-decoration:none;padding:5px 11px;border:1.5px solid #eee;border-radius:8px;font-weight:500;transition:all .15s;white-space:nowrap}
+.nav-info:hover{border-color:#aaa;color:#555}
+.nav-info.active{background:#555;color:#fff;border-color:#555}
+/* ── 공통 푸터 ── */
+.site-footer{margin-top:40px;padding:14px 16px;background:#f9f9f9;border-radius:10px;font-size:12px;color:#888;text-align:center;line-height:2}
+.site-footer a{color:#888;text-decoration:none}
+.site-footer a:hover{color:#333}
+@media(max-width:600px){.nav-tools{gap:4px}.nav-tool,.nav-info{font-size:12px;padding:4px 9px}}
 
 /* 헤더 */
 h1{font-size:19px;font-weight:700;margin-bottom:4px}
@@ -126,7 +137,15 @@ footer a{color:#aaa}
 </style>
 </head>
 <body>
-<nav><a href="index.html">← 배당 계산기</a></nav>
+<nav class="site-nav">
+  <div class="nav-tools">
+      <a class="nav-tool" href="index.html">📊 배당계산기</a>
+      <a class="nav-tool" href="loan.html">🏦 대출·레버리지</a>
+      <a class="nav-tool active" href="portfolio-scan.html">📂 포트폴리오 분석</a>
+      <a class="nav-tool" href="reinvest-simulator.html">📈 적립식 시뮬레이터</a>
+  </div>
+  <a class="nav-info" href="about.html">📋 글 목록</a>
+</nav>
 
 <h1>📂 포트폴리오 배당 분석</h1>
 <p class="subtitle">보유 종목 캡처·PDF 업로드 → 자동 인식 → 배당금 입력 → 수익률 계산</p>
@@ -236,7 +255,14 @@ footer a{color:#aaa}
   </div>
 </div>
 
-<footer>© 2025 배당계산기 · <a href="index.html">메인</a> · <a href="about.html">글 목록</a> · 본 결과는 참고용이며 실제 투자 결과를 보장하지 않습니다.</footer>
+<div class="site-footer">
+  © 2025 배당계산기 &nbsp;·&nbsp;
+  <a href="index.html">📊 배당계산기</a> &nbsp;·&nbsp;
+  <a href="loan.html">🏦 대출·레버리지</a> &nbsp;·&nbsp;
+  <a href="portfolio-scan.html">📂 포트폴리오 분석</a> &nbsp;·&nbsp;
+  <a href="reinvest-simulator.html">📈 적립식 시뮬레이터</a> &nbsp;·&nbsp;
+  <a href="about.html">📋 글 목록</a><br><span style="font-size:11px">본 결과는 참고용이며 실제 투자 결과를 보장하지 않습니다.</span>
+</div>
 
 <script>
 // ── 상태 ──────────────────────────────────────────────────────
