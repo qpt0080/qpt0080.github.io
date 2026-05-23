@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>적립식 배당 시뮬레이터 - 매월 얼마씩 넣으면 월 배당 얼마? | 배당계산기</title>
+<meta name="description" content="매월 일정 금액을 배당주에 적립 투자하면 몇 년 후 월 배당금이 얼마나 될지 시뮬레이션합니다. 복리 재투자 효과 포함, 목표 배당금 달성 시점까지 계산.">
+<meta name="keywords" content="적립식 배당 시뮬레이터, 배당 복리 계산기, 월 배당금 계산, 배당 재투자, 목표 배당금">
+<meta name="robots" content="index, follow">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4179915942015593" crossorigin="anonymous"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;background:#fff;color:#111;padding:16px;max-width:860px;margin:0 auto;line-height:1.6}
+/* ── 공통 네비게이션 ── */
+.site-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:20px;padding-bottom:14px;border-bottom:1.5px solid #eee}
+.nav-tools{display:flex;gap:6px;flex-wrap:wrap}
+.nav-tool{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:#555;text-decoration:none;padding:5px 11px;border:1.5px solid #ddd;border-radius:8px;font-weight:500;transition:all .15s;white-space:nowrap}
+.nav-tool:hover{border-color:#555;color:#111}
+.nav-tool.active{background:#111;color:#fff;border-color:#111}
+.nav-info{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:#888;text-decoration:none;padding:5px 11px;border:1.5px solid #eee;border-radius:8px;font-weight:500;transition:all .15s;white-space:nowrap}
+.nav-info:hover{border-color:#aaa;color:#555}
+.nav-info.active{background:#555;color:#fff;border-color:#555}
+/* ── 공통 푸터 ── */
+.site-footer{margin-top:40px;padding:14px 16px;background:#f9f9f9;border-radius:10px;font-size:12px;color:#888;text-align:center;line-height:2}
+.site-footer a{color:#888;text-decoration:none}
+.site-footer a:hover{color:#333}
+@media(max-width:600px){.nav-tools{gap:4px}.nav-tool,.nav-info{font-size:12px;padding:4px 9px}}
+h1{font-size:19px;font-weight:700;margin-bottom:4px}
+.subtitle{font-size:13px;color:#333;margin-bottom:20px}
+
+.input-card{border:1.5px solid #e4e4e4;border-radius:12px;padding:18px;margin-bottom:12px;background:#fafafa}
+.card-title{font-size:14px;font-weight:700;color:#111;margin-bottom:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.lbl{font-size:12px;color:#555;font-weight:600;margin-bottom:4px}
+.lbl span{font-weight:400;color:#888}
+
+/* 숫자 입력 (콤마 표시용 래퍼) */
+.iw{position:relative}
+.iw input{width:100%;padding:8px 28px 8px 11px;border:1.5px solid #ccc;border-radius:8px;font-size:15px;font-weight:500;background:#fff;color:#111}
+.iw input:focus{outline:none;border-color:#555}
+.iw .xcl{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:#bbb;font-size:15px;cursor:pointer;padding:0;line-height:1;display:none}
+.iw input:not([data-empty="true"]) ~ .xcl{display:block}
+.iw .xcl:hover{color:#888}
+select{width:100%;padding:8px 11px;border:1.5px solid #ccc;border-radius:8px;font-size:14px;background:#fff;color:#111}
+select:focus{outline:none;border-color:#555}
+
+/* 토글 */
+.trow{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f4f4f4;border-radius:8px;border:1px solid #e4e4e4;margin-bottom:8px}
+.tlbl{font-size:13px;color:#111;font-weight:600;flex:1}
+.tsub{font-size:11px;color:#666;margin-top:1px}
+.sw{position:relative;display:inline-block;width:38px;height:20px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0}
+.sl{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;border-radius:20px;transition:.2s}
+.sl:before{position:absolute;content:"";height:14px;width:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+input:checked+.sl{background:#1D9E75}
+input:checked+.sl:before{transform:translateX(18px)}
+
+/* 재투자 주기 칩 */
+.chip-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{padding:5px 13px;border:1.5px solid #ccc;border-radius:20px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:#333;transition:all .15s}
+.chip.active{background:#111;color:#fff;border-color:#111}
+
+/* 구간 재투자 */
+.phase-box{background:#fff;border:1.5px solid #e4e4e4;border-radius:8px;padding:12px;margin-top:8px}
+.phase-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:13px}
+.phase-row input[type=number]{width:64px;padding:5px 8px;border:1.5px solid #ccc;border-radius:6px;font-size:13px;text-align:center}
+.phase-row input[type=number]:focus{outline:none;border-color:#555}
+.phase-row select{width:auto;padding:5px 8px;font-size:13px}
+.add-phase{padding:5px 12px;border:1.5px solid #ddd;border-radius:8px;background:#fff;font-size:12px;cursor:pointer;color:#333;margin-top:4px}
+.add-phase:hover{background:#f4f4f4}
+.del-phase{background:none;border:none;color:#bbb;font-size:16px;cursor:pointer;padding:0 2px}
+.del-phase:hover{color:#e00}
+
+.btn-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-top:4px}
+.calc-btn{padding:13px;background:#111;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;width:100%}
+.calc-btn:hover{background:#333}
+.ex-btn{padding:11px;background:#fff;color:#111;border:1.5px solid #ddd;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;width:100%}
+.ex-btn:hover{background:#f4f4f4;border-color:#aaa}
+.reset-btn{padding:11px;background:#fff;color:#888;border:1.5px solid #ddd;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;width:100%}
+.reset-btn:hover{background:#fff5f5;color:#e00;border-color:#fca5a5}
+
+/* 결과 */
+.result-section{display:none;margin-top:24px}
+.sec-title{font-size:15px;font-weight:700;border-bottom:2px solid #111;padding-bottom:7px;margin-bottom:14px}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.sc{background:#f4f4f4;border-radius:10px;padding:12px 14px;border:1px solid #e4e4e4}
+.sc .sl2{font-size:11px;color:#555;font-weight:500;margin-bottom:4px}
+.sc .sv{font-size:17px;font-weight:700;color:#111}
+.sc .sv.g{color:#1D9E75}.sc .sv.b{color:#2563EB}.sc .sv.p{color:#7C3AED}
+.sc .ss{font-size:11px;color:#888;margin-top:2px}
+
+.goal-badge{display:none;margin-bottom:12px;padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;text-align:center}
+.goal-badge.reached{background:#dcfce7;color:#166534;border:1.5px solid #86efac}
+.goal-badge.not-reached{background:#fef9c3;color:#854d0e;border:1.5px solid #fde047}
+
+.info-box{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:11px 14px;font-size:12px;color:#555;margin-bottom:14px;line-height:1.7}
+.info-box strong{color:#333}
+
+/* 차트 */
+.chart-area{margin-top:16px;padding:16px;border:1px solid #eee;border-radius:10px}
+.chart-title{font-size:13px;font-weight:700;color:#222;margin-bottom:10px}
+.chart-legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;font-size:12px}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+.chart-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+canvas{display:block}
+
+/* 테이블 */
+.table-wrap{overflow-x:auto;border:1px solid #eee;border-radius:10px;margin-top:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#111;color:#fff;padding:8px 10px;text-align:right;white-space:nowrap;font-weight:600;position:sticky;top:0}
+th:first-child{text-align:center}
+td{padding:7px 10px;border-bottom:1px solid #eee;text-align:right;white-space:nowrap}
+td:first-child{text-align:center;font-weight:700;color:#555}
+tr.milestone td{background:#f0f4ff;color:#1e3a8a;font-weight:700}
+tr.goal-row td{background:#dcfce7;color:#166534;font-weight:700}
+tr.last-row td{background:#111;color:#fff;font-weight:700}
+tr.no-reinvest td{color:#aaa}
+
+@media(max-width:600px){
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .row2{grid-template-columns:1fr}
+}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid #eee;font-size:12px;color:#aaa;text-align:center}
+footer a{color:#aaa}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-tools">
+      <a class="nav-tool" href="index.html">📊 배당계산기</a>
+      <a class="nav-tool" href="loan.html">🏦 대출·레버리지</a>
+      <a class="nav-tool" href="portfolio-scan.html">📂 포트폴리오 분석</a>
+      <a class="nav-tool active" href="reinvest-simulator.html">📈 적립식 시뮬레이터</a>
+  </div>
+  <a class="nav-info" href="about.html">📋 글 목록</a>
+</nav>
+
+<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
+  <h1>📈 적립식 배당 시뮬레이터</h1>
+  <button onclick="resetAll()" style="flex-shrink:0;font-size:12px;padding:5px 12px;border:1.5px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;color:#888;font-weight:600;margin-top:2px">↺ 초기화</button>
+</div>
+<p class="subtitle">매월 일정 금액을 적립하면 몇 년 후 월 배당금이 얼마나 될지 시뮬레이션해드려요 &nbsp;<button onclick="showExamples()" style="font-size:12px;padding:3px 10px;border:1.5px solid #bbb;border-radius:6px;background:#f9f9f9;cursor:pointer;color:#555;font-weight:600">✏️ 예시값 채우기</button></p>
+
+<!-- 예시값 선택 패널 -->
+<div id="exPanel" style="display:none;border:1.5px solid #e4e4e4;border-radius:10px;padding:14px;margin-bottom:12px;background:#fafafa">
+  <div style="font-size:12px;font-weight:700;color:#555;margin-bottom:10px">예시 시나리오를 선택하면 값이 자동으로 입력돼요</div>
+  <div style="display:flex;flex-direction:column;gap:6px" id="exList"></div>
+</div>
+
+<!-- 적립 설정 -->
+<div class="input-card">
+  <div class="card-title">💰 적립 설정</div>
+  <div class="row2">
+    <div>
+      <div class="lbl">월 적립금액 <span>(원)</span></div>
+      <div class="iw">
+        <input type="text" id="monthly" inputmode="numeric" placeholder="500,000">
+        <button class="xcl" onclick="clearInput('monthly')">×</button>
+      </div>
+    </div>
+    <div>
+      <div class="lbl">초기 투자금 <span>(원)</span></div>
+      <div class="iw">
+        <input type="text" id="initial" inputmode="numeric" placeholder="0">
+        <button class="xcl" onclick="clearInput('initial')">×</button>
+      </div>
+    </div>
+  </div>
+  <div class="row2">
+    <div>
+      <div class="lbl">투자 기간 <span>(년)</span></div>
+      <div class="iw">
+        <input type="text" id="years" inputmode="numeric" placeholder="20" value="20">
+        <button class="xcl" onclick="clearInput('years')">×</button>
+      </div>
+    </div>
+    <div>
+      <div class="lbl">연간 배당수익률 <span>(%, 세전)</span></div>
+      <div class="iw">
+        <input type="text" id="divYield" inputmode="decimal" placeholder="5.0" value="5.0">
+        <button class="xcl" onclick="clearInput('divYield')">×</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">목표 월 배당금 <span>(원, 선택)</span></div>
+    <div class="iw">
+      <input type="text" id="goalDiv" inputmode="numeric" placeholder="1,000,000">
+      <button class="xcl" onclick="clearInput('goalDiv')">×</button>
+    </div>
+  </div>
+  <div style="margin-top:10px">
+    <div class="trow">
+      <div><div class="tlbl">연간 주가 성장률 적용</div><div class="tsub">주가 상승 → 자산 증가 → 배당금 절대액 증가 (배당률은 고정)</div></div>
+      <label class="sw"><input type="checkbox" id="growthToggle"><span class="sl"></span></label>
+    </div>
+    <div id="growthWrap" style="display:none;margin-top:4px">
+      <div class="lbl">연간 주가 성장률 <span>(%)</span></div>
+      <div class="iw" style="max-width:180px">
+        <input type="text" id="growthRate" inputmode="decimal" placeholder="10.0" value="10.0">
+        <button class="xcl" onclick="clearInput('growthRate')">×</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 세금 설정 -->
+<div class="input-card">
+  <div class="card-title">⚙️ 세금 설정</div>
+  <div class="trow">
+    <div><div class="tlbl">배당소득세 15.4% 적용</div><div class="tsub">세후 기준으로 계산</div></div>
+    <label class="sw"><input type="checkbox" id="taxToggle" checked><span class="sl"></span></label>
+  </div>
+</div>
+
+<!-- 재투자 설정 -->
+<div class="input-card">
+  <div class="card-title">🔄 재투자 설정</div>
+
+  <div class="trow">
+    <div><div class="tlbl">배당금 재투자</div><div class="tsub">OFF 시 배당금 수령만, 재투자 없음</div></div>
+    <label class="sw"><input type="checkbox" id="reinvestToggle" checked><span class="sl"></span></label>
+  </div>
+
+  <div id="reinvestOptions">
+    <div class="lbl" style="margin-top:10px;margin-bottom:6px">재투자 주기</div>
+    <div class="chip-row" id="freqChips">
+      <div class="chip active" data-val="12">월배당</div>
+      <div class="chip" data-val="4">분기배당</div>
+      <div class="chip" data-val="2">반기배당</div>
+      <div class="chip" data-val="1">연배당</div>
+    </div>
+
+    <!-- 구간별 재투자 -->
+    <div style="margin-top:14px">
+      <div class="trow" style="margin-bottom:0">
+        <div><div class="tlbl">구간별 재투자 설정</div><div class="tsub">특정 기간만 재투자하거나 중단하는 시나리오</div></div>
+        <label class="sw"><input type="checkbox" id="phaseToggle"><span class="sl"></span></label>
+      </div>
+      <div id="phaseWrap" style="display:none;margin-top:8px">
+        <div class="phase-box">
+          <div style="font-size:12px;color:#888;margin-bottom:8px">※ 설정한 구간 외 나머지는 재투자 없음(수령만)</div>
+          <div id="phaseList"></div>
+          <button class="add-phase" onclick="addPhase()">＋ 구간 추가</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:8px">
+  <button class="calc-btn" onclick="simulate()">📊 시뮬레이션 시작</button>
+</div>
+
+<!-- 결과 -->
+<div class="result-section" id="resultSection">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:24px;padding-bottom:7px;border-bottom:2px solid #111;margin-bottom:14px">
+    <div style="font-size:15px;font-weight:700">📊 시뮬레이션 결과</div>
+    <button onclick="simPDF()" style="display:flex;align-items:center;gap:6px;padding:7px 14px;background:#111;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 15h8v1H8v-1zm0-3h8v1H8v-1zm0 6h5v1H8v-1z"/></svg>
+      PDF로 저장
+    </button>
+  </div>
+  <div class="goal-badge" id="goalBadge"></div>
+  <div class="summary-grid" id="summaryGrid"></div>
+  <div class="info-box" id="infoBox"></div>
+
+  <div class="chart-area">
+    <div class="chart-title">연도별 누적 자산 & 월 배당금 추이</div>
+    <div class="chart-legend">
+      <span><span class="legend-dot" style="background:#2563EB"></span>누적 자산</span>
+      <span><span class="legend-dot" style="background:#1D9E75"></span>월 세후 배당금</span>
+      <span><span class="legend-dot" style="background:#F59E0B"></span>누적 납입금</span>
+    </div>
+    <div class="chart-scroll"><canvas id="simChart"></canvas></div>
+  </div>
+
+  <div class="sec-title" style="margin-top:20px">연도별 상세 내역</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>연도</th>
+          <th>누적 납입금</th>
+          <th>누적 자산</th>
+          <th>연간 세전 배당</th>
+          <th>연간 세후 배당</th>
+          <th>월 세후 배당</th>
+          <th>재투자</th>
+        </tr>
+      </thead>
+      <tbody id="simBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="site-footer">
+  © 2025 배당계산기 &nbsp;·&nbsp;
+  <a href="index.html">📊 배당계산기</a> &nbsp;·&nbsp;
+  <a href="loan.html">🏦 대출·레버리지</a> &nbsp;·&nbsp;
+  <a href="portfolio-scan.html">📂 포트폴리오 분석</a> &nbsp;·&nbsp;
+  <a href="reinvest-simulator.html">📈 적립식 시뮬레이터</a> &nbsp;·&nbsp;
+  <a href="about.html">📋 글 목록</a><br><span style="font-size:11px">본 결과는 이론상 예시이며 실제 투자 결과를 보장하지 않습니다.</span>
+</div>
+
+<script>
+// ── 예시값 시나리오 ───────────────────────────────────────────
+var EXAMPLES = [
+  {
+    label: '🐣 사회초년생 — 월 30만원, 20년 적립',
+    desc: '월 30만원 · 배당수익률 5% · 20년 · 재투자 ON',
+    monthly: 300000, initial: 0, years: 20, divYield: 5.0,
+    tax: true, reinvest: true, growth: false, growthRate: 10.0, goal: 0, freq: 12
+  },
+  {
+    label: '💼 직장인 — 월 100만원 + 초기 1,000만원',
+    desc: '초기 1,000만원 + 월 100만원 · 배당수익률 6% · 20년',
+    monthly: 1000000, initial: 10000000, years: 20, divYield: 6.0,
+    tax: true, reinvest: true, growth: false, growthRate: 10.0, goal: 1000000, freq: 4
+  },
+  {
+    label: '🏠 은퇴 준비 — 월 200만원, 15년 후 월 배당 200만원 목표',
+    desc: '월 200만원 · 배당수익률 7% · 15년 · 목표 월 200만원',
+    monthly: 2000000, initial: 0, years: 15, divYield: 7.0,
+    tax: true, reinvest: true, growth: false, growthRate: 10.0, goal: 2000000, freq: 12
+  },
+  {
+    label: '📈 주가 성장 포함 — 월 50만원, 연 10% 성장 가정',
+    desc: '월 50만원 · 배당수익률 5% · 주가 10% 성장 · 20년',
+    monthly: 500000, initial: 0, years: 20, divYield: 5.0,
+    tax: true, reinvest: true, growth: true, growthRate: 10.0, goal: 0, freq: 4
+  },
+  {
+    label: '💰 목돈 + 적립 없음 — 1억 예치, 배당만 수령',
+    desc: '초기 1억 · 배당수익률 6% · 재투자 OFF · 20년',
+    monthly: 0, initial: 100000000, years: 20, divYield: 6.0,
+    tax: true, reinvest: false, growth: false, growthRate: 10.0, goal: 0, freq: 12
+  }
+];
+
+function showExamples(){
+  var panel = document.getElementById('exPanel');
+  if(panel.style.display !== 'none'){ panel.style.display='none'; return; }
+  var list = document.getElementById('exList');
+  list.innerHTML = '';
+  EXAMPLES.forEach(function(ex, i){
+    var btn = document.createElement('button');
+    btn.style.cssText = 'text-align:left;padding:10px 13px;border:1.5px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;color:#111;line-height:1.5';
+    btn.innerHTML = '<div style="font-weight:700">'+ex.label+'</div><div style="font-size:11px;color:#888;margin-top:2px">'+ex.desc+'</div>';
+    btn.onmouseover = function(){ this.style.background='#f4f4f4'; };
+    btn.onmouseout  = function(){ this.style.background='#fff'; };
+    btn.onclick = function(){ applyExample(i); panel.style.display='none'; };
+    list.appendChild(btn);
+  });
+  panel.style.display = 'block';
+}
+
+function applyExample(i){
+  var ex = EXAMPLES[i];
+  setCommaVal('monthly',  ex.monthly);
+  setCommaVal('initial',  ex.initial);
+  setCommaVal('years',    ex.years);
+  setCommaVal('divYield', ex.divYield, true);
+  setCommaVal('goalDiv',  ex.goal);
+
+  document.getElementById('taxToggle').checked     = ex.tax;
+  document.getElementById('reinvestToggle').checked = ex.reinvest;
+  document.getElementById('reinvestOptions').style.display = ex.reinvest ? 'block' : 'none';
+
+  document.getElementById('growthToggle').checked = ex.growth;
+  document.getElementById('growthWrap').style.display = ex.growth ? 'block' : 'none';
+  setCommaVal('growthRate', ex.growthRate, true);
+
+  // 재투자 주기 칩
+  freqVal = ex.freq;
+  document.querySelectorAll('#freqChips .chip').forEach(function(c){
+    c.classList.toggle('active', parseInt(c.dataset.val) === ex.freq);
+  });
+
+  // 구간 재투자 초기화
+  document.getElementById('phaseToggle').checked = false;
+  document.getElementById('phaseWrap').style.display = 'none';
+  document.getElementById('phaseList').innerHTML = '';
+  phaseCount = 0;
+
+  // 결과 숨기기
+  document.getElementById('resultSection').style.display = 'none';
+}
+
+function setCommaVal(id, val, isDecimal){
+  var el = document.getElementById(id);
+  if(!el) return;
+  if(isDecimal){
+    el.value = val.toString();
+  } else {
+    el.value = val > 0 ? val.toLocaleString('ko-KR') : (val === 0 ? '' : '');
+  }
+  el.setAttribute('data-empty', el.value === '' ? 'true' : 'false');
+}
+
+function resetAll(){
+  var ids = ['monthly','initial','years','divYield','goalDiv','growthRate'];
+  ids.forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    // years, divYield는 기본값 복원
+    if(id==='years') el.value = '20';
+    else if(id==='divYield') el.value = '5.0';
+    else if(id==='growthRate') el.value = '10.0';
+    else el.value = '';
+    el.setAttribute('data-empty', el.value===''?'true':'false');
+  });
+
+  // 토글 초기화
+  document.getElementById('taxToggle').checked = true;
+  document.getElementById('reinvestToggle').checked = true;
+  document.getElementById('reinvestOptions').style.display = 'block';
+  document.getElementById('growthToggle').checked = false;
+  document.getElementById('growthWrap').style.display = 'none';
+  document.getElementById('phaseToggle').checked = false;
+  document.getElementById('phaseWrap').style.display = 'none';
+  document.getElementById('phaseList').innerHTML = '';
+  phaseCount = 0;
+
+  // 칩 초기화
+  freqVal = 12;
+  document.querySelectorAll('#freqChips .chip').forEach(function(c){
+    c.classList.toggle('active', c.dataset.val === '12');
+  });
+
+  // 결과 숨기기
+  document.getElementById('resultSection').style.display = 'none';
+  document.getElementById('exPanel').style.display = 'none';
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+var commaFields = ['monthly','initial','years','goalDiv'];
+var decimalFields = ['divYield','growthRate'];
+
+function getRaw(id){ return (document.getElementById(id).value||'').replace(/,/g,''); }
+function fmt(n){ return Math.round(n).toLocaleString('ko-KR'); }
+function fmtD(n){ return n.toFixed(1); }
+
+function setupCommaInput(id, isDecimal){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.addEventListener('input', function(){
+    var raw = this.value.replace(/,/g,'');
+    if(isDecimal){
+      // 소수점은 콤마 없이
+      this.setAttribute('data-empty', raw===''?'true':'false');
+      return;
+    }
+    if(raw === '' || raw === '-'){ this.setAttribute('data-empty','true'); return; }
+    var num = parseInt(raw.replace(/[^0-9]/g,''),10);
+    if(!isNaN(num)){
+      var pos = this.selectionStart;
+      var oldLen = this.value.length;
+      this.value = num.toLocaleString('ko-KR');
+      var newLen = this.value.length;
+      this.setSelectionRange(pos+(newLen-oldLen), pos+(newLen-oldLen));
+    }
+    this.setAttribute('data-empty','false');
+  });
+  // 초기값 콤마 적용
+  var initVal = el.value.replace(/,/g,'');
+  if(initVal && !isDecimal){
+    var n = parseInt(initVal,10);
+    if(!isNaN(n)) el.value = n.toLocaleString('ko-KR');
+  }
+  el.setAttribute('data-empty', el.value===''?'true':'false');
+}
+
+commaFields.forEach(function(id){ setupCommaInput(id, false); });
+decimalFields.forEach(function(id){ setupCommaInput(id, true); });
+
+function clearInput(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.value = '';
+  el.setAttribute('data-empty','true');
+  el.focus();
+}
+
+// ── 토글들 ───────────────────────────────────────────────────
+document.getElementById('growthToggle').addEventListener('change', function(){
+  document.getElementById('growthWrap').style.display = this.checked?'block':'none';
+});
+document.getElementById('reinvestToggle').addEventListener('change', function(){
+  document.getElementById('reinvestOptions').style.display = this.checked?'block':'none';
+});
+document.getElementById('phaseToggle').addEventListener('change', function(){
+  document.getElementById('phaseWrap').style.display = this.checked?'block':'none';
+  if(this.checked && document.getElementById('phaseList').children.length===0) addPhase();
+});
+
+// ── 재투자 주기 칩 ───────────────────────────────────────────
+var freqVal = 12;
+document.getElementById('freqChips').addEventListener('click', function(e){
+  var chip = e.target.closest('.chip');
+  if(!chip) return;
+  document.querySelectorAll('#freqChips .chip').forEach(function(c){ c.classList.remove('active'); });
+  chip.classList.add('active');
+  freqVal = parseInt(chip.dataset.val);
+});
+
+// ── 구간 추가/삭제 ───────────────────────────────────────────
+var phaseCount = 0;
+function addPhase(){
+  var list = document.getElementById('phaseList');
+  var id = ++phaseCount;
+  var years = parseInt(getRaw('years'))||20;
+  var div = document.createElement('div');
+  div.className = 'phase-row';
+  div.id = 'phase-'+id;
+  div.innerHTML =
+    '<input type="number" id="ps-'+id+'" min="1" max="50" placeholder="시작" value="1">'+
+    '<span style="color:#888">~</span>'+
+    '<input type="number" id="pe-'+id+'" min="1" max="50" placeholder="종료" value="'+years+'">'+
+    '<span style="color:#888">년차</span>'+
+    '<select id="pm-'+id+'">'+
+      '<option value="reinvest">재투자</option>'+
+      '<option value="cash">수령만</option>'+
+    '</select>'+
+    '<button class="del-phase" onclick="delPhase('+id+')">×</button>';
+  list.appendChild(div);
+}
+function delPhase(id){
+  var el = document.getElementById('phase-'+id);
+  if(el) el.remove();
+}
+function getPhases(){
+  var phases = [];
+  document.querySelectorAll('#phaseList .phase-row').forEach(function(row){
+    var id = row.id.replace('phase-','');
+    var s = parseInt(document.getElementById('ps-'+id).value)||1;
+    var e = parseInt(document.getElementById('pe-'+id).value)||20;
+    var m = document.getElementById('pm-'+id).value;
+    phases.push({start:s, end:e, mode:m});
+  });
+  return phases;
+}
+function isReinvestYear(y, phases, globalReinvest, phaseOn){
+  if(!globalReinvest) return false;
+  if(!phaseOn) return true;
+  if(phases.length===0) return false;
+  for(var i=0;i<phases.length;i++){
+    if(y>=phases[i].start && y<=phases[i].end){
+      return phases[i].mode==='reinvest';
+    }
+  }
+  return false; // 구간 외 = 수령만
+}
+
+// ── 시뮬레이션 ───────────────────────────────────────────────
+function simulate(){
+  var monthly   = parseFloat(getRaw('monthly'))||0;
+  var initial   = parseFloat(getRaw('initial'))||0;
+  var years     = parseInt(getRaw('years'))||20;
+  var divYield  = parseFloat(getRaw('divYield'))/100||0.05;
+  var goalDiv   = parseFloat(getRaw('goalDiv'))||0;
+  var useTax    = document.getElementById('taxToggle').checked;
+  var reinvest  = document.getElementById('reinvestToggle').checked;
+  var useGrowth = document.getElementById('growthToggle').checked;
+  var growth    = useGrowth?(parseFloat(getRaw('growthRate'))/100||0):0;
+  var phaseOn   = document.getElementById('phaseToggle').checked && reinvest;
+  var phases    = phaseOn ? getPhases() : [];
+
+  if(monthly<=0 && initial<=0){ alert('월 적립금액 또는 초기 투자금을 입력해주세요.'); return; }
+  if(years<1||years>50){ alert('투자 기간은 1~50년 사이로 입력해주세요.'); return; }
+
+  var TAX = useTax ? 0.154 : 0;
+  var rows = [];
+  var asset = initial;
+  var totalPaid = initial;
+  var goalReachedYear = null;
+
+  for(var y=1; y<=years; y++){
+    var yearDeposit = monthly * 12;
+    totalPaid += yearDeposit;
+    asset += yearDeposit;
+
+    // 배당 계산 (배당률 고정)
+    var grossDiv = asset * divYield;
+    var netDiv   = grossDiv * (1 - TAX);
+    var doReinvest = isReinvestYear(y, phases, reinvest, phaseOn);
+    if(doReinvest) asset += netDiv;
+
+    // 주가 성장 적용 (배당률은 고정, 자산 가치만 상승)
+    if(useGrowth) asset *= (1 + growth);
+
+    var monthlyNet = netDiv / 12;
+    if(goalDiv>0 && goalReachedYear===null && monthlyNet>=goalDiv) goalReachedYear=y;
+
+    rows.push({year:y, totalPaid:totalPaid, asset:asset,
+      grossDiv:grossDiv, netDiv:netDiv, monthlyNet:monthlyNet, doReinvest:doReinvest});
+  }
+
+  renderResult(rows, goalDiv, goalReachedYear, reinvest, phaseOn, useTax);
+}
+
+function renderResult(rows, goalDiv, goalReachedYear, reinvest, phaseOn, useTax){
+  var last = rows[rows.length-1];
+
+  // 요약 카드
+  document.getElementById('summaryGrid').innerHTML =
+    sc('최종 누적 자산', fmt(last.asset)+'원', last.year+'년 후', 'b')+
+    sc('누적 납입금', fmt(last.totalPaid)+'원', '원금', '')+
+    sc('배당 복리 효과', fmt(last.asset-last.totalPaid)+'원', '자산 증가분', 'g')+
+    sc(last.year+'년 후 월 배당', fmt(last.monthlyNet)+'원', '세후 수령액', 'g')+
+    sc(last.year+'년 후 연간 배당', fmt(last.netDiv)+'원', '세후 수령액', 'b')+
+    sc('최고 월 배당', fmt(Math.max.apply(null,rows.map(function(r){return r.monthlyNet;})))+'원', rows.length+'년 중 최대', 'p');
+
+  // 목표 배지
+  var badge = document.getElementById('goalBadge');
+  if(goalDiv>0){
+    badge.style.display='block';
+    if(goalReachedYear){
+      badge.className='goal-badge reached';
+      badge.textContent='🎉 목표 월 배당 '+fmt(goalDiv)+'원 → '+goalReachedYear+'년 후 달성!';
+    } else {
+      badge.className='goal-badge not-reached';
+      badge.textContent='⏳ 목표 월 배당 '+fmt(goalDiv)+'원은 '+rows.length+'년 내 미달성. 적립금액이나 기간을 늘려보세요.';
+    }
+  } else { badge.style.display='none'; }
+
+  // 안내박스
+  var notes=[];
+  if(useTax) notes.push('배당소득세 15.4% 차감 후 세후 금액 기준');
+  if(!reinvest) notes.push('재투자 OFF: 배당금 수령만');
+  else if(phaseOn) notes.push('구간별 재투자 설정 적용됨');
+  notes.push('주가 변동 미반영 — 순수 배당 복리 시뮬레이션');
+  document.getElementById('infoBox').innerHTML='<strong>📌 계산 기준</strong><br>'+notes.join('<br>');
+
+  // 차트
+  drawChart(rows);
+
+  // 테이블
+  var tbody=document.getElementById('simBody');
+  tbody.innerHTML='';
+  rows.forEach(function(r){
+    var tr=document.createElement('tr');
+    var isGoal=goalDiv>0&&goalReachedYear===r.year;
+    var isLast=r.year===rows.length;
+    var isMile=r.year%5===0&&!isGoal&&!isLast;
+    if(isGoal) tr.className='goal-row';
+    else if(isLast) tr.className='last-row';
+    else if(isMile) tr.className='milestone';
+    else if(!r.doReinvest&&reinvest) tr.className='no-reinvest';
+    tr.innerHTML=
+      '<td>'+r.year+'년'+(isGoal?' 🎯':'')+'</td>'+
+      '<td>'+fmt(r.totalPaid)+'원</td>'+
+      '<td>'+fmt(r.asset)+'원</td>'+
+      '<td>'+fmt(r.grossDiv)+'원</td>'+
+      '<td>'+fmt(r.netDiv)+'원</td>'+
+      '<td><strong>'+fmt(r.monthlyNet)+'원</strong></td>'+
+      '<td style="text-align:center">'+(r.doReinvest?'✅':'—')+'</td>';
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('resultSection').style.display='block';
+  document.getElementById('resultSection').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function sc(label,val,sub,cls){
+  return '<div class="sc"><div class="sl2">'+label+'</div>'+
+    '<div class="sv'+(cls?' '+cls:'')+'">'+val+'</div>'+
+    (sub?'<div class="ss">'+sub+'</div>':'')+
+    '</div>';
+}
+
+// ── 차트 ─────────────────────────────────────────────────────
+function drawChart(rows){
+  var canvas = document.getElementById('simChart');
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio||1;
+
+  // 차트 가로 = chart-area(부모의 부모) 너비 기준, 패딩 32px 제거
+  var container = canvas.parentElement.parentElement; // chart-area
+  var W = Math.max(container.clientWidth - 32, 300);
+  var H = 240;
+
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W+'px';
+  canvas.style.height = H+'px';
+  ctx.scale(dpr, dpr);
+
+  var PAD={top:16,right:20,bottom:32,left:68};
+  var cW=W-PAD.left-PAD.right;
+  var cH=H-PAD.top-PAD.bottom;
+
+  var maxAsset=Math.max.apply(null,rows.map(function(r){return r.asset;}));
+  var maxMon  =Math.max.apply(null,rows.map(function(r){return r.monthlyNet;}));
+  var maxVal  =Math.max(maxAsset,1);
+
+  ctx.clearRect(0,0,W,H);
+
+  // 격자
+  for(var i=0;i<=4;i++){
+    var gy=PAD.top+cH*(1-i/4);
+    ctx.strokeStyle='#f0f0f0'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(PAD.left,gy); ctx.lineTo(PAD.left+cW,gy); ctx.stroke();
+    ctx.fillStyle='#bbb'; ctx.font='10px -apple-system,sans-serif'; ctx.textAlign='right';
+    ctx.fillText(shortFmt(maxVal*i/4), PAD.left-4, gy+4);
+  }
+
+  function xp(i){ return PAD.left+(i/(rows.length-1||1))*cW; }
+  function yp(v){ return PAD.top+cH*(1-Math.min(v,maxVal)/maxVal); }
+  // 월배당은 별도 스케일
+  function ypM(v){ return PAD.top+cH*(1-Math.min(v,maxMon||1)/(maxMon||1)); }
+
+  // 납입금 면
+  ctx.beginPath(); ctx.moveTo(xp(0),yp(rows[0].totalPaid));
+  rows.forEach(function(r,i){ ctx.lineTo(xp(i),yp(r.totalPaid)); });
+  ctx.lineTo(xp(rows.length-1),PAD.top+cH); ctx.lineTo(PAD.left,PAD.top+cH); ctx.closePath();
+  ctx.fillStyle='rgba(245,158,11,0.10)'; ctx.fill();
+  ctx.beginPath(); rows.forEach(function(r,i){ i===0?ctx.moveTo(xp(i),yp(r.totalPaid)):ctx.lineTo(xp(i),yp(r.totalPaid)); });
+  ctx.strokeStyle='#F59E0B'; ctx.lineWidth=1.5; ctx.setLineDash([4,3]); ctx.stroke(); ctx.setLineDash([]);
+
+  // 자산 면
+  ctx.beginPath(); ctx.moveTo(xp(0),yp(rows[0].asset));
+  rows.forEach(function(r,i){ ctx.lineTo(xp(i),yp(r.asset)); });
+  ctx.lineTo(xp(rows.length-1),PAD.top+cH); ctx.lineTo(PAD.left,PAD.top+cH); ctx.closePath();
+  ctx.fillStyle='rgba(37,99,235,0.08)'; ctx.fill();
+  ctx.beginPath(); rows.forEach(function(r,i){ i===0?ctx.moveTo(xp(i),yp(r.asset)):ctx.lineTo(xp(i),yp(r.asset)); });
+  ctx.strokeStyle='#2563EB'; ctx.lineWidth=2; ctx.stroke();
+
+  // 월배당 선 (우측 보조축 스케일)
+  ctx.beginPath(); rows.forEach(function(r,i){ i===0?ctx.moveTo(xp(i),ypM(r.monthlyNet)):ctx.lineTo(xp(i),ypM(r.monthlyNet)); });
+  ctx.strokeStyle='#1D9E75'; ctx.lineWidth=2; ctx.stroke();
+
+  // x축 레이블
+  ctx.fillStyle='#bbb'; ctx.font='10px -apple-system,sans-serif'; ctx.textAlign='center';
+  var step=Math.ceil(rows.length/8);
+  rows.forEach(function(r,i){
+    if(i===0||r.year%step===0||i===rows.length-1) ctx.fillText(r.year+'년',xp(i),H-8);
+  });
+}
+
+function shortFmt(n){
+  if(n>=1e8) return (n/1e8).toFixed(1)+'억';
+  if(n>=1e4) return (n/1e4).toFixed(0)+'만';
+  return Math.round(n).toString();
+}
+
+// ── PDF 저장 ────────────────────────────────────────────────
+function simPDF(){
+  if(!lastRows || lastRows.length === 0){
+    alert('먼저 시뮬레이션을 실행해주세요.');
+    return;
+  }
+
+  var date = new Date().toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'});
+  var rows = lastRows;
+  var last = rows[rows.length - 1];
+
+  // 입력값 수집
+  var monthly  = document.getElementById('monthly').value || '0';
+  var initial  = document.getElementById('initial').value || '0';
+  var years    = document.getElementById('years').value || '20';
+  var divYield = document.getElementById('divYield').value || '5.0';
+  var goalDiv  = document.getElementById('goalDiv').value || '—';
+  var useTax   = document.getElementById('taxToggle').checked;
+  var useGrowth = document.getElementById('growthToggle').checked;
+  var growthRate = document.getElementById('growthRate') ? (document.getElementById('growthRate').value||'0') : '0';
+  var freqLabel = document.querySelector('#freqChips .chip.active') ? document.querySelector('#freqChips .chip.active').textContent : '—';
+
+  // 요약 카드 HTML
+  var summaryHTML = document.getElementById('summaryGrid').innerHTML;
+
+  // 목표 달성 배지
+  var badgeEl = document.getElementById('goalBadge');
+  var badgeHTML = badgeEl.style.display !== 'none' ? '<div style="margin-bottom:12px;padding:10px 14px;border-radius:8px;background:' + (badgeEl.classList.contains('reached') ? '#dcfce7;color:#166534;border:1px solid #86efac' : '#fef9c3;color:#854d0e;border:1px solid #fde047') + ';font-size:12px;font-weight:600">' + badgeEl.textContent + '</div>' : '';
+
+  // 테이블 행 HTML (5년 단위 + 마지막 행만)
+  var tableRows = '';
+  rows.forEach(function(r){
+    var isMile = r.year % 5 === 0;
+    var isLast = r.year === rows.length;
+    if(!isMile && !isLast) return;
+    var bg = isLast ? 'background:#111;color:#fff;font-weight:700' : 'background:#f0f4ff;color:#1e3a8a;font-weight:700';
+    tableRows +=
+      '<tr style="'+bg+'">' +
+      '<td style="text-align:center">'+r.year+'년</td>' +
+      '<td>'+fmt(r.totalPaid)+'원</td>' +
+      '<td>'+fmt(r.asset)+'원</td>' +
+      '<td>'+fmt(r.grossDiv)+'원</td>' +
+      '<td>'+fmt(r.netDiv)+'원</td>' +
+      '<td><strong>'+fmt(r.monthlyNet)+'원</strong></td>' +
+      '<td style="text-align:center">'+(r.doReinvest?'✅':'—')+'</td>' +
+      '</tr>';
+  });
+
+  var w = window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>적립식 배당 시뮬레이터 결과</title><style>' +
+    '*{box-sizing:border-box;margin:0;padding:0}' +
+    'body{font-family:-apple-system,sans-serif;font-size:12px;color:#111;padding:24px;max-width:860px;margin:0 auto}' +
+    'h1{font-size:16px;font-weight:700;margin-bottom:4px}' +
+    '.dt{font-size:11px;color:#666;margin-bottom:16px}' +
+    '.stit{font-size:13px;font-weight:700;margin:16px 0 8px;padding-bottom:5px;border-bottom:1.5px solid #eee}' +
+    '.input-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}' +
+    '.ic{background:#f9f9f9;border:1px solid #eee;border-radius:6px;padding:8px 10px}' +
+    '.il{font-size:10px;color:#666;margin-bottom:3px}' +
+    '.iv{font-size:12px;font-weight:600}' +
+    '.sum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}' +
+    '.sc{background:#f4f4f4;border-radius:8px;padding:10px 12px;border:1px solid #e4e4e4}' +
+    '.sl2{font-size:10px;color:#555;margin-bottom:3px}' +
+    '.sv{font-size:14px;font-weight:700}.sv.g{color:#1D9E75}.sv.b{color:#2563EB}.sv.p{color:#7C3AED}' +
+    '.ss{font-size:10px;color:#888}' +
+    'table{width:100%;border-collapse:collapse;font-size:11px}' +
+    'th{background:#111;color:#fff;padding:6px 8px;text-align:right;font-weight:600}' +
+    'th:first-child{text-align:center}' +
+    'td{padding:5px 8px;border-bottom:1px solid #eee;text-align:right}' +
+    'td:first-child{text-align:center}' +
+    '.note{font-size:10px;color:#888;margin-top:12px;padding:8px 10px;background:#f9f9f9;border:1px solid #eee;border-radius:6px;line-height:1.7}' +
+    '.pbtn{display:block;margin:16px auto;padding:10px 30px;background:#111;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}' +
+    '@media print{.pbtn{display:none}}' +
+    '</style></head><body>');
+
+  w.document.write('<h1>📈 적립식 배당 시뮬레이터 — 결과</h1>');
+  w.document.write('<div class="dt">출력일: ' + date + '</div>');
+  w.document.write('<button class="pbtn" onclick="window.print()">🖨️ PDF / 인쇄</button>');
+
+  // 입력 설정
+  w.document.write('<div class="stit">입력 설정</div>');
+  w.document.write('<div class="input-grid">');
+  w.document.write('<div class="ic"><div class="il">월 적립금액</div><div class="iv">'+monthly+'원</div></div>');
+  w.document.write('<div class="ic"><div class="il">초기 투자금</div><div class="iv">'+initial+'원</div></div>');
+  w.document.write('<div class="ic"><div class="il">투자 기간</div><div class="iv">'+years+'년</div></div>');
+  w.document.write('<div class="ic"><div class="il">세전 배당수익률</div><div class="iv">'+divYield+'%</div></div>');
+  w.document.write('<div class="ic"><div class="il">배당소득세</div><div class="iv">'+(useTax?'15.4% 적용':'미적용')+'</div></div>');
+  w.document.write('<div class="ic"><div class="il">재투자 주기</div><div class="iv">'+freqLabel+'</div></div>');
+  w.document.write('<div class="ic"><div class="il">주가 성장률</div><div class="iv">'+(useGrowth?growthRate+'%':'미적용')+'</div></div>');
+  w.document.write('<div class="ic"><div class="il">목표 월 배당</div><div class="iv">'+(goalDiv&&goalDiv!=='—'?goalDiv+'원':'—')+'</div></div>');
+  w.document.write('</div>');
+
+  // 목표 달성 배지
+  if(badgeHTML) w.document.write(badgeHTML);
+
+  // 요약
+  w.document.write('<div class="stit">결과 요약</div>');
+  w.document.write('<div class="sum-grid">' + summaryHTML + '</div>');
+
+  // 연도별 테이블 (5년 단위)
+  w.document.write('<div class="stit">연도별 주요 시점 (5년 단위)</div>');
+  w.document.write('<table><thead><tr>');
+  w.document.write('<th>연도</th><th>누적 납입금</th><th>누적 자산</th><th>연간 세전 배당</th><th>연간 세후 배당</th><th>월 세후 배당</th><th>재투자</th>');
+  w.document.write('</tr></thead><tbody>' + tableRows + '</tbody></table>');
+
+  w.document.write('<div class="note">※ 본 결과는 이론상 예시이며 실제 투자 결과를 보장하지 않습니다. 주가 변동은 반영되지 않은 순수 배당 복리 시뮬레이션입니다.</div>');
+  w.document.write('<button class="pbtn" onclick="window.print()">🖨️ PDF / 인쇄</button>');
+  w.document.write('</body></html>');
+  w.document.close();
+}
+
+// ── 리사이즈 시 차트 재그리기 ────────────────────────────────
+var lastRows = null;
+
+// renderResult 호출 시 rows 저장
+var _origRender = renderResult;
+renderResult = function(rows, goalDiv, goalReachedYear, reinvest, phaseOn, useTax){
+  lastRows = rows;
+  _origRender(rows, goalDiv, goalReachedYear, reinvest, phaseOn, useTax);
+};
+
+var resizeTimer;
+window.addEventListener('resize', function(){
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function(){
+    if(lastRows) drawChart(lastRows);
+  }, 100);
+});
+</script>
+</body>
+</html>
