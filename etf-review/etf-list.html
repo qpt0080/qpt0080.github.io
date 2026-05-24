@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETF 소개 - 배당계산기</title>
+<meta name="description" content="AI 반도체, 2차전지 등 주요 ETF를 수치로 살펴봅니다. 너무 전문적이지 않게, 수치는 정확하게.">
+<meta name="robots" content="index, follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;background:#fff;color:#111;padding:16px;max-width:860px;margin:0 auto}
+h1{font-size:19px;font-weight:700;margin-bottom:4px}
+.subtitle{font-size:13px;color:#555;margin-bottom:24px}
+.section{margin-bottom:2.5rem}
+.section-title{font-size:16px;font-weight:700;color:#111;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #111;display:flex;align-items:center;gap:7px}
+.about-card{background:#f4f4f4;border:1px solid #e4e4e4;border-radius:12px;padding:18px 20px;margin-bottom:16px;line-height:1.8;font-size:14px;color:#333}
+.about-card strong{color:#111}
+.site-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:20px;padding-bottom:14px;border-bottom:1.5px solid #eee}
+.nav-tools{display:flex;gap:6px;flex-wrap:wrap}
+.nav-tool{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:#555;text-decoration:none;padding:5px 11px;border:1.5px solid #ddd;border-radius:8px;font-weight:500;white-space:nowrap}
+.nav-tool:hover{border-color:#555;color:#111}
+.nav-info{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:#888;text-decoration:none;padding:5px 11px;border:1.5px solid #eee;border-radius:8px;font-weight:500;white-space:nowrap}
+.nav-info:hover{border-color:#aaa;color:#555}
+.nav-info.active{background:#555;color:#fff;border-color:#555}
+.etf-card{display:block;text-decoration:none;padding:16px 18px;border:1.5px solid #e4e4e4;border-radius:12px;background:#fff;margin-bottom:10px;transition:border-color .15s}
+.etf-card:hover{border-color:#555}
+.etf-card-inner{display:flex;align-items:flex-start;gap:12px}
+.etf-icon{font-size:22px;margin-top:1px;flex-shrink:0}
+.etf-body{}
+.etf-label{font-size:11px;font-weight:600;color:#888;margin-bottom:3px;letter-spacing:.02em}
+.etf-title{font-size:14px;font-weight:700;color:#111;margin-bottom:4px}
+.etf-desc{font-size:12px;color:#666;line-height:1.6}
+.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:4px;margin-right:4px;margin-bottom:4px;font-weight:600}
+.tag-ai{background:#e0edff;color:#1e3a8a}
+.tag-battery{background:#e6fce9;color:#166534}
+.tag-semi{background:#f3e8ff;color:#6b21a8}
+.tag-active{background:#fff7ed;color:#9a3412}
+.site-footer{margin-top:40px;padding:14px 16px;background:#f9f9f9;border-radius:10px;font-size:12px;color:#888;text-align:center;line-height:2}
+.site-footer a{color:#888;text-decoration:none}
+.site-footer a:hover{color:#333}
+@media(max-width:600px){.nav-tools{gap:4px}.nav-tool,.nav-info{font-size:12px;padding:4px 9px}}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-tools">
+    <a class="nav-tool" href="../index.html">📊 배당계산기</a>
+    <a class="nav-tool" href="../loan.html">🏦 대출·레버리지</a>
+    <a class="nav-tool" href="../portfolio-scan.html">📂 포트폴리오 분석</a>
+    <a class="nav-tool" href="../reinvest-simulator.html">📈 적립식 시뮬레이터</a>
+  </div>
+  <a class="nav-info active" href="../about.html">📋 글 목록</a>
+</nav>
+
+<h1>📈 ETF 소개</h1>
+<p class="subtitle">주요 ETF를 수치로 살펴봅니다 · 너무 전문적이지 않게, 수치는 정확하게</p>
+
+<div class="section">
+  <div class="section-title">🤖 AI·반도체</div>
+  <div class="about-card">
+    AI 인프라 투자가 가속화되면서 반도체 관련 ETF 종류도 빠르게 늘었어요. 팹리스 집중형, 밸류체인 분산형, 메모리 특화형 등 컨셉이 다 달라요. 어디에 어떻게 투자하는지 비교해봤어요.
+  </div>
+
+  <a class="etf-card" href="tiger-fabless-etf.html">
+    <div class="etf-card-inner">
+      <div class="etf-icon">🏭</div>
+      <div class="etf-body">
+        <div class="etf-label">TIGER · 491830 · 2024.09 상장</div>
+        <div class="etf-title">TIGER 미국AI반도체팹리스</div>
+        <div style="margin-bottom:6px">
+          <span class="tag tag-ai">AI반도체</span>
+          <span class="tag tag-semi">팹리스</span>
+        </div>
+        <div class="etf-desc">공장 없이 설계만 하는 팹리스 기업만 담는 ETF. 엔비디아·브로드컴·AMD·퀄컴·ARM 10종목에 상위 5종목 비중 89%. 상장이후 +144%지만 중간에 -6%까지 빠진 낙폭을 기억하자.</div>
+      </div>
+    </div>
+  </a>
+
+  <a class="etf-card" href="tiger-asox-etf.html">
+    <div class="etf-card-inner">
+      <div class="etf-icon">💡</div>
+      <div class="etf-body">
+        <div class="etf-label">TIGER · 497570 · 2024.11 상장</div>
+        <div class="etf-title">TIGER 미국필라델피아AI반도체나스닥</div>
+        <div style="margin-bottom:6px">
+          <span class="tag tag-ai">AI반도체</span>
+          <span class="tag tag-semi">ASOX</span>
+        </div>
+        <div class="etf-desc">나스닥이 30년 만에 새로 만든 AI 반도체 전용 지수 ASOX를 국내 최초 추종. 팹리스부터 장비·파운드리·패키징까지 20종목. 상장 약 1년 6개월 만에 순자산 1조 돌파.</div>
+      </div>
+    </div>
+  </a>
+
+  <a class="etf-card" href="kodex-ai-semiconductor-top3.html">
+    <div class="etf-card-inner">
+      <div class="etf-icon">🎯</div>
+      <div class="etf-body">
+        <div class="etf-label">KODEX · 0151S0 · 2026.01 상장</div>
+        <div class="etf-title">KODEX 미국AI반도체TOP3플러스</div>
+        <div style="margin-bottom:6px">
+          <span class="tag tag-ai">AI반도체</span>
+          <span class="tag tag-semi">집중형</span>
+        </div>
+        <div class="etf-desc">엔비디아·TSMC·브로드컴 TOP3에 62% 압축 투자. 메모리(마이크론·샌디스크·램버스)까지 담는 국내 유일 구조. 상장 2주 만에 순자산 1,000억 돌파.</div>
+      </div>
+    </div>
+  </a>
+</div>
+
+<div class="section">
+  <div class="section-title">🔋 2차전지·배터리</div>
+  <div class="about-card">
+    전기차 버블 붕괴 이후 긴 침체를 겪었던 2차전지 ETF가 ESS 수요 확대를 계기로 다시 주목받고 있어요. 어떤 흐름이었는지 되짚어봤어요.
+  </div>
+
+  <a class="etf-card" href="rise-battery-active.html">
+    <div class="etf-card-inner">
+      <div class="etf-icon">⚡</div>
+      <div class="etf-body">
+        <div class="etf-label">RISE · 422420 · 2022.04 상장</div>
+        <div class="etf-title">RISE 2차전지액티브</div>
+        <div style="margin-bottom:6px">
+          <span class="tag tag-battery">2차전지</span>
+          <span class="tag tag-active">액티브</span>
+        </div>
+        <div class="etf-desc">국내 최초 2차전지 액티브 ETF. 열풍 속에 나왔다가 -46%까지 빠졌고, ESS 수요 확대 흐름을 타고 2025년 하반기 +45% 반등. 파란만장한 3년을 수치로 정리했어요.</div>
+      </div>
+    </div>
+  </a>
+</div>
+
+<div class="site-footer">
+  © 2025 배당계산기 &nbsp;·&nbsp;
+  <a href="../index.html">📊 배당계산기</a> &nbsp;·&nbsp;
+  <a href="../loan.html">🏦 대출·레버리지</a> &nbsp;·&nbsp;
+  <a href="../about.html">📋 글 목록</a>
+</div>
+
+</body>
+</html>
