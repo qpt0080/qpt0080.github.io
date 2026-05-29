@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://qpt0080.github.io/</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-05-30</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://qpt0080.github.io/about.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -17,81 +17,81 @@
   </url>
   <url>
     <loc>https://qpt0080.github.io/portfolio-scan.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://qpt0080.github.io/reinvest-simulator.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.8</priority>
   </url>
 
   <!-- ETF 소개 목록 -->
   <url>
-    <loc>https://qpt0080.github.io/articles/etf-list.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/etf-list.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.8</priority>
   </url>
 
   <!-- ETF 리뷰 글 -->
   <url>
-    <loc>https://qpt0080.github.io/articles/tiger-fabless-etf.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/tiger-fabless-etf.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/tiger-asox-etf.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/tiger-asox-etf.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/kodex-ai-semiconductor-top3.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/kodex-ai-semiconductor-top3.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/rise-battery-active.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/rise-battery-active.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/plus-k-defense.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/plus-k-defense.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/hanaro-nuclear.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/hanaro-nuclear.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/sol-palantir-covered-call.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/sol-palantir-covered-call.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/hanaro-k-food.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/hanaro-k-food.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/kodex-us-humanoid-robot.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/kodex-us-humanoid-robot.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/plus-global-humanoid-robot.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/plus-global-humanoid-robot.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/kodex-ai-software-top10.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/kodex-ai-software-top10.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://qpt0080.github.io/articles/hanaro-physical-ai.html</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://qpt0080.github.io/etf-review/hanaro-physical-ai.html</loc>
+    <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
 
