@@ -213,6 +213,39 @@ canvas{display:block;width:100%;height:auto}
 .chart-svg-wrap{width:100%;overflow-x:auto}
 .goal-pdf-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;background:#111;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:1.25rem;margin-left:auto}
 .goal-pdf-btn:hover{background:#333}
+/* FIRE 계산기 */
+.fire-section{width:100%;margin-bottom:28px}
+.fire-card{background:linear-gradient(135deg,#fff7ed 0%,#fef9f5 100%);border:1.5px solid #fed7aa;border-left:4px solid #ea580c;border-radius:14px;padding:20px}
+.fire-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.fire-head-title{font-size:16px;font-weight:800;color:#c2410c}
+.fire-head-sub{font-size:12px;color:#9a6a4a;margin-bottom:16px;line-height:1.6}
+.fire-inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+.fire-inputs .lbl{font-size:12px;color:#7c4a2a;font-weight:600;margin-bottom:4px}
+.fire-inputs input{width:100%;padding:9px 11px;border:1.5px solid #f0c9a8;border-radius:9px;font-size:15px;font-weight:600;background:#fff;color:#111}
+.fire-inputs input:focus{outline:none;border-color:#ea580c}
+.fire-full{grid-column:1 / -1}
+.fire-trow{grid-column:1 / -1;display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid #f3d9c4}
+.fire-tlbl{font-size:13px;font-weight:600;color:#7c4a2a}
+.fire-tsub{font-size:11px;color:#a87a5a;margin-top:2px}
+.fire-result{display:none;margin-top:18px;background:#fff;border-radius:12px;border:1.5px solid #fed7aa;overflow:hidden}
+.fire-result-head{padding:11px 16px;background:#ea580c;color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px}
+.fire-result-grid{display:grid;grid-template-columns:1fr 1fr}
+.fire-rc{padding:13px 16px;border-right:1px solid #fef0e6;border-bottom:1px solid #fef0e6}
+.fire-rc:nth-child(even){border-right:none}
+.fire-rc:nth-last-child(-n+2){border-bottom:none}
+.fire-rc .frl{font-size:12px;color:#7c4a2a;font-weight:500;margin-bottom:4px}
+.fire-rc .frv{font-size:17px;font-weight:800;color:#111}
+.fire-rc .frv.o{color:#ea580c}.fire-rc .frv.g{color:#1D9E75}.fire-rc .frv.b{color:#2563EB}
+.fire-headline{grid-column:1 / -1;padding:16px;text-align:center;background:#fff7ed;border-bottom:1px solid #fed7aa}
+.fire-headline .fh-big{font-size:26px;font-weight:800;color:#ea580c;line-height:1.2}
+.fire-headline .fh-sub{font-size:13px;color:#7c4a2a;margin-top:5px;font-weight:500}
+.fire-note{font-size:12px;color:#7c4a2a;padding:10px 16px;border-top:1px solid #fef0e6;background:#fffbf7;line-height:1.6}
+.fire-chart-wrap{margin-top:16px;background:#fff;border:1.5px solid #fed7aa;border-radius:12px;padding:16px}
+.fire-chart-title{font-size:13px;font-weight:700;color:#c2410c;margin-bottom:10px}
+@media(max-width:640px){
+  .fire-inputs{grid-template-columns:1fr}
+  .fire-result-grid{grid-template-columns:1fr 1fr}
+}
 /* 용어 */
 .terms-section{margin-top:2.5rem;border:1.5px solid #e4e4e4;border-radius:12px;overflow:hidden}
 .terms-head{padding:14px 18px;background:#f4f4f4;border-bottom:1px solid #e4e4e4;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
@@ -252,7 +285,7 @@ canvas{display:block;width:100%;height:auto}
 <p class="subtitle">국내 · 미국 주식 배당소득세 · 복리 재투자 시뮬레이션 &nbsp;<button onclick="fillExample()" style="font-size:12px;padding:3px 10px;border:1.5px solid #bbb;border-radius:6px;background:#f9f9f9;cursor:pointer;color:#555;font-weight:600">✏️ 예시값 채우기</button></p>
 <div class="main-tabs">
   <button class="main-tab active" onclick="switchMain('calc')">📊 배당 계산기</button>
-  <button class="main-tab" onclick="switchMain('goal')">🎯 목표 역산</button>
+  <button class="main-tab" onclick="switchMain('goal')">🔥 FIRE·목표 계산</button>
   <button class="main-tab" onclick="switchMain('tax')">🧾 세금 계산기</button>
 </div>
 <div id="main-calc" class="main-panel active">
@@ -446,6 +479,54 @@ canvas{display:block;width:100%;height:auto}
 
 <!-- 목표역산 -->
 <div id="main-goal" class="main-panel">
+
+<!-- FIRE 계산기 -->
+<div class="fire-section">
+  <div class="fire-card">
+    <div class="fire-head">
+      <span style="font-size:22px">🔥</span>
+      <span class="fire-head-title">FIRE 달성 계산기</span>
+    </div>
+    <div class="fire-head-sub">배당만으로 생활비를 충당하는 <strong>경제적 자유(FIRE)</strong>까지 몇 년 걸릴지 계산해요. 현재 자산과 매월 적립액을 넣으면 목표 도달 시점을 알려드려요.</div>
+    <div class="fire-inputs">
+      <div><div class="lbl">목표 월 생활비 (원)</div><input type="text" inputmode="decimal" id="fire-expense" placeholder="예) 3,000,000" oninput="calcFire()"></div>
+      <div><div class="lbl">예상 배당수익률 (연 %)</div><input type="text" inputmode="decimal" id="fire-yield" placeholder="예) 4" oninput="calcFire()"></div>
+      <div><div class="lbl">현재 보유 자산 (원)</div><input type="text" inputmode="decimal" id="fire-current" placeholder="예) 50,000,000" oninput="calcFire()"></div>
+      <div><div class="lbl">매월 적립액 (원)</div><input type="text" inputmode="decimal" id="fire-monthly" placeholder="예) 1,000,000" oninput="calcFire()"></div>
+      <div><div class="lbl">예상 연 수익률 <span style="font-weight:400;color:#a87a5a">(주가성장+배당)</span></div><input type="text" inputmode="decimal" id="fire-growth" placeholder="예) 7" oninput="calcFire()"></div>
+      <div><div class="lbl">현재 나이 <span style="font-weight:400;color:#a87a5a">(선택)</span></div><input type="text" inputmode="decimal" id="fire-age" placeholder="예) 35" oninput="calcFire()"></div>
+      <div class="fire-trow">
+        <div>
+          <div class="fire-tlbl">물가상승률 반영</div>
+          <div class="fire-tsub">목표 생활비를 미래 가치로 환산해요 (기본 연 2.5%)</div>
+        </div>
+        <label class="sw"><input type="checkbox" id="fire-infl-toggle" checked onchange="toggleInflRow()"><span class="sl"></span></label>
+      </div>
+      <div class="fire-full" id="fire-infl-row">
+        <div class="lbl">물가상승률 (연 %)</div><input type="text" inputmode="decimal" id="fire-infl" placeholder="예) 2.5" value="2.5" oninput="calcFire()">
+      </div>
+    </div>
+    <div class="fire-result" id="fire-result">
+      <div class="fire-headline">
+        <div class="fh-big" id="fire-headline-big">—</div>
+        <div class="fh-sub" id="fire-headline-sub"></div>
+      </div>
+      <div class="fire-result-grid">
+        <div class="fire-rc"><div class="frl">필요 목표 자산</div><div class="frv o" id="fire-r1">—</div></div>
+        <div class="fire-rc"><div class="frl">목표 도달 시점</div><div class="frv b" id="fire-r2">—</div></div>
+        <div class="fire-rc"><div class="frl">도달 시 월 배당(세전)</div><div class="frv g" id="fire-r3">—</div></div>
+        <div class="fire-rc"><div class="frl">총 적립 원금</div><div class="frv" id="fire-r4">—</div></div>
+      </div>
+      <div class="fire-note" id="fire-note"></div>
+    </div>
+    <div class="fire-chart-wrap" id="fire-chart-wrap" style="display:none">
+      <div class="fire-chart-title">📈 자산 성장 시뮬레이션</div>
+      <div class="chart-svg-wrap"><svg id="fire-svg" width="700" height="240" viewBox="0 0 700 240" style="width:100%;height:auto"></svg></div>
+      <div style="font-size:11px;color:#9a6a4a;margin-top:8px;line-height:1.6">* 매년 적립 + 복리 성장 가정. 실제 수익률은 시장 상황에 따라 달라질 수 있어요.</div>
+    </div>
+  </div>
+</div>
+
 <div class="goal-section">
   <div class="goal-grid-title">🇰🇷 국내 주식</div>
   <div class="goal-grid">
@@ -504,9 +585,17 @@ canvas{display:block;width:100%;height:auto}
 <!-- Q&A: 목표 역산 -->
 <div id="qa-goal" class="qa-panel" style="display:none">
   <div class="qa-section">
-    <div class="qa-section-title">❓ 자주 묻는 질문 — 목표 역산</div>
+    <div class="qa-section-title">❓ 자주 묻는 질문 — FIRE·목표 역산</div>
     <div class="qa-item">
-      <button class="qa-q" onclick="toggleQA(this)">목표 월 배당금을 받으려면 얼마가 필요한가요? <span class="qa-arrow">▼</span></button>
+      <button class="qa-q" onclick="toggleQA(this)">FIRE(파이어)가 뭔가요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">FIRE는 <strong>Financial Independence, Retire Early</strong>(경제적 자유, 조기 은퇴)의 약자예요. 모아둔 자산에서 나오는 배당·이자만으로 생활비를 충당할 수 있는 상태를 말해요. 이 계산기는 현재 자산과 매월 적립액을 바탕으로 <strong>배당만으로 생활비를 감당하는 시점</strong>이 언제인지 계산해줘요.</div>
+    </div>
+    <div class="qa-item">
+      <button class="qa-q" onclick="toggleQA(this)">물가상승률을 왜 반영하나요? <span class="qa-arrow">▼</span></button>
+      <div class="qa-a">지금 월 300만원으로 충분한 생활비도 <strong>20년 후엔 물가가 올라 더 많은 돈이 필요</strong>해요. 예를 들어 연 2.5% 물가상승을 가정하면 20년 후엔 약 490만원이 있어야 지금의 300만원과 같은 생활이 가능해요. 그래서 물가상승률을 반영하면 목표 자산이 더 현실적으로 커집니다.</div>
+    </div>
+    <div class="qa-item">
+            <button class="qa-q" onclick="toggleQA(this)">목표 월 배당금을 받으려면 얼마가 필요한가요? <span class="qa-arrow">▼</span></button>
       <div class="qa-a">필요 투자금 = <strong>목표 월 배당금 × 12 ÷ 배당수익률(%/100)</strong>이에요. 예를 들어 월 100만원을 연 6% 배당 ETF로 받으려면 <strong>약 2억원</strong>이 필요해요. 세금을 고려하면 15.4% 더 필요하므로 실제론 약 2억 3,600만원 정도가 돼요.</div>
     </div>
     <div class="qa-item">
@@ -875,7 +964,13 @@ function fillExample(){
     document.getElementById('g4-amount').value='10,000';
     document.getElementById('g4-yield').value='4';
     document.getElementById('g4-price').value='80';
-    calcGoal();calcGoal2();calcGoal3();calcGoal4();
+    document.getElementById('fire-expense').value='3,000,000';
+    document.getElementById('fire-yield').value='4';
+    document.getElementById('fire-current').value='50,000,000';
+    document.getElementById('fire-monthly').value='1,000,000';
+    document.getElementById('fire-growth').value='7';
+    document.getElementById('fire-age').value='35';
+    calcFire();calcGoal();calcGoal2();calcGoal3();calcGoal4();
   } else if(tab==='tax'){
     setTaxType('근로');
     document.getElementById('tax-income').value='3,600';
@@ -916,6 +1011,157 @@ drawLineChart('us-line-canvas','us-chart-sec','us-chart-legend',{pts:usPts,color
 S.u._cumPts=usPts; updateCumBarChart();
 uSum();debounceSave();}
 
+// ===== FIRE 계산기 =====
+function toggleInflRow(){
+  var on=document.getElementById('fire-infl-toggle').checked;
+  document.getElementById('fire-infl-row').style.display=on?'block':'none';
+  calcFire();
+}
+function calcFire(){
+  var expense=gv('fire-expense'),  // 목표 월 생활비
+      dyield=gv('fire-yield'),      // 배당수익률(연%)
+      current=gv('fire-current'),   // 현재 자산
+      monthly=gv('fire-monthly'),   // 매월 적립
+      growth=gv('fire-growth'),     // 연 수익률(성장)
+      age=gv('fire-age'),           // 현재 나이
+      inflOn=document.getElementById('fire-infl-toggle').checked,
+      infl=inflOn?gv('fire-infl'):0;
+  var res=document.getElementById('fire-result'),
+      chartWrap=document.getElementById('fire-chart-wrap');
+  // 필수: 생활비 + 배당수익률
+  if(!expense||!dyield){res.style.display='none';chartWrap.style.display='none';return;}
+
+  var annualExpense=expense*12;
+  var dy=dyield/100;
+  // 물가상승률 미반영 기준 필요자산
+  var baseTarget=annualExpense/dy;
+
+  // 성장률(적립 복리). 미입력 시 배당수익률을 성장률로 사용
+  var gr=(growth>0?growth:dyield)/100;
+  var inflR=infl/100;
+
+  // 매년 시뮬레이션: 목표 도달 연도 찾기
+  // 목표자산은 물가상승 반영 시 매년 커짐
+  var asset=current, reached=-1, yearsList=[], MAX=60;
+  for(var yr=0;yr<=MAX;yr++){
+    // 해당 연도의 목표자산(물가상승 반영)
+    var targetThisYear=baseTarget*Math.pow(1+inflR,yr);
+    yearsList.push({yr:yr,asset:asset,target:targetThisYear});
+    if(reached<0 && asset>=targetThisYear){reached=yr;}
+    // 다음 해 자산 = (자산 + 연적립) * (1+성장률)
+    asset=(asset+monthly*12)*(1+gr);
+  }
+
+  // 결과 표시
+  res.style.display='block';
+  var finalTarget=reached>=0?baseTarget*Math.pow(1+inflR,reached):baseTarget*Math.pow(1+inflR,MAX);
+  document.getElementById('fire-r1').textContent=f(Math.round(finalTarget))+'원';
+
+  var big=document.getElementById('fire-headline-big'),
+      sub=document.getElementById('fire-headline-sub');
+  if(reached===0){
+    big.textContent='이미 달성! 🎉';
+    sub.textContent='현재 자산만으로 목표 생활비를 배당으로 충당할 수 있어요';
+    document.getElementById('fire-r2').textContent='달성 완료';
+  }else if(reached>0){
+    big.textContent=reached+'년 후 FIRE 달성';
+    sub.textContent=age>0?('약 '+(age+reached)+'세에 경제적 자유 도달'):'매월 꾸준히 적립하면 도달할 수 있어요';
+    document.getElementById('fire-r2').textContent=reached+'년 후'+(age>0?(' ('+(age+reached)+'세)'):'');
+  }else{
+    big.textContent='60년 내 미달성';
+    sub.textContent='적립액이나 수익률을 높이면 도달 시점이 빨라져요';
+    document.getElementById('fire-r2').textContent='60년+';
+  }
+
+  var monthDiv=finalTarget*dy/12;
+  document.getElementById('fire-r3').textContent=f(Math.round(monthDiv))+'원/월';
+  var totalPrincipal=current+monthly*12*(reached>0?reached:MAX);
+  document.getElementById('fire-r4').textContent=f(Math.round(totalPrincipal))+'원';
+
+  var noteParts=[];
+  noteParts.push('목표 월 생활비 '+f(expense)+'원 → 연 '+f(annualExpense)+'원');
+  noteParts.push('배당수익률 '+dyield+'% 기준 필요자산 '+f(Math.round(baseTarget))+'원');
+  if(inflOn&&infl>0&&reached>0)noteParts.push('물가상승 연 '+infl+'% 반영(목표자산 '+f(Math.round(finalTarget))+'원으로 증가)');
+  if(growth>0)noteParts.push('연 수익률 '+growth+'% 가정');
+  document.getElementById('fire-note').textContent='💡 '+noteParts.join(' · ');
+
+  // 차트
+  drawFireChart(yearsList,reached);
+}
+function drawFireChart(data,reached){
+  var svg=document.getElementById('fire-svg'),wrap=document.getElementById('fire-chart-wrap');
+  if(!svg)return;
+  var ns='http://www.w3.org/2000/svg';
+  while(svg.firstChild)svg.removeChild(svg.firstChild);
+  // 표시 범위: 도달연도+3년 또는 최소 10년
+  var maxYr=reached>0?Math.min(reached+3,data.length-1):Math.min(15,data.length-1);
+  var view=data.slice(0,maxYr+1);
+  if(view.length<2){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  var W=700,H=240,padL=70,padR=20,padT=20,padB=30;
+  var maxVal=0;
+  view.forEach(function(d){maxVal=Math.max(maxVal,d.asset,d.target);});
+  maxVal*=1.1;
+  function x(i){return padL+(W-padL-padR)*i/(view.length-1);}
+  function y(v){return H-padB-(H-padT-padB)*v/maxVal;}
+  // 격자 + Y축 라벨
+  for(var g=0;g<=4;g++){
+    var gv2=maxVal*g/4, gy=y(gv2);
+    var line=document.createElementNS(ns,'line');
+    line.setAttribute('x1',padL);line.setAttribute('y1',gy);line.setAttribute('x2',W-padR);line.setAttribute('y2',gy);
+    line.setAttribute('stroke','#f0e0d0');line.setAttribute('stroke-width','1');svg.appendChild(line);
+    var lbl=document.createElementNS(ns,'text');
+    lbl.setAttribute('x',padL-8);lbl.setAttribute('y',gy+4);lbl.setAttribute('text-anchor','end');
+    lbl.setAttribute('font-size','10');lbl.setAttribute('fill','#9a6a4a');
+    lbl.textContent=gv2>=100000000?(gv2/100000000).toFixed(1)+'억':Math.round(gv2/10000)+'만';
+    svg.appendChild(lbl);
+  }
+  // 목표선 (점선)
+  var tPath='';
+  view.forEach(function(d,i){tPath+=(i===0?'M':'L')+x(i).toFixed(1)+','+y(d.target).toFixed(1);});
+  var tp=document.createElementNS(ns,'path');
+  tp.setAttribute('d',tPath);tp.setAttribute('fill','none');tp.setAttribute('stroke','#ea580c');
+  tp.setAttribute('stroke-width','2');tp.setAttribute('stroke-dasharray','5,4');svg.appendChild(tp);
+  // 자산선 (실선)
+  var aPath='';
+  view.forEach(function(d,i){aPath+=(i===0?'M':'L')+x(i).toFixed(1)+','+y(d.asset).toFixed(1);});
+  var ap=document.createElementNS(ns,'path');
+  ap.setAttribute('d',aPath);ap.setAttribute('fill','none');ap.setAttribute('stroke','#2563EB');
+  ap.setAttribute('stroke-width','2.5');svg.appendChild(ap);
+  // X축 라벨
+  view.forEach(function(d,i){
+    if(i%Math.ceil(view.length/8 || 1)===0 || i===view.length-1){
+      var xl=document.createElementNS(ns,'text');
+      xl.setAttribute('x',x(i));xl.setAttribute('y',H-padB+16);xl.setAttribute('text-anchor','middle');
+      xl.setAttribute('font-size','10');xl.setAttribute('fill','#9a6a4a');
+      xl.textContent=d.yr+'년';svg.appendChild(xl);
+    }
+  });
+  // 달성 지점 마커
+  if(reached>0 && reached<=maxYr){
+    var mc=document.createElementNS(ns,'circle');
+    mc.setAttribute('cx',x(reached));mc.setAttribute('cy',y(view[reached].asset));
+    mc.setAttribute('r','5');mc.setAttribute('fill','#1D9E75');mc.setAttribute('stroke','#fff');mc.setAttribute('stroke-width','2');
+    svg.appendChild(mc);
+    var mt=document.createElementNS(ns,'text');
+    mt.setAttribute('x',x(reached));mt.setAttribute('y',y(view[reached].asset)-12);mt.setAttribute('text-anchor','middle');
+    mt.setAttribute('font-size','11');mt.setAttribute('font-weight','700');mt.setAttribute('fill','#1D9E75');
+    mt.textContent='🔥 달성';svg.appendChild(mt);
+  }
+  // 범례
+  var leg=[['자산','#2563EB','solid'],['목표(FIRE)','#ea580c','dash']];
+  leg.forEach(function(l,i){
+    var lx=padL+i*110;
+    var ln=document.createElementNS(ns,'line');
+    ln.setAttribute('x1',lx);ln.setAttribute('y1',padT-8);ln.setAttribute('x2',lx+20);ln.setAttribute('y2',padT-8);
+    ln.setAttribute('stroke',l[1]);ln.setAttribute('stroke-width','2.5');
+    if(l[2]==='dash')ln.setAttribute('stroke-dasharray','5,4');
+    svg.appendChild(ln);
+    var lt=document.createElementNS(ns,'text');
+    lt.setAttribute('x',lx+25);lt.setAttribute('y',padT-4);lt.setAttribute('font-size','10');lt.setAttribute('fill','#7c4a2a');
+    lt.textContent=l[0];svg.appendChild(lt);
+  });
+}
 function calcGoal(){var t=gv('g-target'),y=gv('g-yield'),p=gv('g-price'),txOn=document.getElementById('g-tax-toggle').checked,tx=txOn?0.154:0;if(!t||!y){document.getElementById('goal-result').style.display='none';return;}var freq=GYF['g'],ay=toAnnual(y,freq),an=t*12,ag=tx>0?an/(1-tx):an,pr=ay>0?ag/(ay/100):0,sh=p>0?Math.ceil(pr/p):0;var d=annualToDisp(ay);document.getElementById('g-r1').textContent=f(an)+'원/년 ('+f(Math.round(an/12))+'원/월)';document.getElementById('g-r2').textContent=f(Math.round(ag))+'원/년';document.getElementById('g-r3').textContent=pr?f(Math.round(pr))+'원':'—';document.getElementById('g-r4').textContent=sh?f(sh)+'주':'—';document.getElementById('g-note').textContent='입력 배당수익률 '+y+'%('+freqLabel(freq)+') → 연환산 '+d.y.toFixed(2)+'% · 월환산 '+d.m.toFixed(2)+'%'+(p?' · 주당 '+f(p)+'원':'')+(tx>0?' · 세후':'');document.getElementById('goal-result').style.display='block';drawGoalChart();}
 function calcGoal2(){var a=gv('g2-amount'),y=gv('g2-yield'),p=gv('g2-price'),txOn=document.getElementById('g2-tax-toggle').checked,tx=txOn?0.154:0;if(!a||!y){document.getElementById('goal2-result').style.display='none';return;}var freq=GYF['g2'],ay=toAnnual(y,freq),sh=p>0?Math.floor(a/p):0,ag=a*(ay/100),an=ag*(1-tx),mn=an/12,ey=a>0?(an/a*100):0;var d=annualToDisp(ay);document.getElementById('g2-r1').textContent=sh?f(sh)+'주':'—';document.getElementById('g2-r2').textContent=f(Math.round(an))+'원/년';document.getElementById('g2-r3').textContent=f(Math.round(mn))+'원/월';document.getElementById('g2-r4').textContent=ey.toFixed(2)+'%';document.getElementById('g2-note').textContent='투자금 '+f(a)+'원 · 입력 '+y+'%('+freqLabel(freq)+') → 연 '+d.y.toFixed(2)+'% · 월 '+d.m.toFixed(2)+'%'+(tx>0?' · 세후':'');document.getElementById('goal2-result').style.display='block';drawGoalChart();}
 function calcGoal3(){var t=gv('g3-target'),y=gv('g3-yield'),p=gv('g3-price'),txOn=document.getElementById('g3-tax-toggle').checked,tx=txOn?0.15:0,r=gv('g3-rate')||lastRate,useKrw=document.getElementById('g3-krw-toggle').checked;if(!t||!y){document.getElementById('goal3-result').style.display='none';drawGoalChart();return;}var freq=GYF['g3'],ay=toAnnual(y,freq),an=t*12,ag=tx>0?an/(1-tx):an,pu=ay>0?ag/(ay/100):0,pk=pu*r,sh=p>0?Math.ceil(pu/p):0;var d=annualToDisp(ay),cur=useKrw?'원':'$';document.getElementById('g3-l1').textContent='필요 연간 배당(세후, '+cur+')';document.getElementById('g3-l2').textContent='세전 필요 배당금('+cur+')';document.getElementById('g3-l6').textContent='월 배당금('+(useKrw?'원화':'달러')+')';document.getElementById('g3-r1').textContent=(useKrw?f(Math.round(an*r))+'원/년':'$'+fd(an)+'/년');document.getElementById('g3-r2').textContent=(useKrw?f(Math.round(ag*r))+'원/년':'$'+fd(ag)+'/년');document.getElementById('g3-r3').textContent=pu?(useKrw?f(Math.round(pu*r))+'원':'$'+fd(pu)):'—';document.getElementById('g3-r4').textContent=pk?f(Math.round(pk))+'원':'—';document.getElementById('g3-r5').textContent=sh?f(sh)+'주':'—';document.getElementById('g3-r6').textContent=(useKrw?f(Math.round(t*(1-tx)*r))+'원/월':'$'+fd(t*(1-tx))+'/월');document.getElementById('g3-note').textContent='입력 '+y+'%('+freqLabel(freq)+') → 연 '+d.y.toFixed(2)+'% · 월 '+d.m.toFixed(2)+'% · 환율 '+f(r)+'원'+(tx>0?' · 세후':'');document.getElementById('goal3-result').style.display='block';drawGoalChart();}
@@ -1563,6 +1809,7 @@ function imgTag(dataUrl, w) {
 // ────────────────────────────────────────────────────────────
 
 loadAll();
+toggleInflRow();
 
 function clearGoalCard(n){
   var map={
