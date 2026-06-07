@@ -139,6 +139,7 @@ footer a{color:#aaa}
       <a class="nav-tool" href="portfolio-scan.html">📂 포트폴리오 분석</a>
       <a class="nav-tool active" href="reinvest-simulator.html">📈 적립식 시뮬레이터</a>
   </div>
+  <a class="nav-info" href="etf-review/etf-list.html">📈 ETF 소개</a>
   <a class="nav-info" href="about.html">📋 글 목록</a>
 </nav>
 
@@ -299,6 +300,51 @@ footer a{color:#aaa}
       <tbody id="simBody"></tbody>
     </table>
   </div>
+</div>
+
+
+<style>
+.ex-wrap{margin-top:48px}
+.ex-wrap h2{font-size:17px;font-weight:700;color:#111;margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid #111}
+.ex-wrap p{font-size:14px;color:#333;line-height:1.85;margin-bottom:12px}
+.ex-wrap .ex-card{background:#f4f4f4;border:1px solid #e4e4e4;border-radius:12px;padding:16px 18px;margin-bottom:12px;font-size:14px;color:#333;line-height:1.8}
+.ex-wrap .ex-card strong{color:#111}
+.ex-q{font-size:14px;font-weight:700;color:#111;margin:16px 0 6px;display:flex;gap:7px}
+.ex-q::before{content:"Q";color:#2563EB;font-weight:800}
+.ex-a{font-size:13.5px;color:#444;line-height:1.8;padding-left:18px;margin-bottom:6px}
+.ex-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.ex-links a{font-size:13px;font-weight:600;color:#111;text-decoration:none;padding:9px 14px;border:1.5px solid #ddd;border-radius:9px;transition:border-color .15s}
+.ex-links a:hover{border-color:#555}
+.ex-note{font-size:12px;color:#888;line-height:1.7;margin-top:14px}
+</style>
+
+<div class="ex-wrap">
+  <h2>적립식 + 배당 재투자가 만드는 복리</h2>
+  <p>매달 일정 금액을 배당주에 넣고, 받은 배당을 다시 그 주식을 사는 데 쓰면 두 가지가 동시에 쌓여요. <strong>꾸준한 적립으로 원금이 늘고, 재투자로 배당이 배당을 낳는</strong> 구조죠. 처음엔 차이가 작아 보여도 시간이 길어질수록 곡선이 가팔라집니다. 복리의 핵심은 수익률보다 시간인 경우가 많아요.</p>
+  <p>비교해 보면 차이가 분명해요. 같은 금액을 같은 기간 넣어도 <strong>배당을 재투자한 경우와 그냥 받기만 한 경우</strong>는 10년, 20년 뒤 월 배당금이 꽤 벌어집니다. 이 시뮬레이터는 그 두 경로를 나란히 보여주고, 목표 월 배당금에 언제 도달하는지도 계산해 줘요.</p>
+
+  <h2>시뮬레이터 입력 팁</h2>
+  <div class="ex-card">
+    <strong>매월 적립액 · 기간</strong>으로 적립 원금이 쌓여요.<br>
+    <strong>배당수익률</strong>은 실제 보유 종목·ETF의 평균값을 넣으면 현실적이에요.<br>
+    배당성장률을 넣으면 배당이 매년 오르는 시나리오도 볼 수 있어요.
+  </div>
+
+  <h2>자주 묻는 질문</h2>
+  <div class="ex-q">배당 재투자가 정말 그렇게 차이가 나나요?</div>
+  <div class="ex-a">기간이 길수록 커져요. 초반 몇 년은 미미하지만, 재투자로 늘어난 주식이 다시 배당을 만들어내면서 후반부 곡선이 눈에 띄게 가팔라집니다.</div>
+  <div class="ex-q">배당이 매년 오른다고 가정해도 되나요?</div>
+  <div class="ex-a">배당성장률을 보수적으로 잡으면 참고가 돼요. 다만 기업 실적에 따라 배당은 동결·삭감될 수도 있으니, 너무 높은 성장률을 넣으면 결과가 과대평가될 수 있습니다.</div>
+  <div class="ex-q">세금은 반영되나요?</div>
+  <div class="ex-a">세금 옵션을 켜면 세후 배당 기준으로 재투자 금액이 계산돼요. 실제 세율은 개인 상황에 따라 다를 수 있어 참고용으로 보세요.</div>
+  <div class="ex-q">주가 변동은 반영되나요?</div>
+  <div class="ex-a">아니요. 이 시뮬레이터는 배당 흐름에 초점을 맞춘 모델이라 주가 등락은 가정하지 않아요. 실제 자산 가치는 시장에 따라 달라진다는 점을 함께 고려하셔야 합니다.</div>
+
+  <div class="ex-links">
+    <a href="articles/compound-reinvest.html">📈 복리 재투자 10년 비교</a>
+    <a href="articles/target-dividend.html">🏆 월 배당 100만 원 만들기</a>
+  </div>
+  <p class="ex-note">※ 결과는 입력값과 가정에 기반한 참고용 수치이며, 실제 수익을 보장하지 않습니다.</p>
 </div>
 
 <div class="site-footer">

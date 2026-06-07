@@ -192,6 +192,7 @@ table.rt tr:hover:not(.tot) td{background:#f9f9f9}
     <a class="nav-tool active" href="portfolio-scan.html">📂 포트폴리오 분석</a>
     <a class="nav-tool" href="reinvest-simulator.html">📈 적립식 시뮬레이터</a>
   </div>
+  <a class="nav-info" href="etf-review/etf-list.html">📈 ETF 소개</a>
   <a class="nav-info" href="about.html">📋 글 목록</a>
 </nav>
 
@@ -293,6 +294,52 @@ table.rt tr:hover:not(.tot) td{background:#f9f9f9}
       </table>
     </div>
   </div>
+</div>
+
+
+<style>
+.ex-wrap{margin-top:48px}
+.ex-wrap h2{font-size:17px;font-weight:700;color:#111;margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid #111}
+.ex-wrap p{font-size:14px;color:#333;line-height:1.85;margin-bottom:12px}
+.ex-wrap .ex-card{background:#f4f4f4;border:1px solid #e4e4e4;border-radius:12px;padding:16px 18px;margin-bottom:12px;font-size:14px;color:#333;line-height:1.8}
+.ex-wrap .ex-card strong{color:#111}
+.ex-q{font-size:14px;font-weight:700;color:#111;margin:16px 0 6px;display:flex;gap:7px}
+.ex-q::before{content:"Q";color:#2563EB;font-weight:800}
+.ex-a{font-size:13.5px;color:#444;line-height:1.8;padding-left:18px;margin-bottom:6px}
+.ex-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.ex-links a{font-size:13px;font-weight:600;color:#111;text-decoration:none;padding:9px 14px;border:1.5px solid #ddd;border-radius:9px;transition:border-color .15s}
+.ex-links a:hover{border-color:#555}
+.ex-note{font-size:12px;color:#888;line-height:1.7;margin-top:14px}
+</style>
+
+<div class="ex-wrap">
+  <h2>포트폴리오 단위로 배당을 보는 이유</h2>
+  <p>종목 하나하나의 배당수익률만 보면 전체 그림이 잘 안 보여요. 어떤 종목은 수익률이 높지만 비중이 작고, 어떤 종목은 비중이 큰데 배당이 낮을 수 있거든요. <strong>보유 종목을 모두 합쳐서 세후 기준으로 보면</strong> 내 포트폴리오가 실제로 1년에 얼마를 배당으로 주는지, 평균 수익률이 몇 %인지 한눈에 들어옵니다.</p>
+  <p>이 도구는 종목별로 주식 수·주가·배당금을 넣으면 종목별 비중과 전체 연간 배당, 세후 수익률을 자동으로 묶어서 보여줘요. 한 종목에 너무 쏠려 있지 않은지 점검할 때도 유용합니다.</p>
+
+  <h2>입력값은 이렇게 넣으면 돼요</h2>
+  <div class="ex-card">
+    <strong>주식 수 · 현재 주가</strong>로 평가금액과 비중이 계산돼요.<br>
+    <strong>주당 배당금(연간)</strong>을 넣으면 종목별 연간 배당과 수익률이 나와요.<br>
+    배당소득세 토글을 켜면 세후 기준으로 합산됩니다.
+  </div>
+
+  <h2>자주 묻는 질문</h2>
+  <div class="ex-q">세전과 세후 배당수익률은 왜 차이가 나나요?</div>
+  <div class="ex-a">국내 배당은 보통 15.4%(소득세 14% + 지방소득세 1.4%)가 원천징수돼요. 그래서 실제 손에 쥐는 세후 수익률은 세전보다 낮습니다. 계산기의 세금 토글로 둘을 비교해 볼 수 있어요.</div>
+  <div class="ex-q">미국 주식도 같이 넣을 수 있나요?</div>
+  <div class="ex-a">넣을 수 있어요. 다만 미국 배당은 현지에서 15%가 원천징수되고 환율 영향도 받아요. 금액은 원화 환산 기준으로 입력하면 전체 합산에 반영됩니다.</div>
+  <div class="ex-q">커버드콜 ETF는 어떻게 입력하나요?</div>
+  <div class="ex-a">커버드콜 ETF는 분배금 일부가 비과세일 수 있어 과세 기준이 일반 배당과 달라요. 정확히 보려면 과세표준 비율을 따로 확인해 적용하는 게 좋습니다.</div>
+  <div class="ex-q">입력한 데이터가 어딘가에 저장되나요?</div>
+  <div class="ex-a">입력값은 사용자의 브라우저에만 임시 저장되고 서버로 전송되지 않아요. 브라우저 데이터를 지우면 함께 사라집니다.</div>
+
+  <div class="ex-links">
+    <a href="articles/dividend-yield.html">🎯 배당수익률이란?</a>
+    <a href="articles/dividend-tax.html">🧾 배당소득세 15.4% 정리</a>
+    <a href="articles/covered-call-etf.html">📊 커버드콜 과세표준 비율</a>
+  </div>
+  <p class="ex-note">※ 결과는 입력값 기반의 참고용 수치이며, 실제 세액·수익률은 개인별 소득 구성에 따라 달라질 수 있습니다.</p>
 </div>
 
 <div class="site-footer">

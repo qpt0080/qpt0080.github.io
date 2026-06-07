@@ -121,6 +121,7 @@ canvas{display:block;width:100%;height:auto}
     <a class="nav-tool" href="portfolio-scan.html">📂 포트폴리오 분석</a>
     <a class="nav-tool" href="reinvest-simulator.html">📈 적립식 시뮬레이터</a>
   </div>
+  <a class="nav-info" href="etf-review/etf-list.html">📈 ETF 소개</a>
   <a class="nav-info" href="about.html">📋 글 목록</a>
 </nav>
 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
@@ -1094,6 +1095,51 @@ function imgTag(dataUrl, w) {
 })();
 
 </script>
+
+<style>
+.ex-wrap{margin-top:48px}
+.ex-wrap h2{font-size:17px;font-weight:700;color:#111;margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid #111}
+.ex-wrap p{font-size:14px;color:#333;line-height:1.85;margin-bottom:12px}
+.ex-wrap .ex-card{background:#f4f4f4;border:1px solid #e4e4e4;border-radius:12px;padding:16px 18px;margin-bottom:12px;font-size:14px;color:#333;line-height:1.8}
+.ex-wrap .ex-card strong{color:#111}
+.ex-q{font-size:14px;font-weight:700;color:#111;margin:16px 0 6px;display:flex;gap:7px}
+.ex-q::before{content:"Q";color:#2563EB;font-weight:800}
+.ex-a{font-size:13.5px;color:#444;line-height:1.8;padding-left:18px;margin-bottom:6px}
+.ex-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.ex-links a{font-size:13px;font-weight:600;color:#111;text-decoration:none;padding:9px 14px;border:1.5px solid #ddd;border-radius:9px;transition:border-color .15s}
+.ex-links a:hover{border-color:#555}
+.ex-note{font-size:12px;color:#888;line-height:1.7;margin-top:14px}
+</style>
+
+<div class="ex-wrap">
+  <h2>대출로 배당 ETF에 투자한다는 것</h2>
+  <p>대출(레버리지) 투자는 빌린 돈으로 투자 규모를 키우는 방식이에요. 핵심은 단순합니다. <strong>세후 배당수익률이 대출금리보다 높아야</strong> 이론상 남는 구조라는 거예요. 예를 들어 세후 배당수익률이 연 5%인데 대출금리가 4%라면 그 차이(1%p)만큼이 레버리지로 얻는 추가 수익이 됩니다.</p>
+  <p>대신 두 방향 모두 커진다는 점을 기억해야 해요. 잘 맞으면 수익이 커지지만, <strong>대출금리가 배당수익률보다 높아지거나 주가가 하락하면 손실도 같이 커집니다.</strong> 배당은 들어와도 주가가 빠지면 전체로는 마이너스일 수 있고, 대출 이자는 수익과 무관하게 매달 빠져나가요. 이 계산기는 두 시나리오를 모두 수치로 보여주려고 만들었어요.</p>
+
+  <h2>상환방식 3가지, 뭐가 다른가요</h2>
+  <div class="ex-card">
+    <strong>원리금균등</strong> — 매달 갚는 총액이 같아요. 관리가 편하지만 초반엔 이자 비중이 커요.<br>
+    <strong>원금균등</strong> — 매달 갚는 원금이 같고 이자는 점점 줄어요. 총이자가 가장 적은 편이지만 초반 부담이 큽니다.<br>
+    <strong>만기일시</strong> — 매달 이자만 내다가 만기에 원금을 한 번에 갚아요. 월 부담은 가장 작지만 총이자는 가장 많아요.
+  </div>
+
+  <h2>자주 묻는 질문</h2>
+  <div class="ex-q">세후 배당수익률이 대출금리보다 높으면 무조건 이득인가요?</div>
+  <div class="ex-a">배당만 놓고 보면 그렇지만, 주가 변동이 빠져 있어요. 주가가 떨어지면 배당 차익보다 평가손실이 더 클 수 있습니다. 배당수익률과 금리 차이는 "최소 조건"이지 "안전 보장"이 아니에요.</div>
+  <div class="ex-q">원리금균등과 원금균등 중 이자가 적은 건?</div>
+  <div class="ex-a">같은 금리·기간이면 보통 원금균등이 총이자가 적어요. 원금을 빨리 줄이기 때문이에요. 대신 초기 월 납입액이 크다는 점은 감안해야 합니다.</div>
+  <div class="ex-q">레버리지 투자에서 가장 큰 위험은 뭔가요?</div>
+  <div class="ex-a">금리 상승과 주가 하락이 겹치는 경우예요. 이자 부담은 늘고 자산 가치는 줄어드는 상황이라, 배당이 그 둘을 못 메우면 손실이 빠르게 커집니다.</div>
+  <div class="ex-q">변동금리면 계산이 달라지나요?</div>
+  <div class="ex-a">네. 이 계산기는 입력한 고정금리 기준이에요. 변동금리라면 금리가 오를 때를 가정해 한 번 더 계산해 보는 걸 권합니다.</div>
+
+  <div class="ex-links">
+    <a href="articles/leverage-breakeven.html">🏦 손익분기점은 몇 %인가</a>
+    <a href="articles/loan-comparison.html">💳 상환방식 3가지 비교</a>
+  </div>
+  <p class="ex-note">※ 모든 결과는 입력값 기반의 참고용 수치이며, 실제 투자 손익을 보장하지 않습니다. 대출 투자는 손실이 원금을 초과할 수 있습니다.</p>
+</div>
+
 <div class="site-footer">
   © 2026 배당계산기 &nbsp;·&nbsp;
   <a href="index.html">📊 배당계산기</a> &nbsp;·&nbsp;
