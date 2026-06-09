@@ -823,6 +823,14 @@ function drawChart(rows){
   ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
   ctx.fillStyle='#1D9E75'; ctx.font='bold 10px -apple-system,sans-serif'; ctx.textAlign='right';
   ctx.fillText(shortFmt(lastRow.monthlyNet)+'/월', ex-8, eyM-8);
+  // 원금(누적 납입금) 끝점 — 자산 라벨과 겹치지 않게 점 아래쪽에 표기
+  var eyP=yp(lastRow.totalPaid);
+  ctx.beginPath(); ctx.arc(ex,eyP,4,0,Math.PI*2); ctx.fillStyle='#F59E0B'; ctx.fill();
+  ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.fillStyle='#D97706'; ctx.font='bold 10px -apple-system,sans-serif'; ctx.textAlign='right';
+  // 자산 끝점과 너무 가까우면(20px 이내) 라벨을 아래로 더 내려 충돌 방지
+  var pOff = (eyP - eyA < 22) ? 16 : 14;
+  ctx.fillText(shortFmt(lastRow.totalPaid)+' 원금', ex-8, eyP+pOff);
 
   // x축 레이블
   ctx.fillStyle='#bbb'; ctx.font='10px -apple-system,sans-serif'; ctx.textAlign='center';
