@@ -1272,9 +1272,33 @@ function drawLineChart(canvasId, secId, legendId, data, labelFn) {
   ctx.beginPath(); ctx.arc(ex,ey,5,0,Math.PI*2);
   ctx.fillStyle=data.color; ctx.fill();
   ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
+  // 투자 원금(누적) 보조선 — 월 배당금과 자릿수가 달라 별도 스케일(주황 점선)
+  var prin=data.prin, hasPrin=prin&&prin.length===pts.length, lastP=0;
+  if(hasPrin){
+    var prinMax=Math.max.apply(null,prin)||0;
+    if(prinMax>0){
+      var pmag=Math.pow(10,Math.floor(Math.log10(prinMax))); prinMax=Math.ceil(prinMax/pmag)*pmag;
+      var ypP=function(v){return PT+ch*(1-v/prinMax);};
+      ctx.beginPath(); ctx.moveTo(xp(0),ypP(prin[0]));
+      for(var pi2=0;pi2<prin.length-1;pi2++){var px1=xp(pi2),py1=ypP(prin[pi2]),px2=xp(pi2+1),py2=ypP(prin[pi2+1]),pcx=(px1+px2)/2;ctx.bezierCurveTo(pcx,py1,pcx,py2,px2,py2);}
+      ctx.strokeStyle='#F59E0B'; ctx.lineWidth=2; ctx.lineJoin='round'; ctx.lineCap='round'; ctx.setLineDash([5,4]); ctx.stroke(); ctx.setLineDash([]);
+      lastP=prin[prin.length-1];
+      var eyP=ypP(lastP);
+      ctx.beginPath(); ctx.arc(ex,eyP,4,0,Math.PI*2); ctx.fillStyle='#F59E0B'; ctx.fill();
+      ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
+      var pLbl=lastP>=100000000?(Math.round(lastP/100000000*10)/10+'억'):lastP>=10000?(Math.round(lastP/10000)+'만'):(Math.round(lastP).toLocaleString());
+      ctx.fillStyle='#D97706'; ctx.font='bold 9px -apple-system,sans-serif'; ctx.textAlign='right';
+      ctx.fillText(pLbl+' 원금', ex-8, Math.abs(eyP-ey)<14?eyP+15:eyP-9);
+    } else hasPrin=false;
+  }
   // legend
   var leg=document.getElementById(legendId); if(!leg) return;
-  leg.innerHTML='<span class="div-legend-item"><span class="div-legend-dot" style="background:'+data.color+'"></span>'+data.label+'<span style="margin-left:6px;font-weight:700;color:'+data.color+'">'+labelFn(lastV)+'</span></span>';
+  var legHTML='<span class="div-legend-item"><span class="div-legend-dot" style="background:'+data.color+'"></span>'+data.label+'<span style="margin-left:6px;font-weight:700;color:'+data.color+'">'+labelFn(lastV)+'</span></span>';
+  if(hasPrin){
+    legHTML+='<span class="div-legend-item"><span class="div-legend-dot" style="background:#F59E0B"></span>투자 원금(누적)<span style="margin-left:6px;font-weight:700;color:#D97706">'+labelFn(lastP)+'</span></span>';
+    legHTML+='<span style="flex-basis:100%;font-size:10px;color:#aaa;font-weight:400;margin-top:2px">※ 월 배당금과 투자 원금은 세로 스케일이 달라요 — 높이보다 각 선의 끝값으로 보세요</span>';
+  }
+  leg.innerHTML=legHTML;
 }
 
 // 누적 배당 바 차트 (포트폴리오 합산)
@@ -1421,24 +1445,28 @@ function drawTaxDonut(krWht, usWht, healthAmt, netAmt) {
 
 // KR 복리 시뮬 데이터 추출 (차트용)
 function getKRSimPts(sh, dv, pr, co, yr, TX, ppy, mo, gr, ug) {
-  var pts=[sh*dv*ppy*(1-TX)/12], cs=sh, cp=pr, cd=dv, cu=0;
+  var pts=[sh*dv*ppy*(1-TX)/12], prin=[Math.round(sh*co)], cs=sh, cp=pr, cd=dv, cu=0, p0=sh*co;
   var sfq='y';
   for(var y=1;y<=Math.min(yr,30);y++){
     if(ug&&y>1){cp*=(1+gr/100);cd*=(1+gr/100);}
     var an=cs*cd*ppy*(1-TX),ya=mo*12,as2=cp>0?Math.floor(ya/cp):0,ds=cp>0?Math.floor(an/cp):0;
     cu+=an; cs+=ds+as2;
     pts.push(Math.round(an/12));
+    prin.push(Math.round(p0+mo*12*y));
   }
+  pts.prin=prin;
   return pts;
 }
 function getUSSimPts(sh, dv, pr, co, rt, yr, et, ppy, mo, gr, ug) {
-  var pts=[sh*dv*ppy*(1-et)/12*rt], cs=sh, cp=pr, cd=dv, cu=0;
+  var pts=[sh*dv*ppy*(1-et)/12*rt], prin=[Math.round(sh*co*rt)], cs=sh, cp=pr, cd=dv, cu=0, p0=sh*co;
   for(var y=1;y<=Math.min(yr,30);y++){
     if(ug&&y>1){cp*=(1+gr/100);cd*=(1+gr/100);}
     var au=cs*cd*ppy*(1-et),ya=mo*12,as2=cp>0?Math.floor(ya/cp):0,ds=cp>0?Math.floor(au/cp):0;
     cu+=au; cs+=ds+as2;
     pts.push(Math.round(au/12*rt));
+    prin.push(Math.round((p0+mo*12*y)*rt));
   }
+  pts.prin=prin;
   return pts;
 }
 
