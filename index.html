@@ -93,7 +93,7 @@ input:checked+.sl:before{transform:translateX(18px)}
 .cur-toggle{display:flex;gap:0;margin-bottom:10px;border:1.5px solid #ccc;border-radius:8px;overflow:hidden;width:fit-content}
 .cur-btn{padding:5px 14px;border:none;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:#333}
 .cur-btn.active{background:#111;color:#fff}
-.sim-wrap{max-height:300px;overflow-y:auto;border:1px solid #eee;border-radius:8px}
+.sim-wrap{max-height:300px;overflow-y:auto;overflow-x:auto;border:1px solid #eee;border-radius:8px}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
 th{text-align:left;font-weight:700;color:#222;padding:6px 5px;border-bottom:2px solid #ddd;white-space:nowrap;background:#f9f9f9;position:sticky;top:0;z-index:1}
 td{padding:5px 5px;border-bottom:1px solid #eee;color:#111;font-weight:500;white-space:nowrap}
@@ -120,7 +120,7 @@ td:last-child,th:last-child{text-align:right}
 .sumc .sv.g{color:#1D9E75}.sumc .sv.b{color:#2563EB}
 .sumc .ss{font-size:12px;color:#444;margin-top:2px}
 .semp{padding:14px 16px;font-size:13px;color:#444;text-align:center}
-.chart-wrap{padding:16px;border-top:1px solid #eee}
+.chart-wrap{padding:16px;border-top:1px solid #eee;overflow:hidden}
 .chart-title{font-size:13px;font-weight:600;color:#222;margin-bottom:12px}
 .bar-group{display:flex;flex-direction:column;gap:10px}
 .bar-row{display:flex;align-items:center;gap:10px}
@@ -145,10 +145,10 @@ td:last-child,th:last-child{text-align:right}
 .save-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
 .save-toast.show{opacity:1}
 /* 배당 계산기 차트 */
-.div-chart-section{margin-bottom:12px;background:#f9f9f9;border-radius:10px;border:1px solid #e4e4e4;padding:14px}
+.div-chart-section{margin-bottom:12px;background:#f9f9f9;border-radius:10px;border:1px solid #e4e4e4;padding:14px;overflow:hidden}
 .div-chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
 .div-chart-title{font-size:13px;font-weight:700;color:#111}
-.div-chart-legend{display:flex;gap:8px;flex-wrap:wrap}
+.div-chart-legend{display:flex;gap:8px;flex-wrap:wrap;min-width:0;max-width:100%}
 .div-legend-item{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#555;font-weight:500}
 .div-legend-dot{width:10px;height:3px;border-radius:2px;display:inline-block}
 .canvas-wrap{width:100%;overflow-x:auto}
@@ -1185,6 +1185,22 @@ var ds=[];lines.forEach(function(l){ds.push(l.label+' → '+YRS+'년 후 '+fv(l.
 // ===== 차트 함수들 =====
 
 // Canvas 라인 차트 (배당 계산기 - 국내/미국 복리 성장)
+// 큰 숫자 한글 단위 포맷 (지수표기 방지)
+function bigFmt(v){
+  v=Math.round(v||0);
+  if(v>=1e16) return (Math.round(v/1e15)/10).toLocaleString()+'경';
+  if(v>=1e12) return (Math.round(v/1e11)/10).toLocaleString()+'조';
+  if(v>=1e8)  return (Math.round(v/1e7)/10).toLocaleString()+'억';
+  if(v>=1e4)  return (Math.round(v/1e4)).toLocaleString()+'만';
+  return v.toLocaleString();
+}
+// 캔버스 폭: 이전에 키워둔 인라인 폭에 갇히지 않도록 부모 기준으로 다시 측정 + 상한
+function chartW(canvas){
+  canvas.style.width='100%';
+  var p=canvas.parentElement;
+  var w=(p&&p.clientWidth)||canvas.offsetWidth||600;
+  return Math.max(280, Math.min(Math.round(w), 1100));
+}
 function drawLineChart(canvasId, secId, legendId, data, labelFn) {
   var sec = document.getElementById(secId);
   var canvas = document.getElementById(canvasId);
@@ -1192,7 +1208,7 @@ function drawLineChart(canvasId, secId, legendId, data, labelFn) {
   sec.style.display = 'block';
   var ctx = canvas.getContext('2d');
   var dpr = window.devicePixelRatio || 1;
-  var W = canvas.offsetWidth || 600, H = 200;
+  var W = chartW(canvas), H = 200;
   canvas.width = W * dpr; canvas.height = H * dpr;
   canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
   ctx.scale(dpr, dpr);
@@ -1272,31 +1288,44 @@ function drawLineChart(canvasId, secId, legendId, data, labelFn) {
   ctx.beginPath(); ctx.arc(ex,ey,5,0,Math.PI*2);
   ctx.fillStyle=data.color; ctx.fill();
   ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
-  // 투자 원금(누적) 보조선 — 월 배당금과 자릿수가 달라 별도 스케일(주황 점선)
-  var prin=data.prin, hasPrin=prin&&prin.length===pts.length, lastP=0;
-  if(hasPrin){
-    var prinMax=Math.max.apply(null,prin)||0;
-    if(prinMax>0){
-      var pmag=Math.pow(10,Math.floor(Math.log10(prinMax))); prinMax=Math.ceil(prinMax/pmag)*pmag;
-      var ypP=function(v){return PT+ch*(1-v/prinMax);};
-      ctx.beginPath(); ctx.moveTo(xp(0),ypP(prin[0]));
-      for(var pi2=0;pi2<prin.length-1;pi2++){var px1=xp(pi2),py1=ypP(prin[pi2]),px2=xp(pi2+1),py2=ypP(prin[pi2+1]),pcx=(px1+px2)/2;ctx.bezierCurveTo(pcx,py1,pcx,py2,px2,py2);}
-      ctx.strokeStyle='#F59E0B'; ctx.lineWidth=2; ctx.lineJoin='round'; ctx.lineCap='round'; ctx.setLineDash([5,4]); ctx.stroke(); ctx.setLineDash([]);
-      lastP=prin[prin.length-1];
-      var eyP=ypP(lastP);
-      ctx.beginPath(); ctx.arc(ex,eyP,4,0,Math.PI*2); ctx.fillStyle='#F59E0B'; ctx.fill();
+  // ── 보조 스케일: 평가금액(자산) + 투자원금(투입) ──
+  // 월 배당금과 자릿수가 크게 달라 별도 스케일로 그림. 자산은 실선(증가), 원금은 점선(투입 기준선)
+  var asset=data.asset, prin=data.prin;
+  var hasSec=asset&&asset.length===pts.length, lastA=0, lastP=0;
+  if(hasSec){
+    var secMax=Math.max.apply(null,asset)||0;
+    if(prin&&prin.length===pts.length) secMax=Math.max(secMax,Math.max.apply(null,prin));
+    if(secMax>0){
+      var smag=Math.pow(10,Math.floor(Math.log10(secMax))); secMax=Math.ceil(secMax/smag)*smag*1.1;
+      var ypS=function(v){return PT+ch*(1-Math.min(v,secMax)/secMax);};
+      // 투자원금(투입) 점선
+      if(prin&&prin.length===pts.length){
+        ctx.beginPath(); ctx.moveTo(xp(0),ypS(prin[0]));
+        for(var qi=0;qi<prin.length-1;qi++){var qx1=xp(qi),qy1=ypS(prin[qi]),qx2=xp(qi+1),qy2=ypS(prin[qi+1]),qcx=(qx1+qx2)/2;ctx.bezierCurveTo(qcx,qy1,qcx,qy2,qx2,qy2);}
+        ctx.strokeStyle='#9CA3AF'; ctx.lineWidth=1.5; ctx.lineJoin='round'; ctx.setLineDash([5,4]); ctx.stroke(); ctx.setLineDash([]);
+        lastP=prin[prin.length-1];
+      }
+      // 평가금액(자산) 실선
+      ctx.beginPath(); ctx.moveTo(xp(0),ypS(asset[0]));
+      for(var ai=0;ai<asset.length-1;ai++){var ax1=xp(ai),ay1=ypS(asset[ai]),ax2=xp(ai+1),ay2=ypS(asset[ai+1]),acx=(ax1+ax2)/2;ctx.bezierCurveTo(acx,ay1,acx,ay2,ax2,ay2);}
+      ctx.strokeStyle='#F59E0B'; ctx.lineWidth=2; ctx.lineJoin='round'; ctx.lineCap='round'; ctx.setLineDash([]); ctx.stroke();
+      lastA=asset[asset.length-1];
+      // 자산 끝점 + 라벨
+      var eyA=ypS(lastA);
+      ctx.beginPath(); ctx.arc(ex,eyA,4,0,Math.PI*2); ctx.fillStyle='#F59E0B'; ctx.fill();
       ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
-      var pLbl=lastP>=100000000?(Math.round(lastP/100000000*10)/10+'억'):lastP>=10000?(Math.round(lastP/10000)+'만'):(Math.round(lastP).toLocaleString());
       ctx.fillStyle='#D97706'; ctx.font='bold 9px -apple-system,sans-serif'; ctx.textAlign='right';
-      ctx.fillText(pLbl+' 원금', ex-8, Math.abs(eyP-ey)<14?eyP+15:eyP-9);
-    } else hasPrin=false;
+      ctx.fillText(bigFmt(lastA), ex-8, Math.abs(eyA-ey)<14?eyA+15:eyA-9);
+    } else hasSec=false;
   }
   // legend
   var leg=document.getElementById(legendId); if(!leg) return;
-  var legHTML='<span class="div-legend-item"><span class="div-legend-dot" style="background:'+data.color+'"></span>'+data.label+'<span style="margin-left:6px;font-weight:700;color:'+data.color+'">'+labelFn(lastV)+'</span></span>';
-  if(hasPrin){
-    legHTML+='<span class="div-legend-item"><span class="div-legend-dot" style="background:#F59E0B"></span>투자 원금(누적)<span style="margin-left:6px;font-weight:700;color:#D97706">'+labelFn(lastP)+'</span></span>';
-    legHTML+='<span style="flex-basis:100%;font-size:10px;color:#aaa;font-weight:400;margin-top:2px">※ 월 배당금과 투자 원금은 세로 스케일이 달라요 — 높이보다 각 선의 끝값으로 보세요</span>';
+  var vSt='margin-left:5px;font-weight:700;overflow-wrap:anywhere';
+  var legHTML='<span class="div-legend-item" style="min-width:0"><span class="div-legend-dot" style="background:'+data.color+'"></span>'+data.label+'<span style="'+vSt+';color:'+data.color+'">'+labelFn(lastV)+'</span></span>';
+  if(hasSec){
+    legHTML+='<span class="div-legend-item" style="min-width:0"><span class="div-legend-dot" style="background:#F59E0B"></span>평가금액(자산)<span style="'+vSt+';color:#D97706">'+bigFmt(lastA)+'원</span></span>';
+    if(prin&&prin.length===pts.length) legHTML+='<span class="div-legend-item" style="min-width:0"><span class="div-legend-dot" style="background:#9CA3AF"></span>투자 원금(투입)<span style="'+vSt+';color:#6B7280">'+bigFmt(lastP)+'원</span></span>';
+    legHTML+='<span style="flex-basis:100%;font-size:10px;color:#aaa;font-weight:400;margin-top:2px;overflow-wrap:anywhere">※ 월 배당금과 평가금액·원금은 세로 스케일이 달라요 — 높이 비교보다 각 선의 끝값으로 보세요. 자산과 원금의 간격이 곧 복리·재투자 효과예요.</span>';
   }
   leg.innerHTML=legHTML;
 }
@@ -1314,7 +1343,7 @@ function drawCumBarChart(krPts, usPts) {
   for (var i=0;i<len;i+=step) indices.push(i);
   if (indices[indices.length-1] !== len-1) indices.push(len-1);
   var dpr = window.devicePixelRatio || 1;
-  var W = canvas.offsetWidth || 600, H = 210;
+  var W = chartW(canvas), H = 210;
   canvas.width = W * dpr; canvas.height = H * dpr;
   canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
   var ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr);
@@ -1445,7 +1474,8 @@ function drawTaxDonut(krWht, usWht, healthAmt, netAmt) {
 
 // KR 복리 시뮬 데이터 추출 (차트용)
 function getKRSimPts(sh, dv, pr, co, yr, TX, ppy, mo, gr, ug) {
-  var pts=[sh*dv*ppy*(1-TX)/12], prin=[Math.round(sh*co)], cs=sh, cp=pr, cd=dv, cu=0, p0=sh*co;
+  var basis=(co&&co>0)?co:pr;
+  var pts=[sh*dv*ppy*(1-TX)/12], prin=[Math.round(sh*basis)], asset=[Math.round(sh*pr)], cs=sh, cp=pr, cd=dv, cu=0, p0=sh*basis;
   var sfq='y';
   for(var y=1;y<=Math.min(yr,30);y++){
     if(ug&&y>1){cp*=(1+gr/100);cd*=(1+gr/100);}
@@ -1453,20 +1483,23 @@ function getKRSimPts(sh, dv, pr, co, yr, TX, ppy, mo, gr, ug) {
     cu+=an; cs+=ds+as2;
     pts.push(Math.round(an/12));
     prin.push(Math.round(p0+mo*12*y));
+    asset.push(Math.round(cs*cp));
   }
-  pts.prin=prin;
+  pts.prin=prin; pts.asset=asset;
   return pts;
 }
 function getUSSimPts(sh, dv, pr, co, rt, yr, et, ppy, mo, gr, ug) {
-  var pts=[sh*dv*ppy*(1-et)/12*rt], prin=[Math.round(sh*co*rt)], cs=sh, cp=pr, cd=dv, cu=0, p0=sh*co;
+  var basis=(co&&co>0)?co:pr;
+  var pts=[sh*dv*ppy*(1-et)/12*rt], prin=[Math.round(sh*basis*rt)], asset=[Math.round(sh*pr*rt)], cs=sh, cp=pr, cd=dv, cu=0, p0=sh*basis;
   for(var y=1;y<=Math.min(yr,30);y++){
     if(ug&&y>1){cp*=(1+gr/100);cd*=(1+gr/100);}
     var au=cs*cd*ppy*(1-et),ya=mo*12,as2=cp>0?Math.floor(ya/cp):0,ds=cp>0?Math.floor(au/cp):0;
     cu+=au; cs+=ds+as2;
     pts.push(Math.round(au/12*rt));
     prin.push(Math.round((p0+mo*12*y)*rt));
+    asset.push(Math.round(cs*cp*rt));
   }
-  pts.prin=prin;
+  pts.prin=prin; pts.asset=asset;
   return pts;
 }
 
